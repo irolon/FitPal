@@ -9,11 +9,8 @@ class Usuario(ABC):
         self.contrasena = contrasena
         self.rol = rol
         
-            
+    @abstractmethod       
     def mostrarDatos(self):
-        return f"Nombre: {self.nombre}, Correo: {self.correo}, Rol: {self.rol}"
+        return f"Nombre: {self.nombre}, Apellido: {self.apellido},Correo: {self.correo}, Rol: {self.rol}"
         
 
-    @abstractmethod
-    def permisos(self):
-        pass
