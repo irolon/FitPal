@@ -1,3 +1,3 @@
-from Conexion import get_connection
+from Conexion import connection
 
-__all__ = ["get_connection"]
+__all__ = ["connection"]
