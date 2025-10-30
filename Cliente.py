@@ -1,16 +1,13 @@
-from Usuario import Usuario
 from datetime import date
-
+from abc import ABC
 
 class Cliente(Usuario):
-    def __init__(self, nombre: str, apellido:str, correo: str, contrasena: str,
-                dni: str, edad: int, fecha_inicio: date = None):
-        super().__init__(nombre, apellido, correo, contrasena, rol="cliente")
-        self.dni = dni
-        self.edad = edad
-        self.fecha_inicio = fecha_inicio or date.today()
+    def __init__(self, nombre: str, apellido: str, correo: str, contrasena: str,
+                 fecha_alta: date, dni: int, edad: int, activo: bool, puntos: int = 0):
+        super().__init__(nombre, apellido, correo, contrasena, rol="Cliente",
+                         fecha_alta=fecha_alta, dni=dni, edad=edad, activo=activo)
+        self.puntos = puntos
 
     def mostrarDatos(self):
-        datos_base = super().mostrarDatos()
-        return f"{datos_base}, DNI: {self.dni}, Edad: {self.edad}, Fecha de Inicio: {self.fecha_inicio}"
-
+        return (super().mostrarDatos() +
+                f", Puntos: {self.puntos}")
