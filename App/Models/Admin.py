@@ -2,7 +2,7 @@ from Usuario import Usuario
 from datetime import date
 
 
-class Administrador(Usuario):
+class Admin(Usuario):
     def __init__(self, id:int, nombre: str, apellido: str, correo: str, contrasena: str,
                  fecha_alta: date, dni: int, edad: int, activo: bool, nivel_acceso: int = 1):
         super().__init__(nombre, apellido, correo, contrasena, rol="Administrador",
