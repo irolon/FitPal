@@ -11,11 +11,6 @@ class AdministradorDAO(BaseDAO):
         
     def create(self, id_usuario: int, a: Administrador) -> int:
         try:
-            row = self.read_by_id(id_usuario)
-            if not row:
-                raise ValueError("Usuario no encontrado")
-            if row[0] != "administrador":
-                return False, f"El usuario {id_usuario} no tiene rol administrador."
             self.cur.execute(
                 """INSERT INTO administrador(usuario_id, activo, fecha_alta) VALUES (?,?,?)  ON CONFLICT(usuario_id) DO NOTHING""",
                 (id_usuario, a.activo, a.fecha_alta)

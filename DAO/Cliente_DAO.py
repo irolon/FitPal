@@ -18,11 +18,6 @@ class ClienteDAO(BaseDAO):
     def create(self, id_usuario: int, c: Cliente) -> int:
         with self.conn:
             try:
-                row = self.read_by_id(id_usuario)
-                if not row:
-                    raise ValueError("Usuario no encontrado")
-                if row[0] != "cliente":
-                    return False, f"El usuario {id_usuario} no tiene rol cliente."
                 self.cur.execute(
                     "INSERT INTO cliente(usuario_id, dni, edad, fecha_inicio) VALUES (?,?,?,?) ON CONFLICT(usuario_id) DO NOTHING",
                     (id_usuario, c.dni, c.edad, c.fecha_inicio)
