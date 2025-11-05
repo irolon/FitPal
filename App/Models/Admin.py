@@ -3,7 +3,7 @@ from datetime import date
 
 
 class Admin(Usuario):
-    def __init__(self, id:int, nombre: str, apellido: str, correo: str, contrasena: str,
+    def __init__(self, nombre: str, apellido: str, correo: str, contrasena: str,
                  fecha_alta: date, dni: int, edad: int, activo: bool, nivel_acceso: int = 1):
         super().__init__(nombre, apellido, correo, contrasena, rol="Administrador",
                          fecha_alta=fecha_alta, dni=dni, edad=edad, activo=activo)

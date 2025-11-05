@@ -1,7 +1,6 @@
 class Ejercicio:
-    def __init__(self, id: int, categoria: str, nombre: str,
+    def __init__(self,categoria: str, nombre: str,
                  series: int = None, repeticiones: int = None, tiempo: int = None):
-        self.id = id
         self.categoria = categoria
         self.nombre = nombre
         self.series = series

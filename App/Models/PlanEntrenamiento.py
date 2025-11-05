@@ -1,9 +1,8 @@
 from datetime import date
 
 class PlanEntrenamiento:
-    def __init__(self, id: int, id_admin: int, id_cliente: int,
+    def __init__(self, id_admin: int, id_cliente: int,
                  nombre: str, frecuencia: str, fecha_inicio: date, fecha_fin: date):
-        self.id = id
         self.id_admin = id_admin
         self.id_cliente = id_cliente
         self.nombre = nombre

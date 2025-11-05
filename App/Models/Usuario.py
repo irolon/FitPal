@@ -3,8 +3,7 @@ from datetime import date
 
 
 class Usuario(ABC):
-    def __init__(self, id:int, nombre: str, apellido:str ,correo: str, contrasena: str, rol: str, fecha_alta: date, dni: int, edad: int, activo: bool):
-        self.id = id
+    def __init__(self, nombre: str, apellido:str ,correo: str, contrasena: str, rol: str, fecha_alta: date, dni: int, edad: int, activo: bool):
         self.nombre = nombre
         self.apellido = apellido
         self.correo = correo

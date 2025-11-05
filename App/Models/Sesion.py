@@ -1,6 +1,5 @@
 class Sesion:
-    def __init__(self, id: int, nombre: str):
-        self.id = id
+    def __init__(self, nombre: str):
         self.nombre = nombre
 
     def __str__(self):
