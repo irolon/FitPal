@@ -97,4 +97,4 @@ class UsuarioDAO(BaseDAO):
             )
         except Exception as e:
             print(f"Error al leer el usuario por correo: {e}")
-            return None
+            return []
