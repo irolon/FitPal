@@ -1,0 +1,93 @@
+from DAO.Base_DAO import BaseDAO
+from Model.Sesion_ejercicio import SesionEjercicio
+
+class SesionEjercicioDAO(BaseDAO):
+    def create_table(self):
+        try:
+            self.cur.execute("""
+                CREATE TABLE IF NOT EXISTS sesion_ejercicio(
+                  id               INTEGER PRIMARY KEY AUTOINCREMENT,
+                  sesion_id       INTEGER NOT NULL,
+                  ejercicio_id    INTEGER NOT NULL,
+                  series          INTEGER NOT NULL,
+                  repeticiones    INTEGER NOT NULL,
+                  descanso        INTEGER NOT NULL,
+                  FOREIGN KEY (sesion_id) REFERENCES sesion(id) ON DELETE CASCADE,
+                  FOREIGN KEY (ejercicio_id) REFERENCES ejercicio(id) ON DELETE CASCADE
+                )
+            """)
+            self.conn.commit()
+        except Exception as e:
+            print(f"Error al crear la tabla sesion_ejercicio: {e}")
+
+    def create(self, s: SesionEjercicio) -> int:
+        try:
+            self.cur.execute(
+                """INSERT INTO sesion_ejercicio(sesion_id, ejercicio_id, series, repeticiones, descanso) 
+                   VALUES (?,?,?,?,?)""",
+                (s.sesion_id, s.ejercicio_id, s.series, s.repeticiones, s.descanso)
+            )
+            self.conn.commit()
+            return self.cur.lastrowid
+        except Exception as e:
+            print(f"Error al crear la sesión ejercicio: {e}")
+            return None
+    
+    def read_by_id(self, id_:int):
+        try:
+            self.cur.execute("""SELECT id, sesion_id, ejercicio_id, series, repeticiones, descanso 
+                            FROM sesion_ejercicio WHERE id = ?""", (id_,))
+            row = self.cur.fetchone()
+            if not row:
+                return None
+            return SesionEjercicio(
+                sesion_id=row[1],
+                ejercicio_id=row[2],
+                series=row[3],
+                repeticiones=row[4],
+                descanso=row[5],
+                id=row[0]
+            )
+        except Exception as e:
+            print(f"Error al leer la sesión ejercicio por id: {e}")
+            return None
+        
+    def delete(self, id_: int) -> None:
+        try:
+            self.cur.execute("""DELETE FROM sesion_ejercicio WHERE id = ?""", (id_,))
+            self.conn.commit()
+        except Exception as e:
+            print(f"Error al eliminar la sesión ejercicio: {e}")
+            
+    def update(self, s: SesionEjercicio, id_: int) -> None:
+        try:
+            self.cur.execute(
+                """UPDATE sesion_ejercicio 
+                   SET sesion_id = ?, ejercicio_id = ?, series = ?, repeticiones = ?, descanso = ? 
+                   WHERE id = ?""",
+                (s.sesion_id, s.ejercicio_id, s.series, s.repeticiones, s.descanso, id_)
+            )
+            self.conn.commit()
+        except Exception as e:
+            print(f"Error al actualizar la sesión ejercicio: {e}")
+            
+    def list(self):
+        try:
+            self.cur.execute(("""SELECT id, sesion_id, ejercicio_id, series, repeticiones, descanso FROM sesion_ejercicio"""))
+            rows = self.cur.fetchall()
+            sesiones_ejercicios = []
+            for row in rows:
+                sesiones_ejercicios.append(
+                    SesionEjercicio(
+                        sesion_id=row[1],
+                        ejercicio_id=row[2],
+                        series=row[3],
+                        repeticiones=row[4],
+                        descanso=row[5],
+                        id=row[0]
+                    )
+                )
+            return sesiones_ejercicios
+        except Exception as e:
+            print(f"Error al listar las sesiones ejercicios: {e}")
+            return None
