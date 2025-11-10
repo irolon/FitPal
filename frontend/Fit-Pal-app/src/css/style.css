@@ -1,0 +1,142 @@
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Roboto', sans-serif;
+
+}
+body{
+  background-color: #ffffff;
+}
+
+.hero{
+  position: relative;
+  min-height: 85vh;
+  background: url('../Assets/img/img-inicio.jpg') center/cover no-repeat;
+  overflow: hidden;
+}
+
+.hero-div{
+  min-height:80vh;
+}
+.hero-div div{
+  max-width:940px;
+}
+.hero-div .div-info h1{
+  max-width: 1000px;
+  font-size: 75px;
+  line-height:1.1;
+  color: white;
+  text-shadow: 2px 2px 4px rgba(0,0,0,.7);
+}
+
+.hero-div .div-info .lead{
+  margin-top: 50px;
+  max-width: 900px;
+  font-size: 25px;
+  color: white;
+  text-shadow: 2px 2px 4px rgba(0,0,0,.7);
+}
+
+.hero::after{
+  content:"";
+  position:absolute; inset:0;
+  background: rgba(0,0,0,.45); 
+  z-index: 0;                     
+}
+.hero > *{ position: relative; z-index: 1; }
+
+
+.div-cards-inicio .div-card .card-box{
+    border-radius: 25px ;
+    overflow: hidden;
+    background-color: rgb(220, 221, 223);
+}
+
+.div-cards-inicio .div-card .card-box:hover{
+    background-color: rgb(180, 179, 179);
+    transform: scale(1.05);
+    transition: all 0.3s ease-in-out;
+}
+.card-body{
+    padding: 20px;
+}
+.card-body:hover{
+    box-shadow: 0 10px 20px rgba(190, 190, 190, 0.2);
+    transform: scale(1.02);
+    transition: all 0.3s ease-in-out;
+}
+
+.titulo-cards{
+    margin-top: 50px;
+    padding-bottom: 50px;
+    font-size: 45px;
+    text-align: center;
+    font-weight: bold;
+    color: #020202;
+}
+
+.card-title{
+    font-size: 30px;
+    margin-bottom: 20px;
+    font-weight: bold;
+    margin-top: 15px;
+    text-align: center;
+    color: #555;
+}
+.card-text{
+    font-size: 15px;
+    margin-top: 20px;
+    text-align: center;
+    color: #312e2e;
+}
+
+.hero2{
+  position: relative;
+  min-height: 40vh;
+  overflow: hidden;
+}
+
+
+.hero-div-2 h1{
+  max-width: 1000px;
+  text-align: center;
+  line-height:1.1;
+  color: rgb(0, 0, 0);
+  font-size: 60px;
+}
+
+.hero-div-2 p {
+  margin-top: 20px;
+  font-size: 22px;
+  color: rgb(0, 0, 0);
+  text-align: justify;
+  margin-bottom: 50px;
+}
+.hero2::after{
+  content:"";
+  position:absolute; inset:0;
+  background: rgba(0,0,0,.45); 
+  z-index: 0;                     
+}
+
+.hero-div-2 ul{
+  list-style-type: disc;
+  margin-left: 20px;
+  margin-bottom: 50px;
+}
+.hero-div-2 ul li{
+  font-size: 20px;
+  color: rgb(0, 0, 0);
+  margin-bottom: 10px;
+}
+
+.comenzar{
+  margin-bottom: 60px;
+  margin-top: 100px;
+}
+
+.div-xp{
+  padding-top: 60px;
+  margin-bottom: 100px;
+}
