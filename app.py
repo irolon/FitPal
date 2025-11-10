@@ -25,26 +25,26 @@ CORS(app, resources={
 @app.route('/api/login', methods=['POST'])
 def login():
     try:
-        # Verificar que se recibió JSON
+
         if not request.is_json:
             return jsonify({"error": "Content-Type must be application/json"}), 400
         
         data = request.json
         
-        # Verificar que los campos requeridos están presentes
+
         if not data:
             return jsonify({"error": "No data provided"}), 400
             
         username = data.get("username")
         password = data.get("password")
         
-        # Validar que los campos no estén vacíos
+
         if not username or not password:
             return jsonify({"error": "Username and password are required"}), 400
 
         print(f"Login attempt - Username: {username}, Password: {password}")
 
-        # Aquí puedes agregar tu lógica de autenticación real
+
         if username == "demo" and password == "1234":
             return jsonify({"message": "Login successful", "user_type": "demo"}), 200
         else:
