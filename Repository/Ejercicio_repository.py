@@ -1,5 +1,5 @@
-from models.Ejercicio import Ejercicio
-from data.Ejercicio_DAO import EjercicioDAO
+from Model.Ejercicio import Ejercicio
+from DAO.Ejercicio_DAO import EjercicioDAO
 
 class EjercicioRepository:
     def __init__(self, db_path: str = "fitpal.db"):

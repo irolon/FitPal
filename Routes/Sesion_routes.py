@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify, request
 from Model.Sesion import Sesion
-from Service.Sesion_service import SesionService
+from Service.SesionService import SesionService
 
 def create_sesion_routes(db_connection):
     sesion_routes = Blueprint('sesion_routes', __name__)
