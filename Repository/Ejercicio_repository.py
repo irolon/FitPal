@@ -1,9 +1,9 @@
 from Model.Ejercicio import Ejercicio
-from DAO.Ejercicio_DAO import EjercicioDAO
+from DAO.Ejercicio_DAO import Ejercicio_DAO
 
 class EjercicioRepository:
     def __init__(self, db_path: str = "fitpal.db"):
-        self.dao = EjercicioDAO(db_path)
+        self.dao = Ejercicio_DAO(db_path)
 
     def crear_ejercicio(self, categoria: str, nombre: str, descripcion: str,
                         repeticiones: int, series: int, descanso: int) -> int:

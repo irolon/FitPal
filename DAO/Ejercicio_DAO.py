@@ -1,8 +1,6 @@
 from DAO.Base_DAO import BaseDAO
-from Model.Ejercicio import Ejercicios
-
-import sqlite3
 from Model.Ejercicio import Ejercicio
+import sqlite3
 
 class Ejercicio_DAO:
     def __init__(self, db_path: str = "fitpal.db"):

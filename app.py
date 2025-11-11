@@ -16,7 +16,7 @@ from Model.Usuario import Usuario
 # --------------------------
 # Rutas FitPal
 # --------------------------
-from routes.ejercicios_routes import ejercicios_bp
+from routes.ejercicio_routes import ejercicios_bp
 
 # --------------------------
 # Configuración Flask
