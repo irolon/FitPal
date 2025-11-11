@@ -2,9 +2,6 @@ import sqlite3
 from flask import Blueprint, Flask, jsonify, request
 from flask_cors import CORS
 
-# --------------------------
-# Imports de tu proyecto
-# --------------------------
 from DAO.Administrador_DAO import AdministradorDAO
 from DAO.Cliente_DAO import ClienteDAO
 from DAO.Usuario_DAO import UsuarioDAO
