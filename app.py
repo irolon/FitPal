@@ -1,23 +1,7 @@
 import sqlite3
 from flask import Blueprint, Flask, jsonify, request
 from flask_cors import CORS
-from routes.ejercicio_routes import ejercicios_bp
-from DAO.Administrador_DAO import AdministradorDAO
-from DAO.Cliente_DAO import ClienteDAO
-from DAO.Usuario_DAO import UsuarioDAO
-from DAO.Ejercicio_DAO import EjercicioDAO
-from DAO.Plan_entrenamiento_DAO import PlanEntrenamientoDAO
 from Repository.Usuario_repository import UsuarioRepository
-
-from Model.Administrador import Administrador
-from Model.Cliente import Cliente
-from Model.Plan_entrenamiento import PlanEntrenamiento
-from Model.Usuario import Usuario
-
-# --------------------------
-# Rutas FitPal
-# --------------------------
-from routes.ejercicio_routes import ejercicios_bp
 
 # --------------------------
 # Configuración Flask
@@ -115,10 +99,6 @@ def register():
         print(f"Error in registration: {str(e)}")
         return jsonify({"error": "Internal server error"}), 500
 
-# --------------------------
-# Registro de Rutas / Blueprints
-# --------------------------
-app.register_blueprint(ejercicios_bp, url_prefix="/api")
 
 # --------------------------
 # Main
