@@ -1,8 +1,9 @@
 from Repository.BaseRepository import BaseRepository
 from DAO.Administrador_DAO import AdministradorDAO
+import sqlite3
 
 class AdministradorRepository(BaseRepository):
-    def __init__(self, db_connection):
+    def __init__(self, db_connection: sqlite3.Connection):
         super().__init__(db_connection)
         self.administrador_dao = AdministradorDAO(db_connection)
 

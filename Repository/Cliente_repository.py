@@ -1,8 +1,9 @@
 from Repository.BaseRepository import BaseRepository
 from DAO.Cliente_DAO import ClienteDAO
+import sqlite3
 
 class ClienteRepository(BaseRepository):
-    def __init__(self, db_connection):
+    def __init__(self, db_connection: sqlite3.Connection):
         super().__init__(db_connection)
         self.cliente_dao = ClienteDAO(db_connection)
 

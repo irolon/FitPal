@@ -1,5 +1,5 @@
 from Repository.Usuario_repository import UsuarioRepository
-from data_base import Conexion
+from data_base.Conexion import Conexion
 
 
 class UsuarioService:

@@ -1,12 +1,13 @@
 from Model.Ejercicio import Ejercicio
 from DAO.Ejercicio_DAO import EjercicioDAO
 from data_base.Conexion import Conexion
+import sqlite3
 
 
 class EjercicioRepository:
-    def __init__(self, db_path):
-        self.conn = Conexion(db_path)
-        self.dao = EjercicioDAO(self.conn.conexion)
+    def __init__(self, db_connection: sqlite3.Connection):
+        super().__init__(db_connection)
+        self.dao = EjercicioDAO(db_connection)
 
     def crear_ejercicio(self, categoria: str, nombre: str, descripcion: str,
                         repeticiones: int, series: int, descanso: int) -> int:

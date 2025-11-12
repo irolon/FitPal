@@ -1,8 +1,9 @@
 from Repository.BaseRepository import BaseRepository
 from DAO.Plan_entrenamiento_DAO import PlanEntrenamientoDAO
+import sqlite3
 
 class PlanEntrenamientoRepository(BaseRepository):
-    def __init__(self, db_connection):
+    def __init__(self, db_connection: sqlite3.Connection):
         super().__init__(db_connection)
         self.plan_entrenamiento_dao = PlanEntrenamientoDAO(db_connection)
         

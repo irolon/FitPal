@@ -1,8 +1,9 @@
 from Repository.BaseRepository import BaseRepository
 from DAO.Sesion_ejercicio_DAO import SesionEjercicioDAO
+import sqlite3
 
 class SesionEjercicioRepository(BaseRepository):
-    def __init__(self, db_connection):
+    def __init__(self, db_connection: sqlite3.Connection):
         super().__init__(db_connection)
         self.sesion_ejercicio_dao = SesionEjercicioDAO(db_connection)
 

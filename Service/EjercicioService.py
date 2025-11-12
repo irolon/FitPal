@@ -1,9 +1,9 @@
-from data_base.Conexion import Conexion
 from Repository.Ejercicio_repository import EjercicioRepository
+from data_base.Conexion import Conexion
 
 class EjercicioService:
-    def __init__(self, db_path: str = "data_base/db_fitpal.db"):
-        self.repo = EjercicioRepository(db_path)
+    def __init__(self, db_path: str):
+        self.repo = EjercicioRepository(Conexion(db_path).conexion)
 
     def obtener_todos(self):
         return self.repository.obtener_todos()

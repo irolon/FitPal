@@ -1,15 +1,16 @@
 from Model.Plan_entrenamiento import PlanEntrenamiento
 from Repository.Plan_entrenamiento_repository import PlanEntrenamientoRepository
+from data_base.Conexion import Conexion
 
 class PlanEntrenamientoService:
-    def __init__(self, db_connection):
-        self.plan_entrenamiento_repository = PlanEntrenamientoRepository(db_connection)
+    def __init__(self, db_path: str):
+        self.repo = PlanEntrenamientoRepository(Conexion(db_path).conexion)
 
     def list(self):
-        return self.plan_entrenamiento_repository.list()
+        return self.repo.list()
 
     def get_by_id(self, plan_entrenamiento_id: int):
-        return self.plan_entrenamiento_repository.get_by_id(plan_entrenamiento_id)
+        return self.repo.get_by_id(plan_entrenamiento_id)
 
     def add(self, administrador_id: int, cliente_id: int, plan_data: dict):
         plan = PlanEntrenamiento(
@@ -20,12 +21,12 @@ class PlanEntrenamientoService:
             fecha_inicio=plan_data.get("fecha_inicio"),
             fecha_fin=plan_data.get("fecha_fin")
         )
-        return self.plan_entrenamiento_repository.plan_entrenamiento_dao.create(
+        return self.repo.plan_entrenamiento_dao.create(
             administrador_id, cliente_id, plan
         )
 
     def update(self, plan_entrenamiento_id: int, plan_data: dict):
-        plan_existente = self.plan_entrenamiento_repository.get_by_id(plan_entrenamiento_id)
+        plan_existente = self.repo.get_by_id(plan_entrenamiento_id)
         if not plan_existente:
             return "Plan de entrenamiento no encontrado"
 
@@ -39,7 +40,7 @@ class PlanEntrenamientoService:
             id=plan_entrenamiento_id
         )
 
-        return self.plan_entrenamiento_repository.update(plan_actualizado)
+        return self.repo.update(plan_actualizado)
 
     def delete(self, plan_entrenamiento_id: int):
-        return self.plan_entrenamiento_repository.delete(plan_entrenamiento_id)
+        return self.repo.delete(plan_entrenamiento_id)

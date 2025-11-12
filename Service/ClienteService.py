@@ -1,5 +1,5 @@
 from Repository.Cliente_repository import ClienteRepository
-from data_base import Conexion
+from data_base.Conexion import Conexion
 
 
 class ClienteService:
