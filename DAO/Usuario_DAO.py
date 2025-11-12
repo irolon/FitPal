@@ -73,11 +73,23 @@ class UsuarioDAO(BaseDAO):
 
     def list(self): 
         try:
-            self.cur.execute(("""SELECT * FROM usuario"""))
-            return self.cur.fetchall()
+            self.cur.execute("""SELECT id, nombre, apellido, correo, contrasena, rol FROM usuario""")
+            rows = self.cur.fetchall()
+            usuarios = []
+            for row in rows:
+                usuario = Usuario(
+                    nombre=row[1],
+                    apellido=row[2],
+                    correo=row[3],
+                    contrasena=row[4],
+                    rol=row[5],
+                    id=row[0],
+                )
+                usuarios.append(usuario)
+            return usuarios
         except Exception as e:
             print(f"Error al leer todos los usuarios: {e}")
-            return None
+            return []
     
     def read_by_email(self, correo: str) -> Usuario | None:
         try:

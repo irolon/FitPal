@@ -34,9 +34,8 @@ const FormLogin = () => {
             
             if (response.ok) {
                 alert('Login exitoso!');
-                // Aquí puedes redirigir al usuario o guardar el token
             } else {
-                alert(`Error: ${data.message || data.error}`);
+                alert(`Usuario o contraseña incorrectos`);
             }
         } catch (error) {
             console.error('Error de conexión:', error);
