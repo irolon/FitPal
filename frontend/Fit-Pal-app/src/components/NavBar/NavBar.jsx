@@ -1,4 +1,4 @@
-import '../../css/NavBar.css';
+import '../../css/Navbar.css';
 import BtnLogin from '../Btn/BtnLogin';
 import { Link, useLocation } from 'react-router-dom';
 

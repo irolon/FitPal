@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import '../../css/Login.css';
+import '../../css/login.css';
 import FormLogin from '../Form/FormLogin';
 import FormRegister from '../Form/FromRegister.jsx';
 import CardToggle from '../Cards/CardToggle.jsx';
