@@ -3,7 +3,7 @@ from Service.UsuarioService import UsuarioService
 from Model.Usuario import Usuario
 
 usuario_bp = Blueprint('usuario_bp', __name__)
-service = UsuarioService("data_base/escuela.db")
+service = UsuarioService("data_base/db_fitpal.db")
 
 
 @usuario_bp.route('/usuarios', methods=['GET'])

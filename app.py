@@ -5,6 +5,7 @@ from routes.ejercicio_routes import ejercicios_bp
 from DAO.Administrador_DAO import AdministradorDAO
 from DAO.Cliente_DAO import ClienteDAO
 from DAO.Usuario_DAO import UsuarioDAO
+from DAO.Ejercicio_DAO import EjercicioDAO
 from DAO.Plan_entrenamiento_DAO import PlanEntrenamientoDAO
 from Repository.Usuario_repository import UsuarioRepository
 

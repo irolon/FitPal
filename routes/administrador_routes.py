@@ -3,7 +3,7 @@ from Service.AdministradorService import AdministradorService
 from Model.Administrador import Administrador
 
 administrador_bp = Blueprint('administrador_bp', __name__)
-service = AdministradorService("data_base/escuela.db")
+service = AdministradorService("data_base/db_fitpal.db")
 
 
 @administrador_bp.route('/administradores', methods=['GET'])
