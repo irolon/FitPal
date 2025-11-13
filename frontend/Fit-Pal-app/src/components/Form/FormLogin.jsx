@@ -17,9 +17,6 @@ const FormLogin = () => {
         }
         
         try {
-            console.log('API URL:', API); // Debug URL
-            console.log('Enviando datos de login:', { username, password }); // Debug
-            console.log('URL completa:', `${API}/api/login`); // Debug URL completa
             
             const response = await fetch(`${API}/api/login`, {
                 method: 'POST',
