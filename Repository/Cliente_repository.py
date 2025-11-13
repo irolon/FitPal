@@ -1,10 +1,15 @@
+from Model.Usuario import Usuario
 from Repository.BaseRepository import BaseRepository
 from DAO.Cliente_DAO import ClienteDAO
+from DAO.Usuario_DAO import UsuarioDAO
 
 class ClienteRepository(BaseRepository):
     def __init__(self, db_connection):
         super().__init__(db_connection)
         self.cliente_dao = ClienteDAO(db_connection)
+        self.usuario_dao = UsuarioDAO(db_connection)
+        
+
 
     def get_by_id(self, cliente_id):
         try:
@@ -26,12 +31,21 @@ class ClienteRepository(BaseRepository):
             return None
 
     def add(self, cliente):
-        cliente_existente = self.cliente_dao.read_by_email(cliente.correo)
-        if cliente_existente:
-            return "El cliente ya existe"
+        # Verificar si el usuario ya existe
+        usuario_existente = self.usuario_dao.read_by_email(cliente.correo)
+        
+        if usuario_existente:
+            return "El usuario ya existe"
+        
         try:
-            cliente = self.cliente_dao.create(cliente)
-            return cliente
+            usuario_id = self.usuario_dao.create(cliente)
+            
+            if usuario_id:
+                resultado_cliente = self.cliente_dao.create(usuario_id, cliente)
+                return f"Cliente creado exitosamente con ID: {usuario_id}"
+            else:
+                return "Error al crear el usuario"
+                
         except Exception as e:
             print(f"Error al agregar el cliente: {e}")
             return None

@@ -15,12 +15,12 @@ class ClienteDAO(BaseDAO):
         """)
         self.conn.commit()
         
-    def create(self, id_usuario: int, c: Cliente) -> int:
+    def create(self, usuario_id, c: Cliente) -> int:
         with self.conn:
             try:
                 self.cur.execute(
                     "INSERT INTO cliente(usuario_id, dni, edad, fecha_inicio) VALUES (?,?,?,?) ON CONFLICT(usuario_id) DO NOTHING",
-                    (id_usuario, c.dni, c.edad, c.fecha_inicio)
+                    (usuario_id, c.dni, c.edad, c.fecha_inicio)
                 )
                 return self.cur.rowcount
             except Exception as e:

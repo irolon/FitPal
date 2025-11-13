@@ -1,22 +1,14 @@
-import sqlite3
-from flask import Blueprint, Flask, jsonify, request
+from flask import Flask
 from flask_cors import CORS
-from routes.ejercicio_routes import ejercicios_bp
-from DAO.Administrador_DAO import AdministradorDAO
-from DAO.Cliente_DAO import ClienteDAO
-from DAO.Usuario_DAO import UsuarioDAO
-from DAO.Plan_entrenamiento_DAO import PlanEntrenamientoDAO
-from Repository.Usuario_repository import UsuarioRepository
 
-from Model.Administrador import Administrador
-from Model.Cliente import Cliente
-from Model.Plan_entrenamiento import PlanEntrenamiento
-from Model.Usuario import Usuario
 
 # --------------------------
 # Rutas FitPal
 # --------------------------
 from routes.ejercicio_routes import ejercicios_bp
+from routes.login_routes import login_bp
+from routes.register_routes import register_bp
+
 
 # --------------------------
 # Configuración Flask
@@ -35,89 +27,13 @@ CORS(app, resources={
     }
 })
 
-# --------------------------
-# Login
-# --------------------------
-@app.route('/api/login', methods=['POST'])
-def login():
-    try:
-        repoUsuarios = UsuarioRepository(sqlite3.connect('data_base/db_fitpal.db'))
-
-        
-        if not request.is_json:
-            return jsonify({"error": "Content-Type must be application/json"}), 400
-
-        data = request.get_json(silent=True)
-        if not data:
-            return jsonify({"error": "No data provided"}), 400
-
-        username = data.get("username")
-        password = data.get("password")
-        if not username or not password:
-            return jsonify({"error": "Username and password are required"}), 400
-
-
-
-        lista_usuarios = repoUsuarios.list()  
-
-        if not lista_usuarios:
-            print("No se encontraron usuarios en la base de datos")
-            return jsonify({"message": "No users found"}), 404
-
-        for u in lista_usuarios:
-            if u.correo == username and u.contrasena == password:
-                print("¡LOGIN EXITOSO!")
-                return jsonify({
-                    "message": "Login successful",
-                    "user_id": u.id,
-                    "nombre": u.nombre,
-                    "apellido": u.apellido,
-                    "rol": u.rol
-                }), 200
-
-        print("LOGIN FALLIDO: Credenciales no coinciden")
-        return jsonify({"message": "Invalid credentials"}), 401
-
-    except Exception as e:
-        print(f"Error in login: {str(e)}")
-        return jsonify({"error": "Internal server error"}), 500
-
-# --------------------------
-# Registro
-# --------------------------
-@app.route('/api/register', methods=['POST'])
-def register():
-    try:
-        if not request.is_json:
-            return jsonify({"error": "Content-Type must be application/json"}), 400
-
-        data = request.json
-        if not data:
-            return jsonify({"error": "No data provided"}), 400
-
-        name = data.get("name")
-        lastname = data.get("lastname")
-        dni = data.get("dni")
-        edad = data.get("edad")
-        email = data.get("email")
-        password = data.get("password")
-
-        if not all([name, lastname, dni, edad, email, password]):
-            return jsonify({"error": "All fields are required"}), 400
-
-        print(f"Registration attempt - Name: {name}, Lastname: {lastname}, DNI: {dni}, Edad: {edad}, Email: {email}")
-
-        # TODO: Guardar en base de datos usando UsuarioDAO o UsuarioRepository
-        return jsonify({"message": "Registration successful"}), 201
-
-    except Exception as e:
-        print(f"Error in registration: {str(e)}")
-        return jsonify({"error": "Internal server error"}), 500
 
 # --------------------------
 # Registro de Rutas / Blueprints
 # --------------------------
 app.register_blueprint(ejercicios_bp, url_prefix="/api")
+app.register_blueprint(login_bp, url_prefix="/api")
+app.register_blueprint(register_bp, url_prefix="/api")
 
 # --------------------------
 # Main
