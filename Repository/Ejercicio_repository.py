@@ -1,9 +1,14 @@
+from Repository.BaseRepository import BaseRepository
 from Model.Ejercicio import Ejercicio
-from DAO.Ejercicio_DAO import Ejercicio_DAO
+from DAO.Ejercicio_DAO import EjercicioDAO
+from data_base.Conexion import Conexion
+import sqlite3
 
-class EjercicioRepository:
-    def __init__(self, db_path: str = "fitpal.db"):
-        self.dao = Ejercicio_DAO(db_path)
+
+class EjercicioRepository(BaseRepository):
+    def __init__(self, db_connection: sqlite3.Connection):
+        super().__init__(db_connection)
+        self.dao = EjercicioDAO(db_connection)
 
     def crear_ejercicio(self, categoria: str, nombre: str, descripcion: str,
                         repeticiones: int, series: int, descanso: int) -> int:
@@ -40,3 +45,19 @@ class EjercicioRepository:
 
     def eliminar_ejercicio(self, id: int) -> bool:
         return self.dao.eliminar(id)
+
+    # Métodos requeridos por BaseRepository
+    def get_by_id(self, entity_id: int):
+        return self.obtener_por_id(entity_id)
+
+    def list(self):
+        return self.obtener_todos()
+
+    def add(self, entity: Ejercicio):
+        return self.dao.insertar(entity)
+
+    def update(self, entity: Ejercicio) -> None:
+        self.dao.actualizar(entity)
+
+    def delete(self, entity_id: int) -> None:
+        self.dao.eliminar(entity_id)

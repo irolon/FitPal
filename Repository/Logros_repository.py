@@ -1,10 +1,9 @@
 from Repository.BaseRepository import BaseRepository
 from DAO.Logros_DAO import LogrosDAO
-from Model.Logros import Logros
 import sqlite3
 
 class LogrosRepository(BaseRepository):
-    def __init__(self, db_connection):
+    def __init__(self, db_connection: sqlite3.Connection):
         super().__init__(db_connection)
         self.logros_dao = LogrosDAO(db_connection)
         

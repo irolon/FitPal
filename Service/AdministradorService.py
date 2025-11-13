@@ -1,5 +1,5 @@
 from Repository.Administrador_respository import AdministradorRepository
-from data_base import Conexion
+from data_base.Conexion import Conexion
 
 
 class AdministradorService:

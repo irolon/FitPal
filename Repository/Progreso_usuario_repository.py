@@ -1,8 +1,9 @@
 from Repository.BaseRepository import BaseRepository
 from DAO.Progreso_usuarios_DAO import ProgresoUsuariosDAO
+import sqlite3
 
 class ProgresoUsuariosRepository(BaseRepository):
-    def __init__(self, db_connection):
+    def __init__(self, db_connection: sqlite3.Connection):
         super().__init__(db_connection)
         self.progreso_usuarios_dao = ProgresoUsuariosDAO(db_connection)
 

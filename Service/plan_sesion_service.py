@@ -1,8 +1,9 @@
 from Repository.Plan_sesion_repository import PlanSesionRepository
+from data_base.Conexion import Conexion
 
 class PlanSesionService:
-    def __init__(self, db_connection):
-        self.repository = PlanSesionRepository(db_connection)
+    def __init__(self, db_path: str):
+        self.repo = PlanSesionRepository(Conexion(db_path).conexion)
 
     def obtener_todos(self):
         return self.repository.list()

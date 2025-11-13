@@ -1,8 +1,9 @@
 from Repository.Sesion_ejercicio_repository import SesionEjercicioRepository
+from data_base.Conexion import Conexion
 
 class SesionEjercicioService:
-    def __init__(self, db_connection):
-        self.repository = SesionEjercicioRepository(db_connection)
+    def __init__(self, db_path: str):
+        self.repo = SesionEjercicioRepository(Conexion(db_path).conexion)
 
     def obtener_todos(self):
         return self.repository.list()

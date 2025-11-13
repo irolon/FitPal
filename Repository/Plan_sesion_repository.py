@@ -1,8 +1,9 @@
 from Repository.BaseRepository import BaseRepository
 from DAO.Plan_sesion_DAO import PlanSesionDAO
+import sqlite3
 
 class PlanSesionRepository(BaseRepository):
-    def __init__(self, db_connection):
+    def __init__(self, db_connection: sqlite3.Connection):
         super().__init__(db_connection)
         self.plan_sesion_dao = PlanSesionDAO(db_connection)
 

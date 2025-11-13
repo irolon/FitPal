@@ -1,10 +1,10 @@
-from Model.Usuario import Usuario
 from Repository.BaseRepository import BaseRepository
 from DAO.Cliente_DAO import ClienteDAO
 from DAO.Usuario_DAO import UsuarioDAO
+import sqlite3
 
 class ClienteRepository(BaseRepository):
-    def __init__(self, db_connection):
+    def __init__(self, db_connection: sqlite3.Connection):
         super().__init__(db_connection)
         self.cliente_dao = ClienteDAO(db_connection)
         self.usuario_dao = UsuarioDAO(db_connection)

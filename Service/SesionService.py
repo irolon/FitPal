@@ -1,8 +1,9 @@
 from Repository.Sesion_repository import SesionRepository
+from data_base.Conexion import Conexion
 
 class SesionService:
-    def __init__(self, db_connection):
-        self.sesion_repository = SesionRepository(db_connection)
+    def __init__(self, db_path: str):
+        self.repo = SesionRepository(Conexion(db_path).conexion)
 
     def get_by_id(self, sesion_id):
         try:

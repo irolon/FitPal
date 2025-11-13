@@ -3,7 +3,7 @@ from Service.ClienteService import ClienteService
 from Model.Cliente import Cliente
 
 cliente_bp = Blueprint('cliente_bp', __name__)
-service = ClienteService("data_base/escuela.db")
+service = ClienteService("data_base/db_fitpal.db")
 
 
 @cliente_bp.route('/clientes', methods=['GET'])

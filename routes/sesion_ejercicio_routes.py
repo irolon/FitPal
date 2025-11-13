@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify, request
-from Service.sesion_ejercicio_service import SesionEjercicioService
+from Service.Sesion_ejercicio_service import SesionEjercicioService
 from data_base import Conexion as get_db_connection
 
 sesion_ejercicio_bp = Blueprint('sesion_ejercicio_bp', __name__, url_prefix='/api/sesion_ejercicio')

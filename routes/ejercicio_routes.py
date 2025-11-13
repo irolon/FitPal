@@ -2,7 +2,7 @@ from flask import Blueprint, request, jsonify
 from Service.EjercicioService import EjercicioService
 
 ejercicios_bp = Blueprint("ejercicios", __name__)
-service = EjercicioService()
+service = EjercicioService("data_base/db_fitpal.db")
 
 # ----------------------------
 # GET /ejercicios
