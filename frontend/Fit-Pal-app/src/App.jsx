@@ -14,6 +14,8 @@ import ContainerNosotros from './components/Rutas/ContainerNosotros.jsx'
 import ContainerPlan from './components/Rutas/ContainerPlan.jsx'
 import ContainerNovedades from './components/Rutas/ContainerNovedades.jsx'
 import Login from './components/Login/Login.jsx'
+import AdminHome from "./components/Home/AdminHome.jsx";
+import ClienteHome from "./components/Home/ClienteHome.jsx";
 
 
 const API = import.meta.env.VITE_API_URL;
@@ -32,6 +34,8 @@ function App() {
           <Route path='/planes' element={<ContainerPlan titulo="Planes de Entrenamiento" imagen={img_plan}/>}/>
           <Route path='/novedades' element={<ContainerNovedades titulo="Novedades" imagen={img_nov}/>}/>
           <Route path='/login' element={<Login/>}/>
+          <Route path='/admin' element={<AdminHome/>}/>
+          <Route path="/cliente" element={<ClienteHome />} />
         </Routes>
         <Footer/>
       </BrowserRouter>

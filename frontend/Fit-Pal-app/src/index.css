@@ -1,0 +1,47 @@
+.card-fitpal {
+  background-color: #eaeaea;
+  border-radius: 25px;
+  padding: 30px 20px;
+  border: none;
+  transition: transform .2s ease;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.card-fitpal:hover {
+  transform: translateY(-5px);
+}
+
+.card-fitpal h5 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #1a1a1a;
+}
+
+.card-fitpal p {
+  color: #4a4a4a;
+  font-size: 1rem;
+}
+
+.btn-fitpal {
+  background-color: white;
+  color: #222;
+  border: 2px solid #333;
+  padding: 10px 20px;
+  border-radius: 12px;
+  font-weight: 600;
+  transition: all .2s ease;
+}
+
+.btn-fitpal:hover {
+  background-color: #f0f0f0;
+  color: #000;
+  border-color: #000;
+}
+
+.card-button-center {
+  display: flex;
+  justify-content: center;
+  margin-top: auto;
+}
