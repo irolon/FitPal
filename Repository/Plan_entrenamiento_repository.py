@@ -55,4 +55,11 @@ class PlanEntrenamientoRepository(BaseRepository):
         except Exception as e:
             print(f"Error al eliminar el plan de entrenamiento: {e}")
             return None
-        
+    
+    def get_by_cliente_id(self, cliente_id):
+        try:
+            planes_entrenamiento = self.plan_entrenamiento_dao.read_by_cliente_id(cliente_id)
+            return planes_entrenamiento
+        except Exception as e:
+            print(f"Error al obtener los planes de entrenamiento por cliente_id: {e}")
+            return None

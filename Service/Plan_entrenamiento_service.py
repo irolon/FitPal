@@ -44,3 +44,6 @@ class PlanEntrenamientoService:
 
     def delete(self, plan_entrenamiento_id: int):
         return self.repo.delete(plan_entrenamiento_id)
+
+    def get_by_cliente_id(self, cliente_id: int):
+        return self.repo.get_by_cliente_id(cliente_id)

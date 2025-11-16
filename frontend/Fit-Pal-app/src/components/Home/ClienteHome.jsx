@@ -1,10 +1,57 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 
 const ClienteHome = () => {
+  const navigate = useNavigate();
+  
+  // Obtener únicamente el user_id del localStorage
+  const getUserIdFromStorage = () => {
+    try {
+      const userData = localStorage.getItem("user");
+      if (userData) {
+        try {
+          const parsedData = JSON.parse(userData);
+          return parsedData.user_id || '';
+        } catch {
+          const match = userData.match(/user_id:(\d+)/);
+          return match ? match[1] : '';
+        }
+      }
+      return '';
+    } catch (error) {
+      console.error("Error al obtener user ID:", error);
+      return '';
+    }
+  };
+  
+  const user_id = getUserIdFromStorage();
+  console.log("User ID extraído:", user_id);
+  
+  // Obtener el nombre del usuario del localStorage
+  const getUserNameFromStorage = () => {
+    try {
+      const userData = localStorage.getItem("user");
+      if (userData) {
+        try {
+          const parsedData = JSON.parse(userData);
+          return parsedData.nombre || '';
+        } catch {
+          // Si no es JSON válido, buscar nombre en el string
+          const match = userData.match(/nombre:([^,]+)/);
+          return match ? match[1] : '';
+        }
+      }
+      return '';
+    } catch (error) {
+      console.error("Error al obtener nombre del usuario:", error);
+      return '';
+    }
+  };
+  
+  const userName = getUserNameFromStorage(); 
   const handleLogout = () => {
-  localStorage.removeItem("user");
-  navigate("/");
+    localStorage.removeItem("user");
+    navigate("/");
   };
 
   return (
@@ -13,7 +60,7 @@ const ClienteHome = () => {
         
         <div className="row mb-4">
         <div className="col text-center">
-          <h1 className="section-title mb-3">Mi espacio FitPal</h1>
+          <h1 className="section-title mb-3">Hola {userName} !</h1>
           <p className="section-subtitle">
             Accedé a tus planes, sesiones, progreso y logros personales.
           </p>
@@ -29,7 +76,7 @@ const ClienteHome = () => {
               Consultá tus planes de entrenamiento personalizados según tu nivel y objetivos.
             </p>
             <div className="card-button-center">
-              <button className="btn-fitpal">Ver planes</button>
+              <Link to={`/cliente/${user_id}/planes`} className="btn-fitpal">Ver planes</Link>
             </div>
           </div>
         </div>
@@ -41,7 +88,7 @@ const ClienteHome = () => {
               Revisá tus sesiones asignadas para cada día y marcá las que ya completaste.
             </p>
             <div className="card-button-center">
-              <button className="btn-fitpal">Ver sesiones</button>
+              <Link to={`/cliente/${user_id}/sesiones`} className="btn-fitpal">Ver sesiones</Link>
             </div>
           </div>
         </div>
@@ -53,7 +100,7 @@ const ClienteHome = () => {
               Registrá tus entrenamientos y visualizá tu evolución mediante métricas y gráficos.
             </p>
             <div className="card-button-center">
-              <button className="btn-fitpal">Ver progreso</button>
+              <Link to={`/cliente/${user_id}/progreso`} className="btn-fitpal">Ver progreso</Link>
             </div>
           </div>
         </div>
@@ -69,7 +116,7 @@ const ClienteHome = () => {
               Obtené recompensas y desbloqueá nuevos niveles según tu constancia.
             </p>
             <div className="card-button-center">
-              <button className="btn-fitpal">Ver logros</button>
+              <Link to={`/cliente/${user_id}/logros`} className="btn-fitpal">Ver logros</Link>
             </div>
           </div>
         </div>
@@ -81,7 +128,7 @@ const ClienteHome = () => {
               Editá tus datos personales, objetivos y preferencias de entrenamiento.
             </p>
             <div className="card-button-center">
-              <button className="btn-fitpal">Editar perfil</button>
+              <Link to={`/cliente/${user_id}/perfil`} className="btn-fitpal">Editar perfil</Link>
             </div>
           </div>
         </div>
@@ -90,7 +137,7 @@ const ClienteHome = () => {
 
       </div>
       <div>
-        <Link className="btn btn-danger mt-5" onClick={handleLogout}>Cerrar Sesion</Link>
+        <button className="btn btn-danger mt-5" onClick={handleLogout}>Cerrar Sesión</button>
       </div>
     </div>
   );

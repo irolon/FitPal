@@ -8,6 +8,7 @@ from flask_cors import CORS
 from routes.ejercicio_routes import ejercicios_bp
 from routes.login_routes import login_bp
 from routes.register_routes import register_bp
+from routes.Plan_entrenamiento import plan_entrenamiento_bp
 
 
 # --------------------------
@@ -34,6 +35,7 @@ CORS(app, resources={
 app.register_blueprint(ejercicios_bp, url_prefix="/api")
 app.register_blueprint(login_bp, url_prefix="/api")
 app.register_blueprint(register_bp, url_prefix="/api")
+app.register_blueprint(plan_entrenamiento_bp, url_prefix="/api")
 
 # --------------------------
 # Main

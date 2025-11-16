@@ -42,6 +42,8 @@ class PlanEntrenamientoDAO(BaseDAO):
             if not row:
                 return None
             return PlanEntrenamiento(
+                administrador_id=row[1],
+                cliente_id=row[2],
                 nombre=row[3],
                 frecuencia=row[4],
                 fecha_inicio=row[5],
@@ -79,6 +81,8 @@ class PlanEntrenamientoDAO(BaseDAO):
             planes = []
             for row in rows:
                 plan = PlanEntrenamiento(
+                    administrador_id=row[1],
+                    cliente_id=row[2],
                     nombre=row[3],
                     frecuencia=row[4],
                     fecha_inicio=row[5],
@@ -89,4 +93,26 @@ class PlanEntrenamientoDAO(BaseDAO):
             return planes
         except Exception as e:
             print(f"Error al leer todos los planes de entrenamiento: {e}")
+            return None
+    
+    def read_by_cliente_id(self, cliente_id: int):
+        try:
+            self.cur.execute("""SELECT id, administrador_id, cliente_id, nombre, frecuencia, fecha_inicio, fecha_fin 
+                            FROM plan_entrenamiento WHERE cliente_id = ?""", (cliente_id,))
+            rows = self.cur.fetchall()
+            planes = []
+            for row in rows:
+                plan = PlanEntrenamiento(
+                    administrador_id=row[1],
+                    cliente_id=row[2],
+                    nombre=row[3],
+                    frecuencia=row[4],
+                    fecha_inicio=row[5],
+                    fecha_fin=row[6],
+                    id=row[0]
+                )
+                planes.append(plan)
+            return planes
+        except Exception as e:
+            print(f"Error al leer los planes de entrenamiento por cliente_id: {e}")
             return None

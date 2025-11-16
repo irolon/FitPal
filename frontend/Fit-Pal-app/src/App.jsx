@@ -14,12 +14,15 @@ import Login from './components/Login/Login.jsx'
 import AdminHome from "./components/Home/AdminHome.jsx";
 import ClienteHome from "./components/Home/ClienteHome.jsx";
 import {ProtectedUserRoute, ProtectedAdminRoute } from './components/ProtectedRoute/ProtectedRoute.jsx'
+import Planes from './components/Rutas/Planes.jsx'
 
 const API = import.meta.env.VITE_API_URL;
 
 function AppContent() {
   const location = useLocation();
-  const hideNavbar = location.pathname === '/admin' || location.pathname === '/cliente';
+  const hideNavbar = location.pathname === '/admin' || 
+                     location.pathname === '/cliente' || 
+                     location.pathname.startsWith('/cliente/') && location.pathname.includes('/planes');
 
   return (
     <div className="d-flex flex-column min-vh-100">   
@@ -32,6 +35,7 @@ function AppContent() {
           <Route path='/login' element={<Login/>}/>
           <Route path='/admin' element={<ProtectedAdminRoute><AdminHome /></ProtectedAdminRoute>} />
           <Route path="/cliente" element={<ProtectedUserRoute><ClienteHome /></ProtectedUserRoute>} />
+          <Route path='/cliente/:id/planes' element={<ProtectedUserRoute><Planes /></ProtectedUserRoute>} />
       </Routes>
       {!hideNavbar && <Footer/>}
     </div>
