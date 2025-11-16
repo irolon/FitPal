@@ -8,6 +8,7 @@ service = ClienteService("data_base/db_fitpal.db")
 
 @cliente_bp.route('/clientes', methods=['GET'])
 def listar_clientes():
+    
     clientes = service.listar()
     return jsonify([dict(c) for c in clientes]) if clientes else jsonify([])
 

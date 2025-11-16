@@ -1,6 +1,14 @@
+import { Link } from "react-router-dom";
+
+
 const ClienteHome = () => {
+  const handleLogout = () => {
+  localStorage.removeItem("user");
+  navigate("/");
+  };
+
   return (
-    <div className="d-flex align-items-center justify-content-center min-vh-100">
+    <div className="d-flex flex-column align-items-center justify-content-center min-vh-100">
       <div className="container">
         
         <div className="row mb-4">
@@ -80,6 +88,9 @@ const ClienteHome = () => {
 
         </div>
 
+      </div>
+      <div>
+        <Link className="btn btn-danger mt-5" onClick={handleLogout}>Cerrar Sesion</Link>
       </div>
     </div>
   );
