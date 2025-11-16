@@ -1,8 +1,9 @@
 const ClienteHome = () => {
   return (
-    <div className="container my-5">
-
-      <div className="row mb-4">
+    <div className="d-flex align-items-center justify-content-center min-vh-100">
+      <div className="container">
+        
+        <div className="row mb-4">
         <div className="col text-center">
           <h1 className="section-title mb-3">Mi espacio FitPal</h1>
           <p className="section-subtitle">
@@ -77,8 +78,9 @@ const ClienteHome = () => {
           </div>
         </div>
 
-      </div>
+        </div>
 
+      </div>
     </div>
   );
 };

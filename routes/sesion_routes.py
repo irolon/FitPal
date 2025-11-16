@@ -28,6 +28,7 @@ def create_sesion_routes(db_connection):
         )
         nueva_id = sesion_service.add(sesion)
         if nueva_id:
+            
             return jsonify({'id': nueva_id, 'mensaje': 'Sesión creada correctamente'}), 201
         return jsonify({'error': 'Error al crear sesión'}), 400
 

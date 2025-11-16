@@ -1,15 +1,16 @@
 const AdminHome = () => {
   return (
-    <div className="container my-5">
-
-      <div className="row mb-4">
-        <div className="col text-center">
-          <h1 className="section-title mb-3">Panel de administración</h1>
-          <p className="section-subtitle">
-            Gestioná usuarios, planes y ejercicios desde un solo lugar.
-          </p>
+    <div className="d-flex align-items-center justify-content-center min-vh-100">
+      <div className="container">
+        
+        <div className="row mb-4">
+          <div className="col text-center">
+            <h1 className="section-title mb-3">Panel de administración</h1>
+            <p className="section-subtitle">
+              Gestioná usuarios, planes y ejercicios desde un solo lugar.
+            </p>
+          </div>
         </div>
-      </div>
 
       <div className="row g-4">
 
@@ -77,8 +78,9 @@ const AdminHome = () => {
           </div>
         </div>
 
-      </div>
+        </div>
 
+      </div>
     </div>
   );
 };

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 const API = import.meta.env.VITE_API_URL;
 
-const FormLogin = () => {
+const FormLogin = ({ navigate }) => {
         // Estados para el formulario de login
         const [username, setUsername] = useState('');
         const [password, setPassword] = useState('');
@@ -30,7 +30,7 @@ const FormLogin = () => {
             console.log('Respuesta del servidor:', data);
             
             if (response.ok) {
-                alert('Login exitoso!');
+                navigate('/cliente');
             } else {
                 alert(`Usuario o contraseña incorrectos`);
             }

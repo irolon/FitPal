@@ -1,8 +1,5 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
-import{BrowserRouter,Routes,Route} from 'react-router-dom'
+import{BrowserRouter,Routes,Route, useLocation} from 'react-router-dom'
 import img_nos from './assets/img/img-6.jpg'
 import img_plan from './assets/img/img-7.jpg'
 import img_nov from './assets/img/img-8.jpg'
@@ -17,18 +14,16 @@ import Login from './components/Login/Login.jsx'
 import AdminHome from "./components/Home/AdminHome.jsx";
 import ClienteHome from "./components/Home/ClienteHome.jsx";
 
-
 const API = import.meta.env.VITE_API_URL;
 
-function App() {
+function AppContent() {
+  const location = useLocation();
+  const hideNavbar = location.pathname === '/admin' || location.pathname === '/cliente';
 
-
-  
   return (
     <div className="d-flex flex-column min-vh-100">   
-      <BrowserRouter>
-        <NavBar />
-        <Routes>
+      {!hideNavbar && <NavBar />}
+      <Routes>
           <Route path='/' element={<HomeListContainer/>}/>
           <Route path='/nosotros' element={<ContainerNosotros titulo="Nuestra Historia" imagen={img_nos}/>}/>
           <Route path='/planes' element={<ContainerPlan titulo="Planes de Entrenamiento" imagen={img_plan}/>}/>
@@ -36,11 +31,19 @@ function App() {
           <Route path='/login' element={<Login/>}/>
           <Route path='/admin' element={<AdminHome/>}/>
           <Route path="/cliente" element={<ClienteHome />} />
-        </Routes>
-        <Footer/>
-      </BrowserRouter>
+      </Routes>
+      {!hideNavbar && <Footer/>}
     </div>
   )
 }
 
+function App() {
+  return (
+    <BrowserRouter>
+      <AppContent />
+    </BrowserRouter>
+  )
+}
+
 export default App
+
