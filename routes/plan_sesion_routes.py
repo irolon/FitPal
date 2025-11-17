@@ -22,6 +22,25 @@ def obtener_sesiones_cliente(cliente_id):
         return jsonify({"error": str(e)}), 500
 
 
+@plan_sesion_bp.route('/sesion/<int:sesion_id>/estado', methods=['PUT'])
+def actualizar_estado_sesion(sesion_id):
+    try:
+        data = request.get_json()
+        estado = data.get('estado', False)  # True para completado, False para pendiente
+        
+        service = SesionService('data_base/db_fitpal.db')
+        resultado = service.actualizar_estado(sesion_id, estado)
+        
+        if resultado:
+            return jsonify({"message": "Estado actualizado correctamente", "estado": estado}), 200
+        else:
+            return jsonify({"error": "No se pudo actualizar el estado"}), 400
+            
+    except Exception as e:
+        print(f"Error en actualizar_estado_sesion: {str(e)}")
+        return jsonify({"error": str(e)}), 500
+
+
 # @plan_sesion_bp.route('/', methods=['POST'])
 # def crear_plan_sesion():
 #     try:

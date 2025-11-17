@@ -46,3 +46,10 @@ class SesionService:
         except Exception as e:
             print(f"Error en obtener_por_cliente_id del servicio de Sesion: {e}")
             return None
+    
+    def actualizar_estado(self, sesion_id, estado):
+        try:
+            return self.repo.actualizar_estado(sesion_id, estado)
+        except Exception as e:
+            print(f"Error en actualizar_estado del servicio de Sesion: {e}")
+            return False

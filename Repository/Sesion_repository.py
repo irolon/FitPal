@@ -64,3 +64,11 @@ class SesionRepository(BaseRepository):
         except Exception as e:
             print(f"Error al obtener sesiones por cliente_id: {e}")
             return None
+    
+    def actualizar_estado(self, sesion_id, estado):
+        try:
+            resultado = self.sesiones_dao.actualizar_estado(sesion_id, estado)
+            return resultado
+        except Exception as e:
+            print(f"Error al actualizar estado de sesión: {e}")
+            return False

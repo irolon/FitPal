@@ -102,3 +102,15 @@ class SesionesDAO(BaseDAO):
         except Exception as e:
             print(f"Error al obtener las sesiones por cliente_id: {e}")
             return []
+    
+    def actualizar_estado(self, sesion_id: int, estado: bool) -> bool:
+        try:
+            self.cur.execute(
+                """UPDATE sesion SET estado = ? WHERE id = ?""",
+                (estado, sesion_id)
+            )
+            self.conn.commit()
+            return True
+        except Exception as e:
+            print(f"Error al actualizar estado de la sesión: {e}")
+            return False

@@ -9,11 +9,34 @@ const CardTablaSesiones = ({ sesiones }) => {
   // Estado para manejar el estado de cada sesión individualmente
   const [estadosSesiones, setEstadosSesiones] = useState({});
 
-  const handleEstadoChange = (sesionId, nuevoEstado) => {
-    setEstadosSesiones(prev => ({
-      ...prev,
-      [sesionId]: nuevoEstado
-    }));
+  const handleEstadoChange = async (sesionId, nuevoEstado) => {
+    try {
+      const estadoBoolean = nuevoEstado === 'Completado';
+      
+      // Hacer la llamada HTTP para actualizar en la base de datos
+      const response = await fetch(`http://localhost:5000/api/plan_sesion/sesion/${sesionId}/estado`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ estado: estadoBoolean })
+      });
+
+      if (response.ok) {
+        // Solo actualizar el estado local si la llamada HTTP fue exitosa
+        setEstadosSesiones(prev => ({
+          ...prev,
+          [sesionId]: nuevoEstado
+        }));
+        console.log(`Estado de sesión ${sesionId} actualizado a: ${nuevoEstado}`);
+      } else {
+        console.error('Error al actualizar el estado en la base de datos');
+        alert('Error al actualizar el estado. Inténtalo de nuevo.');
+      }
+    } catch (error) {
+      console.error('Error de conexión:', error);
+      alert('Error de conexión. Verifica tu conexión a internet.');
+    }
   }
 
 
