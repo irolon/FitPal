@@ -34,6 +34,9 @@ class SesionService:
     def list(self): 
         return self.repo.list()
     
+    def delete(self, sesion_id):
+        return self.repo.delete(sesion_id)
+    
     def update_completa(self, sesion, ejercicios):
         try:
             self.conn.execute("BEGIN")

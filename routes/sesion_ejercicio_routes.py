@@ -4,12 +4,37 @@ from data_base import Conexion as get_db_connection
 
 sesion_ejercicio_bp = Blueprint('sesion_ejercicio_bp', __name__, url_prefix='/api/sesion_ejercicio')
 
-@sesion_ejercicio_bp.route('/', methods=['GET'])
-def listar_sesiones_ejercicio():
+# Listar ejercicios de una sesión específica
+@sesion_ejercicio_bp.route('/<int:sesion_id>', methods=['GET'])
+def listar_ejercicios_por_sesion(sesion_id):
     try:
         service = SesionEjercicioService(get_db_connection())
-        sesiones = service.obtener_todos()
-        return jsonify([s.__dict__ for s in sesiones]) if sesiones else jsonify([]), 200
+        ejercicios = service.obtener_por_sesion(sesion_id)
+        return jsonify([e.__dict__ for e in ejercicios]) if ejercicios else jsonify([]), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+# Agregar ejercicio a sesión
+@sesion_ejercicio_bp.route('/<int:sesion_id>', methods=['POST'])
+def agregar_ejercicio_a_sesion(sesion_id):
+    try:
+        data = request.get_json()
+        ejercicio_id = data.get('ejercicio_id')
+        service = SesionEjercicioService(get_db_connection())
+        service.agregar(sesion_id, ejercicio_id)
+        return jsonify({"mensaje": "Ejercicio agregado"}), 201
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+# Quitar ejercicio de sesión
+@sesion_ejercicio_bp.route('/<int:sesion_id>/<int:ejercicio_id>', methods=['DELETE'])
+def quitar_ejercicio_de_sesion(sesion_id, ejercicio_id):
+    try:
+        service = SesionEjercicioService(get_db_connection())
+        service.eliminar(sesion_id, ejercicio_id)
+        return jsonify({"mensaje": "Ejercicio quitado"}), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 

@@ -21,6 +21,8 @@ import AdminEjercicios from './components/Rutas/AdminEjercicios.jsx'
 import CrearEjercicio from "./components/Rutas/CrearEjercicio.jsx";
 import EditarEjercicio from "./components/Rutas/EditarEjercicio.jsx";
 import AdminSesiones from "./components/Rutas/AdminSesiones.jsx";
+import AdminSesionEditar from "./components/Rutas/AdminSesionEditar.jsx";
+
 
 const API = import.meta.env.VITE_API_URL;
 
@@ -48,7 +50,8 @@ function AppContent() {
           <Route path='/cliente/:id/sesiones' element={<ProtectedUserRoute><Sesiones /></ProtectedUserRoute>} />
           <Route path='/cliente/:id/sesiones/ejercicios' element={<ProtectedUserRoute><Ejercicios /></ProtectedUserRoute>} />
           <Route path='/admin/ejercicios' element={<ProtectedAdminRoute><AdminEjercicios /></ProtectedAdminRoute>} />
-          <Route path='/admin/sesiones' element={<ProtectedAdminRoute><AdminSesiones /></ProtectedAdminRoute>} />            
+          <Route path='/admin/sesiones' element={<ProtectedAdminRoute><AdminSesiones /></ProtectedAdminRoute>} />   
+          <Route path="/admin/sesiones/:id/editar" element={<ProtectedAdminRoute><AdminSesionEditar /></ProtectedAdminRoute>} />         
           <Route path="/admin/ejercicios/crear" element={<CrearEjercicio />} />
           <Route path="/admin/ejercicios/:id/editar" element={<EditarEjercicio />} />
       </Routes>
