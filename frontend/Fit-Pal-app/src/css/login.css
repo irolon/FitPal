@@ -7,6 +7,7 @@
     box-shadow: 0 0 30px rgba(0,0,0,.2);
     margin: 20px;
     overflow: hidden;
+    z-index: 1;
 }
 
 .form-box{
@@ -20,7 +21,7 @@
     color: #333;
     text-align: center;
     padding: 40px;
-    z-index: 1;
+    z-index: 3;
     transition: .6s ease-in-out .8s, visibility 0s 1s;
 }
 
@@ -59,7 +60,6 @@ form{
 
 .input-box input::placeholder{
     color: #888;
-    font-weight: 400;
 }
 
 .input-box i {
@@ -75,22 +75,25 @@ form{
     margin: -15px 0 15px;
 }
 
-.forgot-link a {
+.btn-link-forgot {
+    background: none;
+    border: none;
     font-size: 14px;
     color: #333;
-    text-decoration: none;
+    text-decoration: underline;
+    cursor: pointer;
 }
 .btn-login{
     width: 100%;
     height: 48px;
     background: #a36666;
     border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0,0,0,.1);
     border: none;
     cursor: pointer;
     font-size: 15px;
     color: white;
     font-weight: 600;
+    box-shadow: 0 0 10px rgba(0,0,0,.1);
 }
 
 .toggle-box{
@@ -124,7 +127,7 @@ form{
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    z-index: 2;
+    z-index: 3;
     transition: .6s ease-in-out;
 }
 .toggle-panel.toggle-left{
@@ -153,35 +156,24 @@ form{
     height: 45px;
     background: transparent;
     border: 2px solid white;
-    box-shadow: none;
     color: white;
+    border-radius: 10px;
 }
 .toggle-panel .register-btn:hover{
     background: white;
     color: #a36666;
-    transition: .3s;
-}
-.register-btn{
-    color: white;
-}
-.register-btn:hover{
-    background: white;
-    color: #a36666;
-    transition: .3s;
 }
 .login-btn{
     width: 160px;
     height: 45px;
-    border-radius: 10px;
     background: transparent;
     border: 2px solid white;
-    box-shadow: none;
     color: white;
+    border-radius: 10px;
 }
 .login-btn:hover{
     background: white;
     color: #a36666;
-    transition: .3s;
 }
 @media screen and (max-width: 650px) {
     .div-container-login{
@@ -248,3 +240,45 @@ form{
     }
 }
 
+.fp-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.55);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+}
+
+.fp-modal {
+    background: #fff;
+    padding: 24px;
+    border-radius: 20px;
+    max-width: 400px;
+    width: 90%;
+    text-align: center;
+}
+
+.fp-modal-title {
+    font-size: 1.4rem;
+    font-weight: bold;
+}
+
+.fp-modal-text {
+    margin-top: 10px;
+    color: #444;
+}
+
+.fp-modal-email {
+    font-weight: bold;
+}
+
+.fp-modal-button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    border: 2px solid #333;
+    background: white;
+    color: #333;
+    border-radius: 12px;
+    font-weight: bold;
+}
