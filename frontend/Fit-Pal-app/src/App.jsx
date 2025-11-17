@@ -16,6 +16,7 @@ import ClienteHome from "./components/Home/ClienteHome.jsx";
 import {ProtectedUserRoute, ProtectedAdminRoute } from './components/ProtectedRoute/ProtectedRoute.jsx'
 import Planes from './components/Rutas/Planes.jsx'
 import Sesiones from './components/Rutas/Sesiones.jsx'
+import Ejercicios from './components/Rutas/Ejercicios.jsx'
 
 const API = import.meta.env.VITE_API_URL;
 
@@ -23,7 +24,8 @@ function AppContent() {
   const location = useLocation();
   const hideNavbar = location.pathname === '/admin' || 
                      location.pathname === '/cliente' || 
-                     location.pathname.startsWith('/cliente/') && (location.pathname.includes('/planes') || location.pathname.includes('/sesiones'));
+                     location.pathname.startsWith('/cliente/') && (location.pathname.includes('/planes') || 
+                     location.pathname.includes('/sesiones') || location.pathname.includes('/ejercicios'));
 
   return (
     <div className="d-flex flex-column min-vh-100">   
@@ -38,6 +40,7 @@ function AppContent() {
           <Route path="/cliente" element={<ProtectedUserRoute><ClienteHome /></ProtectedUserRoute>} />
           <Route path='/cliente/:id/planes' element={<ProtectedUserRoute><Planes /></ProtectedUserRoute>} />
           <Route path='/cliente/:id/sesiones' element={<ProtectedUserRoute><Sesiones /></ProtectedUserRoute>} />
+          <Route path='/cliente/:id/sesiones/ejercicios' element={<ProtectedUserRoute><Ejercicios /></ProtectedUserRoute>} />
       </Routes>
       {!hideNavbar && <Footer/>}
     </div>

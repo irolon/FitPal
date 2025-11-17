@@ -2,6 +2,7 @@ from Repository.BaseRepository import BaseRepository
 from Model.Ejercicio import Ejercicio
 from DAO.Ejercicio_DAO import EjercicioDAO
 from data_base.Conexion import Conexion
+from typing import List, Optional
 import sqlite3
 
 
@@ -22,10 +23,10 @@ class EjercicioRepository(BaseRepository):
         )
         return self.dao.insertar(nuevo)
 
-    def obtener_todos(self) -> list[Ejercicio]:
+    def obtener_todos(self) -> List[Ejercicio]:
         return self.dao.obtener_todos()
 
-    def obtener_por_id(self, id: int) -> Ejercicio | None:
+    def obtener_por_id(self, id: int) -> Optional[Ejercicio]:
         return self.dao.obtener_por_id(id)
 
     def actualizar_ejercicio(self, id: int, categoria: str, nombre: str, descripcion: str,

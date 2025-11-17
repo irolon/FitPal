@@ -25,20 +25,10 @@ def obtener_sesiones_cliente(cliente_id):
 @plan_sesion_bp.route('/cliente/<int:cliente_id>/sesion/<int:sesion_id>/estado', methods=['PUT'])
 def actualizar_progreso_sesion(cliente_id, sesion_id):
     try:
-        print(f"=== DEBUG: actualizar_progreso_sesion ===")
-        print(f"cliente_id: {cliente_id}, sesion_id: {sesion_id}")
-        
         data = request.get_json()
-        print(f"data recibida: {data}")
-        
-        estado = data.get('estado', False)  # True para completado, False para pendiente
-        print(f"estado a actualizar: {estado}")
-        
-        service = ProgresoSesionService('data_base/db_fitpal.db')
-        print(f"Servicio creado, llamando a actualizar_progreso_sesion...")
-        
+        estado = data.get('estado', False)  
+        service = ProgresoSesionService('data_base/db_fitpal.db') 
         resultado = service.actualizar_progreso_sesion(cliente_id, sesion_id, estado)
-        print(f"Resultado del servicio: {resultado}")
         
         if resultado:
             return jsonify({

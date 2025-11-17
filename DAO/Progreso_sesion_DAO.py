@@ -29,7 +29,7 @@ class ProgresoSesionDAO(BaseDAO):
             rows = self.cur.fetchall()
             progreso = {}
             for row in rows:
-                progreso[row[0]] = {  # sesion_id como key
+                progreso[row[0]] = { 
                     'estado': row[1],
                     'fecha_completado': row[2]
                 }
@@ -40,8 +40,6 @@ class ProgresoSesionDAO(BaseDAO):
 
     def actualizar_o_crear_progreso(self, cliente_id: int, sesion_id: int, estado: bool):
         try:
-            print(f"=== DEBUG DAO: actualizar_o_crear_progreso ===")
-            print(f"Parámetros: cliente_id={cliente_id}, sesion_id={sesion_id}, estado={estado}")
             
             # Verificar si ya existe
             self.cur.execute("""
@@ -50,11 +48,9 @@ class ProgresoSesionDAO(BaseDAO):
             """, (cliente_id, sesion_id))
             
             existe = self.cur.fetchone()
-            print(f"Registro existente: {existe}")
             
             if existe:
                 # Actualizar existente
-                print("Actualizando registro existente...")
                 self.cur.execute("""
                     UPDATE progreso_sesion 
                     SET estado = ?, 
@@ -73,7 +69,6 @@ class ProgresoSesionDAO(BaseDAO):
                 """, (cliente_id, sesion_id, estado, estado))
             
             self.conn.commit()
-            print("Commit realizado exitosamente")
             return True
         except Exception as e:
             print(f"ERROR en DAO actualizar_progreso: {e}")
@@ -112,7 +107,6 @@ class ProgresoSesionDAO(BaseDAO):
 
     # Métodos abstractos requeridos por BaseDAO
     def create(self, progreso_data):
-        # Este método no se usa directamente, usamos actualizar_o_crear_progreso
         pass
     
     def read_by_id(self, id_):
@@ -124,7 +118,6 @@ class ProgresoSesionDAO(BaseDAO):
             return None
     
     def update(self, progreso_data, id_):
-        # Este método no se usa directamente, usamos actualizar_o_crear_progreso
         pass
     
     def delete(self, id_):

@@ -22,7 +22,6 @@ const CardTablaSesiones = ({ sesiones, clienteId }) => {
 
   const handleEstadoChange = async (sesionId, nuevoEstado) => {
     try {
-      console.log('handleEstadoChange llamado:', { sesionId, nuevoEstado, clienteId });
       
       // Validar que clienteId existe
       if (!clienteId) {
@@ -48,7 +47,6 @@ const CardTablaSesiones = ({ sesiones, clienteId }) => {
           ...prev,
           [sesionId]: nuevoEstado
         }));
-        console.log(`Estado de sesión ${sesionId} actualizado a: ${nuevoEstado}`);
       } else {
         const errorText = await response.text();
         console.error('Error al actualizar el estado:', response.status, errorText);
@@ -79,7 +77,7 @@ const CardTablaSesiones = ({ sesiones, clienteId }) => {
             <tbody>
               {sesionesArray.length === 0 ? (
                 <tr>
-                  <td colSpan="3" className="text-center">
+                  <td colSpan="5" className="text-center">
                     No tenés sesiones de entrenamiento asignadas aún.
                   </td>
                 </tr>
@@ -108,7 +106,7 @@ const CardTablaSesiones = ({ sesiones, clienteId }) => {
                       </span>
                     </td>
                     <td>
-                      <Link to={`/cliente/sesiones/${sesion.id}`} className="btn btn-info">Ver Detalle</Link>
+                      <Link to={`/cliente/${clienteId}/sesiones/ejercicios`} className="btn btn-info">Ver Detalle</Link>
                     </td>
                   </tr>
                 ))

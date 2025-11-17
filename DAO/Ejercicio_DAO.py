@@ -1,5 +1,6 @@
 from DAO.Base_DAO import BaseDAO
 from Model.Ejercicio import Ejercicio
+from typing import List, Optional
 
 class EjercicioDAO(BaseDAO):
     
@@ -20,7 +21,7 @@ class EjercicioDAO(BaseDAO):
         except Exception as e:
             print(f"Error al crear la tabla ejercicios: {e}")
     
-    def create(self, e: Ejercicio) -> int | None:
+    def create(self, e: Ejercicio) -> Optional[int]:
         try:
             self.cur.execute("""
                 INSERT INTO ejercicios (categoria, nombre, descripcion, repeticiones, series, descanso)
@@ -32,7 +33,7 @@ class EjercicioDAO(BaseDAO):
             print(f"Error al crear el ejercicio: {ex}")
             return None
     
-    def read_by_id(self, id_: int) -> Ejercicio | None:
+    def read_by_id(self, id_: int) -> Optional[Ejercicio]:
         try:
             self.cur.execute("""
                 SELECT id, categoria, nombre, descripcion, repeticiones, series, descanso
@@ -54,7 +55,7 @@ class EjercicioDAO(BaseDAO):
             print(f"Error al leer ejercicio por id: {ex}")
             return None
 
-    def update(self, e: Ejercicio, id_: int) -> int | None:
+    def update(self, e: Ejercicio, id_: int) -> Optional[int]:
         try:
             self.cur.execute("""
                 UPDATE ejercicios
@@ -73,7 +74,7 @@ class EjercicioDAO(BaseDAO):
         except Exception as ex:
             print(f"Error al eliminar ejercicio: {ex}")
     
-    def list(self) -> list[Ejercicio]:
+    def list(self) -> List[Ejercicio]:
         try:
             self.cur.execute("""
                 SELECT id, categoria, nombre, descripcion, repeticiones, series, descanso
@@ -95,3 +96,33 @@ class EjercicioDAO(BaseDAO):
         except Exception as ex:
             print(f"Error al listar ejercicios: {ex}")
             return []
+    
+    def obtener_todos(self) -> List[Ejercicio]:
+        """Alias para el método list para mantener compatibilidad"""
+        return self.list()
+    
+    def obtener_por_id(self, id_: int) -> Optional[Ejercicio]:
+        """Alias para el método read_by_id para mantener compatibilidad"""
+        return self.read_by_id(id_)
+    
+    def insertar(self, e: Ejercicio) -> Optional[int]:
+        """Alias para el método create para mantener compatibilidad"""
+        return self.create(e)
+    
+    def actualizar(self, e: Ejercicio) -> bool:
+        """Actualiza un ejercicio usando su ID"""
+        try:
+            self.update(e, e.id)
+            return True
+        except Exception as ex:
+            print(f"Error al actualizar ejercicio: {ex}")
+            return False
+    
+    def eliminar(self, id_: int) -> bool:
+        """Elimina un ejercicio por ID"""
+        try:
+            self.delete(id_)
+            return True
+        except Exception as ex:
+            print(f"Error al eliminar ejercicio: {ex}")
+            return False

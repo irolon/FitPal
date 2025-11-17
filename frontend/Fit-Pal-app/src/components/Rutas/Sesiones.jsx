@@ -19,8 +19,7 @@ const Sesiones = () => {
         .then((data) => {
             if (Array.isArray(data)) {
                 setSesiones(data);
-                console.log(data);
-                console.log(sesiones);
+
                 
             } else {
                 console.error("Datos de sesiones no son un array:", data);
