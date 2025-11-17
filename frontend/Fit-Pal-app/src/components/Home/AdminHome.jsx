@@ -22,17 +22,7 @@ const AdminHome = () => {
 
       <div className="row g-4">
 
-        <div className="col-12 col-md-4">
-          <div className="card-fitpal h-100 d-flex flex-column">
-            <h5>Usuarios</h5>
-            <p className="flex-grow-1">
-              Administrá las cuentas de clientes y administradores.
-            </p>
-            <div className="card-button-center">
-              <button className="btn-fitpal">Gestionar usuarios</button>
-            </div>
-          </div>
-        </div>
+
 
         <div className="col-12 col-md-4">
           <div className="card-fitpal h-100 d-flex flex-column">
@@ -48,12 +38,24 @@ const AdminHome = () => {
 
         <div className="col-12 col-md-4">
           <div className="card-fitpal h-100 d-flex flex-column">
+            <h5>Sesiones</h5>
+            <p className="flex-grow-1">
+              Creá o editá sesiones de entrenamiento para cargar en los Planes.
+            </p>
+            <div className="card-button-center">
+              <button className="btn-fitpal">Gestionar sesiones</button>
+            </div>
+          </div>
+        </div>
+
+                <div className="col-12 col-md-4">
+          <div className="card-fitpal h-100 d-flex flex-column">
             <h5>Ejercicios</h5>
             <p className="flex-grow-1">
               Mantené actualizado el catálogo de ejercicios disponibles.
             </p>
             <div className="card-button-center">
-              <button className="btn-fitpal">Gestionar ejercicios</button>
+              <button className="btn-fitpal">Gestionar Ejercicios</button>
             </div>
           </div>
         </div>
@@ -64,12 +66,12 @@ const AdminHome = () => {
 
         <div className="col-12 col-md-4">
           <div className="card-fitpal h-100 d-flex flex-column">
-            <h5>Reportes</h5>
+            <h5>Usuarios</h5>
             <p className="flex-grow-1">
-              Visualizá métricas generales del sistema y progreso global.
+              Administrá las cuentas de clientes y administradores.
             </p>
             <div className="card-button-center">
-              <button className="btn-fitpal">Ver reportes</button>
+              <button className="btn-fitpal">Gestionar usuarios</button>
             </div>
           </div>
         </div>
