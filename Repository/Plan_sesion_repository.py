@@ -55,3 +55,11 @@ class PlanSesionRepository(BaseRepository):
         except Exception as e:
             print(f"Error al eliminar el plan de sesión: {e}")
             return None
+    
+    def get_by_cliente_id(self, cliente_id):
+        try:
+            planes_sesion = self.plan_sesion_dao.read_by_cliente_id(cliente_id)
+            return planes_sesion if planes_sesion else []
+        except Exception as e:
+            print(f"Error al obtener planes de sesión por cliente_id: {e}")
+            return []

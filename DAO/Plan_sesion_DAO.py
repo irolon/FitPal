@@ -18,12 +18,12 @@ class PlanSesionDAO(BaseDAO):
         except Exception as e:
             print(f"Error al crear la tabla plan_sesion: {e}")
 
-    def create(self, plan_entrenamiento_id: int, sesion_id: int) -> int:
+    def create(self, plan_entrenamiento_id: int, sesion_id: int, orden: int = 1) -> int:
         try:
             self.cur.execute(
-                """INSERT INTO plan_sesion(plan_entrenamiento_id, sesion_id) 
-                   VALUES (?,?)""",
-                (plan_entrenamiento_id, sesion_id)
+                """INSERT INTO plan_sesion(plan_entrenamiento_id, sesion_id, orden) 
+                   VALUES (?,?,?)""",
+                (plan_entrenamiento_id, sesion_id, orden)
             )
             self.conn.commit()
             return self.cur.lastrowid
@@ -84,5 +84,29 @@ class PlanSesionDAO(BaseDAO):
         except Exception as e:
             print(f"Error al listar los planes de sesión: {e}")
             return None
+    
+    def read_by_cliente_id(self, cliente_id: int):
+        try:
+            self.cur.execute("""
+                SELECT ps.id, ps.plan_entrenamiento_id, ps.sesion_id, ps.orden 
+                FROM plan_sesion ps
+                JOIN plan_entrenamiento pe ON ps.plan_entrenamiento_id = pe.id
+                WHERE pe.cliente_id = ?
+            """, (cliente_id,))
+            rows = self.cur.fetchall()
+            planes_sesiones = []
+            for row in rows:
+                planes_sesiones.append(
+                    PlanSesion(
+                        plan_id=row[1],
+                        sesion_id=row[2],
+                        orden=row[3],
+                        id=row[0]
+                    )
+                )
+            return planes_sesiones
+        except Exception as e:
+            print(f"Error al buscar planes de sesión por cliente_id: {e}")
+            return []
         
     

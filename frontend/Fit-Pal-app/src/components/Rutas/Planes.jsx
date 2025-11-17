@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import CardTablaPlanes from "../Cards/CardTablaPlanes.jsx";
 
 const Planes = () => {
-  const { id } = useParams();          // <- esto toma el :id de la ruta
+  const { id } = useParams();        
   const [planes, setPlanes] = useState([]);
 
   useEffect(() => {
@@ -17,17 +17,16 @@ const Planes = () => {
         return res.json();
       })
       .then((data) => {
-        // Validar que data sea un array
         if (Array.isArray(data)) {
           setPlanes(data);
         } else {
           console.error("Los datos recibidos no son un array:", data);
-          setPlanes([]); // Establecer array vacío como fallback
+          setPlanes([]); 
         }
       })
       .catch((err) => {
         console.error("Error al traer planes:", err);
-        setPlanes([]); // Establecer array vacío en caso de error
+        setPlanes([]); 
       });
   }, [id]);
 

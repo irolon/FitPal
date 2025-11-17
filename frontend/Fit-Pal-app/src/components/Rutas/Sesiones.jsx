@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import CardTablaSesiones from "../Cards/CardTablaSesiones.jsx";
 
 const Sesiones = () => {
-    const { id } = useParams();  // <- esto toma el :id de la ruta
+    const { id } = useParams();  
     const [sesiones, setSesiones] = useState([]);
 
     useEffect(() => {
@@ -17,11 +17,14 @@ const Sesiones = () => {
             return res.json();
         })
         .then((data) => {
-            // Validar que data sea un array
             if (Array.isArray(data)) {
                 setSesiones(data);
+                console.log(data);
+                console.log(sesiones);
+                
             } else {
                 console.error("Datos de sesiones no son un array:", data);
+                setSesiones([]);
             }
         })
         .catch((error) => {

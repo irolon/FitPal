@@ -1,9 +1,22 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { Link } from 'react-router-dom';
+
 
 const CardTablaSesiones = ({ sesiones }) => {
   // Validar que sesiones sea un array
   const sesionesArray = Array.isArray(sesiones) ? sesiones : [];
   
+  // Estado para manejar el estado de cada sesión individualmente
+  const [estadosSesiones, setEstadosSesiones] = useState({});
+
+  const handleEstadoChange = (sesionId, nuevoEstado) => {
+    setEstadosSesiones(prev => ({
+      ...prev,
+      [sesionId]: nuevoEstado
+    }));
+  }
+
+
   return (
     <div className="container vh-100 d-flex flex-column align-items-center justify-content-center">
           <h1 className="mb-4">Mis Sesiones de Entrenamiento</h1>
@@ -12,9 +25,11 @@ const CardTablaSesiones = ({ sesiones }) => {
           <table className="table table-striped table-dark">
             <thead>
               <tr>
-                <th>Nombre de la Sesión</th>
-                <th>Fecha</th>
+                <th>Nombre</th>
+                <th>Descripcion</th>
+                <th>Progreso</th>
                 <th>Estado</th>
+                <th>Detalle</th>
               </tr>
             </thead>
             <tbody>
@@ -28,8 +43,29 @@ const CardTablaSesiones = ({ sesiones }) => {
                 sesionesArray.map((sesion) => (
                   <tr key={sesion.id}>
                     <td>{sesion.nombre}</td>
-                    <td>{sesion.fecha}</td>
-                    <td>{sesion.estado}</td>
+                    <td>{sesion.descripcion}</td>
+                    <td>
+                      <button 
+                        className='btn btn-warning me-2' 
+                        onClick={() => handleEstadoChange(sesion.id, 'Pendiente')}
+                      >
+                        Pendiente
+                      </button>
+                      <button 
+                        className='btn btn-success' 
+                        onClick={() => handleEstadoChange(sesion.id, 'Completado')}
+                      >
+                        Completado
+                      </button>
+                    </td>
+                    <td>
+                      <span className={`badge ${estadosSesiones[sesion.id] === 'Completado' ? 'bg-success' : estadosSesiones[sesion.id] === 'Pendiente' ? 'bg-warning' : 'bg-secondary'}`}>
+                        {estadosSesiones[sesion.id] || (sesion.estado ? 'Completado' : 'Pendiente')}
+                      </span>
+                    </td>
+                    <td>
+                      <Link to={`/cliente/sesiones/${sesion.id}`} className="btn btn-info">Ver Detalle</Link>
+                    </td>
                   </tr>
                 ))
               )}

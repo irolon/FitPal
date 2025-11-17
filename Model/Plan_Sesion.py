@@ -8,3 +8,11 @@ class PlanSesion:
         
     def mostrarDatos(self):
         return f"ID: {self.id}, Plan ID: {self.plan_id}, Sesion ID: {self.sesion_id}, Orden: {self.orden}"
+    
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'plan_id': self.plan_id,
+            'sesion_id': self.sesion_id,
+            'orden': self.orden
+        }

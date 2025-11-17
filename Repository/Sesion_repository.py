@@ -56,3 +56,11 @@ class SesionRepository(BaseRepository):
         except Exception as e:
             print(f"Error al eliminar la sesión: {e}")
             return None
+        
+    def obtener_por_cliente_id(self, cliente_id):
+        try:
+            sesiones = self.sesiones_dao.obtener_por_cliente_id(cliente_id)
+            return sesiones
+        except Exception as e:
+            print(f"Error al obtener sesiones por cliente_id: {e}")
+            return None

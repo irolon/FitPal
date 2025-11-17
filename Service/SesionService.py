@@ -7,35 +7,42 @@ class SesionService:
 
     def get_by_id(self, sesion_id):
         try:
-            return self.sesion_repository.get_by_id(sesion_id)
+            return self.repo.get_by_id(sesion_id)
         except Exception as e:
             print(f"Error en get_by_id del servicio de Sesion: {e}")
             return None
 
     def list(self):
         try:
-            return self.sesion_repository.list()
+            return self.repo.list()
         except Exception as e:
             print(f"Error en list del servicio de Sesion: {e}")
             return []
 
     def add(self, sesion):
         try:
-            return self.sesion_repository.add(sesion)
+            return self.repo.add(sesion)
         except Exception as e:
             print(f"Error en add del servicio de Sesion: {e}")
             return None
 
     def update(self, sesion):
         try:
-            return self.sesion_repository.update(sesion)
+            return self.repo.update(sesion)
         except Exception as e:
             print(f"Error en update del servicio de Sesion: {e}")
             return None
 
     def delete(self, sesion_id):
         try:
-            return self.sesion_repository.delete(sesion_id)
+            return self.repo.delete(sesion_id)
         except Exception as e:
             print(f"Error en delete del servicio de Sesion: {e}")
+            return None
+
+    def obtener_por_cliente_id(self, cliente_id):
+        try:
+            return self.repo.obtener_por_cliente_id(cliente_id)
+        except Exception as e:
+            print(f"Error en obtener_por_cliente_id del servicio de Sesion: {e}")
             return None
