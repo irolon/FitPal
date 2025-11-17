@@ -40,9 +40,16 @@ const AdminEjercicios = ({ ejercicios }) => {
     }
   };
 
+<<<<<<< HEAD
   // ---- FILTRADO ----
   const ejerciciosFiltrados = useMemo(() => {
     if (!search.trim()) return ejercicios;
+=======
+  return (
+    <div className="container d-flex flex-column align-items-center justify-content-center">
+      <h1 className="mb-4">Gestión de Ejercicios (Admin)</h1>
+      <p>Aquí podés administrar los ejercicios del sistema.</p>
+>>>>>>> 8a621c4fa36f8da0a81f4ed6d9b23e9a2bb46202
 
     const s = search.toLowerCase();
 
