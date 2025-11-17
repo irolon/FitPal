@@ -154,19 +154,20 @@ def admin_eliminar_ejercicio(ejercicio_id):
 
 
 # ============================================================
-# GET /ejercicios/<id> - Obtener ejercicio por ID
+# GET /api/admin/ejercicios/<id> - Obtener ejercicio por ID (ADMIN)
 # ============================================================
 @ejercicios_bp.route("/ejercicios/<int:ejercicio_id>", methods=["GET"])
-def obtener_por_id(ejercicio_id):
+@ejercicios_bp.route("/admin/ejercicios/<int:ejercicio_id>", methods=["GET"])
+def admin_obtener_por_id(ejercicio_id):
     try:
         service = EjercicioService(DB_PATH)
         resultado = service.obtener_por_id(ejercicio_id)
 
         if not resultado:
             return jsonify({"error": "Ejercicio no encontrado"}), 404
-        
+
         return jsonify(resultado), 200
 
     except Exception as e:
-        print(f"Error obtener_por_id: {str(e)}")
+        print(f"Error admin_obtener_por_id: {str(e)}")
         return jsonify({"error": str(e)}), 500
