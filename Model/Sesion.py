@@ -1,4 +1,3 @@
-import datetime
 
 class Sesion:
     def __init__(self, nombre: str, descripcion: str, id: int | None = None):

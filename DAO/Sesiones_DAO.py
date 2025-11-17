@@ -35,14 +35,17 @@ class SesionesDAO(BaseDAO):
             row = self.cur.fetchone()
             if not row:
                 return None
-            return Sesion(
+            ses = Sesion(
                 nombre=row[1],
                 descripcion=row[2],
                 id=row[0]
             )
+            ses.estado = row[3]
+            return ses
         except Exception as e:
             print(f"Error al leer la sesión por id: {e}")
             return None
+        
     def delete(self, id_: int) -> None:
         try:
             self.cur.execute("""DELETE FROM sesion WHERE id = ?""", (id_,))
@@ -114,3 +117,4 @@ class SesionesDAO(BaseDAO):
         except Exception as e:
             print(f"Error al actualizar estado de la sesión: {e}")
             return False
+        

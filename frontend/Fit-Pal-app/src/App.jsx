@@ -20,6 +20,7 @@ import Ejercicios from './components/Rutas/Ejercicios.jsx'
 import AdminEjercicios from './components/Rutas/AdminEjercicios.jsx'
 import CrearEjercicio from "./components/Rutas/CrearEjercicio.jsx";
 import EditarEjercicio from "./components/Rutas/EditarEjercicio.jsx";
+import AdminSesiones from "./components/Rutas/AdminSesiones.jsx";
 
 const API = import.meta.env.VITE_API_URL;
 
@@ -29,7 +30,8 @@ function AppContent() {
                      location.pathname === '/cliente' || 
                      (location.pathname.startsWith('/cliente/') && (location.pathname.includes('/planes') || 
                      location.pathname.includes('/sesiones') || location.pathname.includes('/ejercicios'))) ||
-                     (location.pathname.startsWith('/admin/') && location.pathname.includes('/ejercicios'));
+                     (location.pathname.startsWith('/admin/') && location.pathname.includes('/ejercicios'))||
+                     (location.pathname.startsWith('/admin/') && location.pathname.includes('/sesiones'));
 
   return (
     <div className="d-flex flex-column min-vh-100">   
@@ -45,7 +47,8 @@ function AppContent() {
           <Route path='/cliente/:id/planes' element={<ProtectedUserRoute><Planes /></ProtectedUserRoute>} />
           <Route path='/cliente/:id/sesiones' element={<ProtectedUserRoute><Sesiones /></ProtectedUserRoute>} />
           <Route path='/cliente/:id/sesiones/ejercicios' element={<ProtectedUserRoute><Ejercicios /></ProtectedUserRoute>} />
-          <Route path='/admin/ejercicios' element={<ProtectedAdminRoute><AdminEjercicios /></ProtectedAdminRoute>} />        
+          <Route path='/admin/ejercicios' element={<ProtectedAdminRoute><AdminEjercicios /></ProtectedAdminRoute>} />
+          <Route path='/admin/sesiones' element={<ProtectedAdminRoute><AdminSesiones /></ProtectedAdminRoute>} />            
           <Route path="/admin/ejercicios/crear" element={<CrearEjercicio />} />
           <Route path="/admin/ejercicios/:id/editar" element={<EditarEjercicio />} />
       </Routes>

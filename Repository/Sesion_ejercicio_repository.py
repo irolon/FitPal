@@ -45,11 +45,22 @@ class SesionEjercicioRepository(BaseRepository):
             print(f"Error al actualizar la sesión de ejercicio: {e}")
             return None
 
+    def obtener_por_sesion(self, sesion_id):
+        try:
+            return self.sesion_ejercicio_dao.obtener_por_sesion(sesion_id)
+        except Exception as e:
+            print(f"Error al obtener ejercicios por sesión: {e}")
+            return []
+
+    def delete_by_sesion(self, sesion_id):
+        try:
+            self.sesion_ejercicio_dao.delete_by_sesion(sesion_id)
+        except Exception as e:
+            print(f"Error al borrar ejercicios de la sesión: {e}")
+
     def delete(self, sesion_ejercicio_id):
         try:
-            sesion_ejercicio_existente = self.sesion_ejercicio_dao.read_by_id(sesion_ejercicio_id)
-            if not sesion_ejercicio_existente:
-                return "Sesión de ejercicio no encontrada"
+            # Usamos el DAO para borrar por id
             self.sesion_ejercicio_dao.delete(sesion_ejercicio_id)
             return "Sesión de ejercicio eliminada con éxito"
         except Exception as e:

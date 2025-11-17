@@ -92,31 +92,37 @@ class SesionEjercicioDAO(BaseDAO):
             print(f"Error al listar las sesiones ejercicios: {e}")
             return None
 
-    def get_ejercicios_por_sesion(self, sesion_id: int):
+    def obtener_por_sesion(self, sesion_id: int):
         try:
             self.cur.execute("""
-                SELECT e.id, e.categoria, e.nombre, e.descripcion, e.repeticiones, e.series, e.descanso
-                FROM ejercicios e
-                JOIN sesion_ejercicio se ON e.id = se.ejercicio_id
-                WHERE se.sesion_id = ?
-                ORDER BY e.categoria, e.nombre
+                SELECT id, sesion_id, ejercicio_id, series, repeticiones, descanso
+                FROM sesion_ejercicio
+                WHERE sesion_id = ?
+                ORDER BY id
             """, (sesion_id,))
             rows = self.cur.fetchall()
             ejercicios = []
             for row in rows:
-                ejercicios.append({
-                    'id': row[0],
-                    'categoria': row[1],
-                    'nombre': row[2],
-                    'descripcion': row[3],
-                    'repeticiones': row[4],
-                    'series': row[5],
-                    'descanso': row[6]
-                })
+                ejercicios.append(SesionEjercicio(
+                    id=row[0],
+                    sesion_id=row[1],
+                    ejercicio_id=row[2],
+                    series=row[3],
+                    repeticiones=row[4],
+                    descanso=row[5]
+                ))
             return ejercicios
         except Exception as e:
             print(f"Error al obtener ejercicios por sesión: {e}")
             return []
+
+    def delete_by_sesion(self, sesion_id: int):
+        try:
+            self.cur.execute("DELETE FROM sesion_ejercicio WHERE sesion_id = ?", (sesion_id,))
+            self.conn.commit()
+        except Exception as e:
+            print(f"Error al eliminar ejercicios de la sesión: {e}")
+        
 
     def get_ejercicios_por_cliente(self, cliente_id: int):
         try:
