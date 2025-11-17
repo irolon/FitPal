@@ -31,7 +31,9 @@ const AdminHome = () => {
               Creá y editá planes de entrenamiento personalizados.
             </p>
             <div className="card-button-center">
-              <button className="btn-fitpal">Gestionar planes</button>
+                  <Link to="/admin/planes" className="btn-fitpal">
+                    Gestionar planes
+                  </Link>
             </div>
           </div>
         </div>
@@ -43,7 +45,9 @@ const AdminHome = () => {
               Creá o editá sesiones de entrenamiento para cargar en los Planes.
             </p>
             <div className="card-button-center">
-              <button className="btn-fitpal">Gestionar sesiones</button>
+                  <Link to="/admin/sesiones" className="btn-fitpal">
+                    Gestionar sesiones
+                  </Link>
             </div>
           </div>
         </div>
@@ -55,7 +59,9 @@ const AdminHome = () => {
               Mantené actualizado el catálogo de ejercicios disponibles.
             </p>
             <div className="card-button-center">
-              <button className="btn-fitpal">Gestionar Ejercicios</button>
+                  <Link to="/admin/ejercicios" className="btn-fitpal">
+                    Gestionar ejercicios
+                  </Link>
             </div>
           </div>
         </div>
@@ -71,7 +77,9 @@ const AdminHome = () => {
               Administrá las cuentas de clientes y administradores.
             </p>
             <div className="card-button-center">
-              <button className="btn-fitpal">Gestionar usuarios</button>
+                  <Link to="/admin/usuarios" className="btn-fitpal">
+                    Gestionar usuarios
+                  </Link>
             </div>
           </div>
         </div>
@@ -83,7 +91,9 @@ const AdminHome = () => {
               Accedé a ajustes generales del sistema y preferencias.
             </p>
             <div className="card-button-center">
-              <button className="btn-fitpal">Configurar</button>
+                  <Link to="/admin/config" className="btn-fitpal">
+                    Configuración
+                  </Link>
             </div>
           </div>
         </div>

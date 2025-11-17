@@ -60,80 +60,89 @@ def obtener_ejercicios_cliente(cliente_id):
         return jsonify({"error": str(e)}), 500
 
 
+# ============================================================
+# ADMIN – Crear Ejercicio  POST /admin/ejercicios
+# ============================================================
+@ejercicios_bp.route("/admin/ejercicios", methods=["POST"])
+def admin_crear_ejercicio():
+    try:
+        data = request.json
+        service = EjercicioService(DB_PATH)
+
+        nuevo_id = service.crear(
+            categoria=data.get("categoria"),
+            nombre=data.get("nombre"),
+            descripcion=data.get("descripcion"),
+            repeticiones=data.get("repeticiones"),
+            series=data.get("series"),
+            descanso=data.get("descanso"),
+            estado=data.get("estado", "Activo")
+        )
+
+        return jsonify({"mensaje": "Ejercicio creado", "id": nuevo_id}), 201
+
+    except Exception as e:
+        print(f"Error admin_crear_ejercicio: {str(e)}")
+        return jsonify({"error": str(e)}), 500
 
 
+# ============================================================
+# ADMIN – Actualizar Ejercicio  PUT /admin/ejercicios/<id>
+# ============================================================
+@ejercicios_bp.route("/admin/ejercicios/<int:ejercicio_id>", methods=["PUT"])
+def admin_editar_ejercicio(ejercicio_id):
+    try:
+        data = request.json
+        service = EjercicioService(DB_PATH)
+
+        service.actualizar(
+            ejercicio_id,
+            categoria=data.get("categoria"),
+            nombre=data.get("nombre"),
+            descripcion=data.get("descripcion"),
+            repeticiones=data.get("repeticiones"),
+            series=data.get("series"),
+            descanso=data.get("descanso"),
+            estado=data.get("estado")
+        )
+
+        return jsonify({"mensaje": "Ejercicio actualizado"}), 200
+
+    except Exception as e:
+        print(f"Error admin_editar_ejercicio: {str(e)}")
+        return jsonify({"error": str(e)}), 500
 
 
+# ============================================================
+# ADMIN – Eliminar Ejercicio  DELETE /admin/ejercicios/<id>
+# ============================================================
+@ejercicios_bp.route("/admin/ejercicios/<int:ejercicio_id>", methods=["DELETE"])
+def admin_eliminar_ejercicio(ejercicio_id):
+    try:
+        service = EjercicioService(DB_PATH)
+        service.eliminar(ejercicio_id)
+
+        return jsonify({"mensaje": "Ejercicio eliminado"}), 200
+
+    except Exception as e:
+        print(f"Error admin_eliminar_ejercicio: {str(e)}")
+        return jsonify({"error": str(e)}), 500
 
 
+# ============================================================
+# GET /ejercicios/<id> - Obtener ejercicio por ID
+# ============================================================
+@ejercicios_bp.route("/ejercicios/<int:ejercicio_id>", methods=["GET"])
+def obtener_por_id(ejercicio_id):
+    try:
+        service = EjercicioService(DB_PATH)
+        resultado = service.obtener_por_id(ejercicio_id)
 
+        if not resultado:
+            return jsonify({"error": "Ejercicio no encontrado"}), 404
+        
+        return jsonify(resultado), 200
 
-
-
-
-
-
-
-
-
-
-
-# # ----------------------------
-# # GET /ejercicios/<id>
-# # ----------------------------
-# @ejercicios_bp.route("/ejercicios/<int:id>", methods=["GET"])
-# def obtener_por_id(id):
-#     resultado = service.obtener_por_id(id)
-#     if "error" in resultado:
-#         return jsonify(resultado), 404
-#     return jsonify(resultado), 200
-
-# # ----------------------------
-# # POST /ejercicios
-# # ----------------------------
-# @ejercicios_bp.route("/ejercicios", methods=["POST"])
-# def crear_ejercicio():
-#     data = request.get_json()
-
-#     categoria = data.get("categoria")
-#     nombre = data.get("nombre")
-#     descripcion = data.get("descripcion", "")
-#     repeticiones = data.get("repeticiones", 0)
-#     series = data.get("series", 0)
-#     descanso = data.get("descanso", 0)
-
-#     resultado = service.crear_ejercicio(categoria, nombre, descripcion, repeticiones, series, descanso)
-
-#     if "error" in resultado:
-#         return jsonify(resultado), 400
-#     return jsonify(resultado), 201
-
-# # ----------------------------
-# # PUT /ejercicios/<id>
-# # ----------------------------
-# @ejercicios_bp.route("/ejercicios/<int:id>", methods=["PUT"])
-# def actualizar_ejercicio(id):
-#     data = request.get_json()
-
-#     categoria = data.get("categoria")
-#     nombre = data.get("nombre")
-#     descripcion = data.get("descripcion", "")
-#     repeticiones = data.get("repeticiones", 0)
-#     series = data.get("series", 0)
-#     descanso = data.get("descanso", 0)
-
-#     resultado = service.actualizar_ejercicio(id, categoria, nombre, descripcion, repeticiones, series, descanso)
-
-#     if "error" in resultado:
-#         return jsonify(resultado), 400
-#     return jsonify(resultado), 200
-
-# # ----------------------------
-# # DELETE /ejercicios/<id>
-# # ----------------------------
-# @ejercicios_bp.route("/ejercicios/<int:id>", methods=["DELETE"])
-# def eliminar_ejercicio(id):
-#     resultado = service.eliminar_ejercicio(id)
-#     if "error" in resultado:
-#         return jsonify(resultado), 404
-#     return jsonify(resultado), 200
+    except Exception as e:
+        print(f"Error obtener_por_id: {str(e)}")
+        return jsonify({"error": str(e)}), 500

@@ -17,6 +17,7 @@ import {ProtectedUserRoute, ProtectedAdminRoute } from './components/ProtectedRo
 import Planes from './components/Rutas/Planes.jsx'
 import Sesiones from './components/Rutas/Sesiones.jsx'
 import Ejercicios from './components/Rutas/Ejercicios.jsx'
+import AdminEjercicios from './components/Rutas/AdminEjercicios.jsx'
 
 const API = import.meta.env.VITE_API_URL;
 
@@ -37,6 +38,7 @@ function AppContent() {
           <Route path='/novedades' element={<ContainerNovedades titulo="Novedades" imagen={img_nov}/>}/>
           <Route path='/login' element={<Login/>}/>
           <Route path='/admin' element={<ProtectedAdminRoute><AdminHome /></ProtectedAdminRoute>} />
+          <Route path="/admin" element={<ProtectedAdminRoute><AdminEjercicios /></ProtectedAdminRoute>} />
           <Route path="/cliente" element={<ProtectedUserRoute><ClienteHome /></ProtectedUserRoute>} />
           <Route path='/cliente/:id/planes' element={<ProtectedUserRoute><Planes /></ProtectedUserRoute>} />
           <Route path='/cliente/:id/sesiones' element={<ProtectedUserRoute><Sesiones /></ProtectedUserRoute>} />
