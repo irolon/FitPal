@@ -35,7 +35,7 @@ const AdminEjercicios = ({ ejercicios }) => {
   };
 
   return (
-    <div className="container vh-100 d-flex flex-column align-items-center justify-content-center">
+    <div className="container d-flex flex-column align-items-center justify-content-center">
       <h1 className="mb-4">Gestión de Ejercicios (Admin)</h1>
       <p>Aquí podés administrar los ejercicios del sistema.</p>
 
