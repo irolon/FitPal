@@ -15,9 +15,7 @@ const AdminSesiones = ({ sesiones }) => {
     navigate("/admin/sesiones/id/crear");
   };
 
-  const handleEditar = (sesion) => {
-    navigate(`/admin/sesiones/${sesion.id}/editar`);
-  };
+
 
   const handleEliminar = async (id) => {
     const confirmar = window.confirm("¿Seguro que querés eliminar esta sesión?");

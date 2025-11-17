@@ -66,3 +66,24 @@ class SesionEjercicioRepository(BaseRepository):
         except Exception as e:
             print(f"Error al eliminar la sesión de ejercicio: {e}")
             return None
+
+    def agregar_ejercicio(self, sesion_id, ejercicio_id):
+        try:
+            return self.sesion_ejercicio_dao.agregar_ejercicio(sesion_id, ejercicio_id)
+        except Exception as e:
+            print(f"Error al agregar ejercicio a la sesión: {e}")
+            return None
+
+    def eliminar_ejercicio(self, sesion_id, ejercicio_id):
+        try:
+            return self.sesion_ejercicio_dao.eliminar_ejercicio(sesion_id, ejercicio_id)
+        except Exception as e:
+            print(f"Error al eliminar ejercicio de la sesión: {e}")
+            return None
+
+    def get_ejercicios_por_cliente(self, cliente_id):
+        try:
+            return self.sesion_ejercicio_dao.get_ejercicios_por_cliente(cliente_id)
+        except Exception as e:
+            print(f"Error al obtener ejercicios por cliente: {e}")
+            return []

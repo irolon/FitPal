@@ -3,7 +3,8 @@ from Model.Sesion import Sesion
 from Service.SesionService import SesionService
 
 # Constante para la base de datos
-DB_PATH = "data_base/db_fitpal.db"
+import os
+DB_PATH = os.path.join(os.path.dirname(__file__), '..', 'data_base', 'db_fitpal.db')
 
 # Blueprint global
 sesiones_bp = Blueprint("sesiones", __name__)
@@ -27,7 +28,6 @@ def crear_sesion():
     data = request.get_json()
     sesion = Sesion(
         nombre=data.get('nombre'),
-        duracion=data.get('duracion'),
         descripcion=data.get('descripcion')
     )
     nueva_id = service.add(sesion)
@@ -40,7 +40,6 @@ def actualizar_sesion(sesion_id):
     data = request.get_json()
     sesion = Sesion(
         nombre=data.get('nombre'),
-        duracion=data.get('duracion'),
         descripcion=data.get('descripcion'),
         id=sesion_id
     )

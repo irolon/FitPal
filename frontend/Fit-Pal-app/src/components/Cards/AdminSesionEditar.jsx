@@ -5,26 +5,26 @@ const AdminSesionEditar = () => {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const [sesion, setSesion] = useState({ nombre: "", duracion: "", descripcion: "" });
+  const [sesion, setSesion] = useState({ nombre: "", descripcion: "" });
   const [ejerciciosSesion, setEjerciciosSesion] = useState([]);
   const [ejerciciosDisponibles, setEjerciciosDisponibles] = useState([]);
 
   // Cargar sesión y ejercicios
   useEffect(() => {
     // Datos de la sesión
-    fetch(`/api/admin/sesiones/${id}`)
+    fetch(`http://localhost:5000/api/admin/sesiones/${id}`)
       .then(res => res.json())
-      .then(data => setSesion({ nombre: data.nombre, duracion: data.duracion, descripcion: data.descripcion }))
+      .then(data => setSesion({ nombre: data.nombre, descripcion: data.descripcion }))
       .catch(console.error);
 
     // Ejercicios asignados
-    fetch(`/api/admin/sesiones/${id}/ejercicios`)
+    fetch(`http://localhost:5000/api/sesion_ejercicio/${id}`)
       .then(res => res.json())
       .then(data => setEjerciciosSesion(data))
       .catch(console.error);
 
     // Todos los ejercicios disponibles
-    fetch("/api/admin/ejercicios")
+    fetch("http://localhost:5000/api/admin/ejercicios")
       .then(res => res.json())
       .then(data => setEjerciciosDisponibles(data))
       .catch(console.error);
@@ -33,7 +33,7 @@ const AdminSesionEditar = () => {
   // Guardar cambios de la sesión
   const handleGuardar = (e) => {
     e.preventDefault();
-    fetch(`/api/admin/sesiones/${id}`, {
+    fetch(`http://localhost:5000/api/admin/sesiones/${id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(sesion),
@@ -45,7 +45,7 @@ const AdminSesionEditar = () => {
 
   // Agregar ejercicio a la sesión
   const agregarEjercicio = (ejId) => {
-    fetch(`/api/admin/sesiones/${id}/ejercicios`, {
+    fetch(`http://localhost:5000/api/sesion_ejercicio/${id}`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ ejercicio_id: ejId }),
@@ -59,7 +59,7 @@ const AdminSesionEditar = () => {
 
   // Quitar ejercicio de la sesión
   const quitarEjercicio = (ejId) => {
-    fetch(`/api/admin/sesiones/${id}/ejercicios/${ejId}`, { method: "DELETE" })
+    fetch(`http://localhost:5000/api/sesion_ejercicio/${id}/${ejId}`, { method: "DELETE" })
       .then(() => {
         setEjerciciosSesion(ejerciciosSesion.filter(e => e.id !== ejId));
       })
@@ -82,16 +82,7 @@ const AdminSesionEditar = () => {
           />
         </div>
 
-        <div className="mb-3">
-          <label className="form-label">Duración (minutos)</label>
-          <input
-            type="number"
-            className="form-control"
-            value={sesion.duracion}
-            onChange={(e) => setSesion({ ...sesion, duracion: e.target.value })}
-            required
-          />
-        </div>
+
 
         <div className="mb-3">
           <label className="form-label">Descripción</label>

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import CardSesiones from "../Cards/AdminSesiones.jsx";
+import AdminSesionEditar from "../Cards/AdminSesionEditar.jsx";
 
 const AdminSesiones = () => {
     const [sesiones, setSesiones] = useState([]);
@@ -27,7 +28,8 @@ const AdminSesiones = () => {
             .catch(() => setSesiones([]));
     }, []);
 
-    return <CardSesiones sesiones={sesiones} />;
+    return <AdminSesionEditar sesiones={sesiones} />;
+
 };
 
 export default AdminSesiones;

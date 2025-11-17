@@ -94,23 +94,29 @@ class SesionEjercicioDAO(BaseDAO):
 
     def obtener_por_sesion(self, sesion_id: int):
         try:
+            # Hacer JOIN para obtener información completa de los ejercicios
             self.cur.execute("""
-                SELECT id, sesion_id, ejercicio_id, series, repeticiones, descanso
-                FROM sesion_ejercicio
-                WHERE sesion_id = ?
-                ORDER BY id
+                SELECT se.id, se.sesion_id, se.ejercicio_id, se.series, se.repeticiones, se.descanso,
+                       e.nombre, e.descripcion, e.categoria
+                FROM sesion_ejercicio se
+                JOIN ejercicios e ON se.ejercicio_id = e.id
+                WHERE se.sesion_id = ?
+                ORDER BY se.id
             """, (sesion_id,))
             rows = self.cur.fetchall()
             ejercicios = []
             for row in rows:
-                ejercicios.append(SesionEjercicio(
-                    id=row[0],
-                    sesion_id=row[1],
-                    ejercicio_id=row[2],
-                    series=row[3],
-                    repeticiones=row[4],
-                    descanso=row[5]
-                ))
+                # Devolver un diccionario con toda la información del ejercicio
+                ejercicios.append({
+                    'id': row[2],  # ejercicio_id
+                    'nombre': row[6],
+                    'descripcion': row[7], 
+                    'categoria': row[8],
+                    'series': row[3],
+                    'repeticiones': row[4],
+                    'descanso': row[5],
+                    'sesion_ejercicio_id': row[0]  # id de la fk
+                })
             return ejercicios
         except Exception as e:
             print(f"Error al obtener ejercicios por sesión: {e}")
@@ -158,11 +164,26 @@ class SesionEjercicioDAO(BaseDAO):
             # Usar valores por defecto para series, repeticiones, descanso
             self.cur.execute(
                 """INSERT INTO sesion_ejercicio(sesion_id, ejercicio_id, series, repeticiones, descanso) 
-                   VALUES (?,?,3,12,60)""",  # Valores por defecto
+                   VALUES (?,?,3,12,60)""", 
                 (sesion_id, ejercicio_id)
             )
             self.conn.commit()
             return self.cur.lastrowid
         except Exception as e:
             print(f"Error al crear la relación sesión-ejercicio: {e}")
+            return None
+
+    def agregar_ejercicio(self, sesion_id: int, ejercicio_id: int):
+        return self.crear_relacion_simple(sesion_id, ejercicio_id)
+
+    def eliminar_ejercicio(self, sesion_id: int, ejercicio_id: int):
+        try:
+            self.cur.execute(
+                "DELETE FROM sesion_ejercicio WHERE sesion_id = ? AND ejercicio_id = ?",
+                (sesion_id, ejercicio_id)
+            )
+            self.conn.commit()
+            return "Ejercicio eliminado de la sesión con éxito"
+        except Exception as e:
+            print(f"Error al eliminar ejercicio de la sesión: {e}")
             return None

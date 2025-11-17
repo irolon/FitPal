@@ -24,3 +24,15 @@ class SesionEjercicioService:
 
     def obtener_ejercicios_por_sesion(self, sesion_id):
         return self.repo.obtener_por_sesion(sesion_id)
+
+    def obtener_por_sesion(self, sesion_id):
+        return self.repo.obtener_por_sesion(sesion_id)
+
+    def agregar(self, sesion_id, ejercicio_id):
+        return self.repo.agregar_ejercicio(sesion_id, ejercicio_id)
+
+    def eliminar(self, sesion_id, ejercicio_id):
+        return self.repo.eliminar_ejercicio(sesion_id, ejercicio_id)
+
+    def obtener_ejercicios_por_cliente(self, cliente_id):
+        return self.repo.get_ejercicios_por_cliente(cliente_id)

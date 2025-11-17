@@ -14,7 +14,7 @@ const Ejercicios = () => {
       }  
       const url = `http://localhost:5000/api/cliente/${id}/ejercicios`;
         
-      fetch(url)
+      fetch(`http://localhost:5000/api/cliente/${id}/ejercicios`)
         .then((res) => {
             if (!res.ok) {
                 throw new Error(`Error ${res.status}: ${res.statusText}`);
