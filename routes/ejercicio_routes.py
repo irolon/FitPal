@@ -1,8 +1,12 @@
 from flask import Blueprint, request, jsonify
 from Service.EjercicioService import EjercicioService
+from Service.Sesion_ejercicio_service import SesionEjercicioService
+
+# Constante para la base de datos
+DB_PATH = "data_base/db_fitpal.db"
 
 ejercicios_bp = Blueprint("ejercicios", __name__)
-service = EjercicioService("data_base/db_fitpal.db")
+service = EjercicioService(DB_PATH)
 
 # ----------------------------
 # GET /ejercicios - Listar todos los ejercicios
@@ -10,7 +14,7 @@ service = EjercicioService("data_base/db_fitpal.db")
 @ejercicios_bp.route("/ejercicios", methods=["GET"])
 def obtener_todos():
     try:
-        service = EjercicioService("data_base/db_fitpal.db")
+        service = EjercicioService(DB_PATH)
         resultado = service.obtener_todos()
         
         if resultado is None or len(resultado) == 0:
@@ -27,9 +31,7 @@ def obtener_todos():
 @ejercicios_bp.route("/sesion/<int:sesion_id>/ejercicios", methods=["GET"])
 def obtener_ejercicios_sesion(sesion_id):
     try:
-        from Service.Sesion_ejercicio_service import SesionEjercicioService
-        sesion_ejercicio_service = SesionEjercicioService("data_base/db_fitpal.db")
-        
+        sesion_ejercicio_service = SesionEjercicioService(DB_PATH)
         resultado = sesion_ejercicio_service.obtener_ejercicios_por_sesion(sesion_id)
         
         if resultado is None or len(resultado) == 0:
@@ -46,8 +48,7 @@ def obtener_ejercicios_sesion(sesion_id):
 @ejercicios_bp.route("/cliente/<int:cliente_id>/ejercicios", methods=["GET"])
 def obtener_ejercicios_cliente(cliente_id):
     try:
-        from Service.Sesion_ejercicio_service import SesionEjercicioService
-        sesion_ejercicio_service = SesionEjercicioService("data_base/db_fitpal.db")
+        sesion_ejercicio_service = SesionEjercicioService(DB_PATH)
         
         resultado = sesion_ejercicio_service.obtener_ejercicios_por_cliente(cliente_id)
         
@@ -60,6 +61,26 @@ def obtener_ejercicios_cliente(cliente_id):
         return jsonify({"error": str(e)}), 500
 
 
+
+@ejercicios_bp.route("/admin/ejercicios", methods=["GET"])
+def admin_obtener_todos_ejercicios():
+    try:
+        service = EjercicioService(DB_PATH)
+        resultado = service.obtener_todos()
+
+        if resultado is None or len(resultado) == 0:
+            return jsonify([]), 200
+        return jsonify(resultado), 200
+
+    except Exception as e:
+        print(f"Error en admin_obtener_todos_ejercicios: {str(e)}")
+        return jsonify({"error": str(e)}), 500
+
+
+
+
+
+
 # ============================================================
 # ADMIN – Crear Ejercicio  POST /admin/ejercicios
 # ============================================================
@@ -67,8 +88,11 @@ def obtener_ejercicios_cliente(cliente_id):
 def admin_crear_ejercicio():
     try:
         data = request.json
+        if not data:
+            return jsonify({"error": "No se enviaron datos"}), 400
+            
         service = EjercicioService(DB_PATH)
-
+        
         nuevo_id = service.crear(
             categoria=data.get("categoria"),
             nombre=data.get("nombre"),

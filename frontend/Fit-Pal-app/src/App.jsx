@@ -25,8 +25,9 @@ function AppContent() {
   const location = useLocation();
   const hideNavbar = location.pathname === '/admin' || 
                      location.pathname === '/cliente' || 
-                     location.pathname.startsWith('/cliente/') && (location.pathname.includes('/planes') || 
-                     location.pathname.includes('/sesiones') || location.pathname.includes('/ejercicios'));
+                     (location.pathname.startsWith('/cliente/') && (location.pathname.includes('/planes') || 
+                     location.pathname.includes('/sesiones') || location.pathname.includes('/ejercicios'))) ||
+                     (location.pathname.startsWith('/admin/') && location.pathname.includes('/ejercicios'));
 
   return (
     <div className="d-flex flex-column min-vh-100">   
@@ -38,11 +39,11 @@ function AppContent() {
           <Route path='/novedades' element={<ContainerNovedades titulo="Novedades" imagen={img_nov}/>}/>
           <Route path='/login' element={<Login/>}/>
           <Route path='/admin' element={<ProtectedAdminRoute><AdminHome /></ProtectedAdminRoute>} />
-          <Route path="/admin" element={<ProtectedAdminRoute><AdminEjercicios /></ProtectedAdminRoute>} />
           <Route path="/cliente" element={<ProtectedUserRoute><ClienteHome /></ProtectedUserRoute>} />
           <Route path='/cliente/:id/planes' element={<ProtectedUserRoute><Planes /></ProtectedUserRoute>} />
           <Route path='/cliente/:id/sesiones' element={<ProtectedUserRoute><Sesiones /></ProtectedUserRoute>} />
           <Route path='/cliente/:id/sesiones/ejercicios' element={<ProtectedUserRoute><Ejercicios /></ProtectedUserRoute>} />
+          <Route path='/admin/ejercicios' element={<ProtectedAdminRoute><AdminEjercicios /></ProtectedAdminRoute>} />
       </Routes>
       {!hideNavbar && <Footer/>}
     </div>

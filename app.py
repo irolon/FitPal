@@ -12,6 +12,7 @@ from routes.Plan_entrenamiento import plan_entrenamiento_bp
 from routes.plan_sesion_routes import plan_sesion_bp
 from routes.ejercicio_routes import ejercicios_bp
 from routes.progreso_ejercicio_routes import progreso_ejercicio_bp
+from routes.administrador_routes import administrador_bp
 
 
 # --------------------------
@@ -42,6 +43,7 @@ app.register_blueprint(plan_entrenamiento_bp, url_prefix="/api")
 app.register_blueprint(plan_sesion_bp)
 app.register_blueprint(ejercicios_bp, url_prefix="/api")
 app.register_blueprint(progreso_ejercicio_bp, url_prefix="/api")
+app.register_blueprint(administrador_bp, url_prefix="/api")
 
 # --------------------------
 # Main

@@ -112,7 +112,7 @@ const AdminEjercicios = ({ ejercicios }) => {
       </table>
 
       <div>
-        <Link to="/admin/dashboard" className="btn btn-secondary mt-4">
+        <Link to="/admin" className="btn btn-success mt-4">
           Volver al panel admin
         </Link>
       </div>
