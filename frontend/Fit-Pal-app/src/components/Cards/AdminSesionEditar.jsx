@@ -9,28 +9,27 @@ const AdminSesionEditar = () => {
   const [ejerciciosSesion, setEjerciciosSesion] = useState([]);
   const [ejerciciosDisponibles, setEjerciciosDisponibles] = useState([]);
 
-  // Cargar sesión y ejercicios
+  const [searchTerm, setSearchTerm] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 8;
+
   useEffect(() => {
-    // Datos de la sesión
     fetch(`http://localhost:5000/api/admin/sesiones/${id}`)
       .then(res => res.json())
       .then(data => setSesion({ nombre: data.nombre, descripcion: data.descripcion }))
       .catch(console.error);
 
-    // Ejercicios asignados
     fetch(`http://localhost:5000/api/sesion_ejercicio/${id}`)
       .then(res => res.json())
       .then(data => setEjerciciosSesion(data))
       .catch(console.error);
 
-    // Todos los ejercicios disponibles
     fetch("http://localhost:5000/api/admin/ejercicios")
       .then(res => res.json())
       .then(data => setEjerciciosDisponibles(data))
       .catch(console.error);
   }, [id]);
 
-  // Guardar cambios de la sesión
   const handleGuardar = (e) => {
     e.preventDefault();
     fetch(`http://localhost:5000/api/admin/sesiones/${id}`, {
@@ -43,7 +42,6 @@ const AdminSesionEditar = () => {
       .catch(console.error);
   };
 
-  // Agregar ejercicio a la sesión
   const agregarEjercicio = (ejId) => {
     fetch(`http://localhost:5000/api/sesion_ejercicio/${id}`, {
       method: "POST",
@@ -57,13 +55,28 @@ const AdminSesionEditar = () => {
       .catch(console.error);
   };
 
-  // Quitar ejercicio de la sesión
   const quitarEjercicio = (ejId) => {
     fetch(`http://localhost:5000/api/sesion_ejercicio/${id}/${ejId}`, { method: "DELETE" })
       .then(() => {
         setEjerciciosSesion(ejerciciosSesion.filter(e => e.id !== ejId));
       })
       .catch(console.error);
+  };
+
+  // Filtrar ejercicios disponibles
+  const ejerciciosFiltrados = ejerciciosDisponibles
+    .filter(e => !ejerciciosSesion.some(es => es.id === e.id))
+    .filter(e => e.nombre.toLowerCase().includes(searchTerm.toLowerCase()));
+
+  // Paginación
+  const totalPages = Math.ceil(ejerciciosFiltrados.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const currentItems = ejerciciosFiltrados.slice(startIndex, startIndex + itemsPerPage);
+
+  const cambiarPagina = (pagina) => {
+    if (pagina >= 1 && pagina <= totalPages) {
+      setCurrentPage(pagina);
+    }
   };
 
   return (
@@ -82,8 +95,6 @@ const AdminSesionEditar = () => {
           />
         </div>
 
-
-
         <div className="mb-3">
           <label className="form-label">Descripción</label>
           <textarea
@@ -93,7 +104,7 @@ const AdminSesionEditar = () => {
           />
         </div>
 
-        <button type="submit" className="btn btn-success">Guardar Sesión</button>
+
       </form>
 
       <div className="row">
@@ -112,22 +123,57 @@ const AdminSesionEditar = () => {
 
         <div className="col-md-6">
           <h4>Ejercicios Disponibles</h4>
+
+          <input
+            type="text"
+            className="form-control mb-2"
+            placeholder="Buscar ejercicio..."
+            value={searchTerm}
+            onChange={(e) => {
+              setSearchTerm(e.target.value);
+              setCurrentPage(1);
+            }}
+          />
+
           <ul className="list-group">
-            {ejerciciosDisponibles
-              .filter(e => !ejerciciosSesion.some(es => es.id === e.id))
-              .map(e => (
-                <li key={e.id} className="list-group-item d-flex justify-content-between align-items-center">
-                  {e.nombre}
-                  <button className="btn btn-sm btn-primary" onClick={() => agregarEjercicio(e.id)}>Agregar</button>
-                </li>
-              ))}
-            {ejerciciosDisponibles.filter(e => !ejerciciosSesion.some(es => es.id === e.id)).length === 0 &&
+            {currentItems.map(e => (
+              <li key={e.id} className="list-group-item d-flex justify-content-between align-items-center">
+                {e.nombre}
+                <button className="btn btn-sm btn-primary" onClick={() => agregarEjercicio(e.id)}>Agregar</button>
+              </li>
+            ))}
+
+            {ejerciciosFiltrados.length === 0 &&
               <li className="list-group-item">No hay ejercicios disponibles</li>}
           </ul>
+
+          {totalPages > 1 && (
+            <div className="d-flex justify-content-center mt-3">
+              <button
+                className="btn btn-secondary mx-1"
+                onClick={() => cambiarPagina(currentPage - 1)}
+                disabled={currentPage === 1}
+              >
+                Anterior
+              </button>
+
+              <span className="mx-2">Página {currentPage} de {totalPages}</span>
+
+              <button
+                className="btn btn-secondary mx-1"
+                onClick={() => cambiarPagina(currentPage + 1)}
+                disabled={currentPage === totalPages}
+              >
+                Siguiente
+              </button>
+            </div>
+          )}
         </div>
       </div>
 
+
       <div className="text-center mt-4">
+        <button type="submit"  className="btn btn-success" onClick={handleGuardar}>Guardar Cambios</button>
         <Link to="/admin/sesiones" className="btn btn-secondary">Volver</Link>
       </div>
     </div>
