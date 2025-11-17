@@ -1,4 +1,5 @@
 from DAO.Base_DAO import BaseDAO
+import traceback
 
 class ProgresoSesionDAO(BaseDAO):
     def create_table(self):
@@ -72,7 +73,7 @@ class ProgresoSesionDAO(BaseDAO):
             return True
         except Exception as e:
             print(f"ERROR en DAO actualizar_progreso: {e}")
-            import traceback
+
             traceback.print_exc()
             return False
 
@@ -105,7 +106,6 @@ class ProgresoSesionDAO(BaseDAO):
             print(f"Error al obtener sesiones con progreso: {e}")
             return []
 
-    # Métodos abstractos requeridos por BaseDAO
     def create(self, progreso_data):
         pass
     

@@ -5,7 +5,6 @@ class ProgresoSesionService:
     def __init__(self, db_path: str):
         conexion = Conexion(db_path)
         self.dao = ProgresoSesionDAO(conexion.conexion)
-        # Crear la tabla si no existe
         self.dao.create_table()
 
     def obtener_sesiones_con_progreso_cliente(self, cliente_id: int):

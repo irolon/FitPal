@@ -25,7 +25,6 @@ const ClienteHome = () => {
   };
   
   const user_id = getUserIdFromStorage();
-  console.log("User ID extraído:", user_id);
   
   // Obtener el nombre del usuario del localStorage
   const getUserNameFromStorage = () => {

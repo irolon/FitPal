@@ -31,7 +31,7 @@ def register():
         if not all([name, lastname, dni, edad, email, password]):
             return jsonify({"error": "All fields are required"}), 400
 
-        # Crear el cliente (que incluye los datos de usuario)
+        # Crear el cliente
         nuevo_cliente = Cliente(
             nombre=name, 
             apellido=lastname, 
@@ -42,7 +42,7 @@ def register():
             fecha_inicio=datetime.now().strftime("%Y-%m-%d")
         )
                 
-        # Agregar el cliente (esto creará tanto el usuario como el cliente)
+        # Agregar el cliente 
         resultado = repoClientes.add(nuevo_cliente)
         
         if resultado and "exitosamente" in str(resultado):
