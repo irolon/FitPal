@@ -1,6 +1,7 @@
 from flask import Blueprint, jsonify, request
 from Service.plan_sesion_service import PlanSesionService
 from Service.SesionService import SesionService
+from Service.ProgresoSesionService import ProgresoSesionService
 from data_base import Conexion 
 
 plan_sesion_bp = Blueprint('plan_sesion_bp', __name__, url_prefix='/api/plan_sesion')
@@ -8,36 +9,52 @@ plan_sesion_bp = Blueprint('plan_sesion_bp', __name__, url_prefix='/api/plan_ses
 @plan_sesion_bp.route('/cliente/<int:cliente_id>/sesiones', methods=['GET'])
 def obtener_sesiones_cliente(cliente_id):
     try:
-        service = SesionService('data_base/db_fitpal.db')
-        sesiones = service.obtener_por_cliente_id(cliente_id)
+        service = ProgresoSesionService('data_base/db_fitpal.db')
+        sesiones = service.obtener_sesiones_con_progreso_cliente(cliente_id)
 
         if sesiones is None or len(sesiones) == 0:
             return jsonify([]), 200
         
-        sesiones_data = [sesion.to_dict() for sesion in sesiones]
-        return jsonify(sesiones_data), 200
+        return jsonify(sesiones), 200
     
     except Exception as e:
-        print(f"Error en obtener_plan_sesion: {str(e)}")
+        print(f"Error en obtener_sesiones_cliente: {str(e)}")
         return jsonify({"error": str(e)}), 500
 
 
-@plan_sesion_bp.route('/sesion/<int:sesion_id>/estado', methods=['PUT'])
-def actualizar_estado_sesion(sesion_id):
+@plan_sesion_bp.route('/cliente/<int:cliente_id>/sesion/<int:sesion_id>/estado', methods=['PUT'])
+def actualizar_progreso_sesion(cliente_id, sesion_id):
     try:
-        data = request.get_json()
-        estado = data.get('estado', False)  # True para completado, False para pendiente
+        print(f"=== DEBUG: actualizar_progreso_sesion ===")
+        print(f"cliente_id: {cliente_id}, sesion_id: {sesion_id}")
         
-        service = SesionService('data_base/db_fitpal.db')
-        resultado = service.actualizar_estado(sesion_id, estado)
+        data = request.get_json()
+        print(f"data recibida: {data}")
+        
+        estado = data.get('estado', False)  # True para completado, False para pendiente
+        print(f"estado a actualizar: {estado}")
+        
+        service = ProgresoSesionService('data_base/db_fitpal.db')
+        print(f"Servicio creado, llamando a actualizar_progreso_sesion...")
+        
+        resultado = service.actualizar_progreso_sesion(cliente_id, sesion_id, estado)
+        print(f"Resultado del servicio: {resultado}")
         
         if resultado:
-            return jsonify({"message": "Estado actualizado correctamente", "estado": estado}), 200
+            return jsonify({
+                "message": "Progreso actualizado correctamente", 
+                "estado": estado,
+                "cliente_id": cliente_id,
+                "sesion_id": sesion_id
+            }), 200
         else:
-            return jsonify({"error": "No se pudo actualizar el estado"}), 400
+            print("ERROR: El servicio retornó False")
+            return jsonify({"error": "No se pudo actualizar el progreso"}), 400
             
     except Exception as e:
-        print(f"Error en actualizar_estado_sesion: {str(e)}")
+        print(f"EXCEPCIÓN en actualizar_progreso_sesion: {str(e)}")
+        import traceback
+        traceback.print_exc()
         return jsonify({"error": str(e)}), 500
 
 

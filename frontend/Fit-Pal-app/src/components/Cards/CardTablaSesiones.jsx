@@ -1,20 +1,40 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom';
 
 
-const CardTablaSesiones = ({ sesiones }) => {
+const CardTablaSesiones = ({ sesiones, clienteId }) => {
   // Validar que sesiones sea un array
   const sesionesArray = Array.isArray(sesiones) ? sesiones : [];
   
   // Estado para manejar el estado de cada sesión individualmente
   const [estadosSesiones, setEstadosSesiones] = useState({});
 
+  // Inicializar el estado con los datos de la BD cuando cambian las sesiones
+  useEffect(() => {
+    if (sesionesArray.length > 0) {
+      const estadosIniciales = {};
+      sesionesArray.forEach(sesion => {
+        estadosIniciales[sesion.id] = sesion.estado ? 'Completado' : 'Pendiente';
+      });
+      setEstadosSesiones(estadosIniciales);
+    }
+  }, [sesionesArray]);
+
   const handleEstadoChange = async (sesionId, nuevoEstado) => {
     try {
+      console.log('handleEstadoChange llamado:', { sesionId, nuevoEstado, clienteId });
+      
+      // Validar que clienteId existe
+      if (!clienteId) {
+        console.error('clienteId no está definido');
+        alert('Error: No se pudo identificar el cliente');
+        return;
+      }
+
       const estadoBoolean = nuevoEstado === 'Completado';
       
       // Hacer la llamada HTTP para actualizar en la base de datos
-      const response = await fetch(`http://localhost:5000/api/plan_sesion/sesion/${sesionId}/estado`, {
+      const response = await fetch(`http://localhost:5000/api/plan_sesion/cliente/${clienteId}/sesion/${sesionId}/estado`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -23,15 +43,16 @@ const CardTablaSesiones = ({ sesiones }) => {
       });
 
       if (response.ok) {
-        // Solo actualizar el estado local si la llamada HTTP fue exitosa
+        // Solo actualizar el estado local si la llamada HTTP esta okk
         setEstadosSesiones(prev => ({
           ...prev,
           [sesionId]: nuevoEstado
         }));
         console.log(`Estado de sesión ${sesionId} actualizado a: ${nuevoEstado}`);
       } else {
-        console.error('Error al actualizar el estado en la base de datos');
-        alert('Error al actualizar el estado. Inténtalo de nuevo.');
+        const errorText = await response.text();
+        console.error('Error al actualizar el estado:', response.status, errorText);
+        alert(`Error al actualizar el estado (${response.status}). Inténtalo de nuevo.`);
       }
     } catch (error) {
       console.error('Error de conexión:', error);
@@ -83,7 +104,7 @@ const CardTablaSesiones = ({ sesiones }) => {
                     </td>
                     <td>
                       <span className={`badge ${estadosSesiones[sesion.id] === 'Completado' ? 'bg-success' : estadosSesiones[sesion.id] === 'Pendiente' ? 'bg-warning' : 'bg-secondary'}`}>
-                        {estadosSesiones[sesion.id] || (sesion.estado ? 'Completado' : 'Pendiente')}
+                        {estadosSesiones[sesion.id]}
                       </span>
                     </td>
                     <td>

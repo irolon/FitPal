@@ -37,7 +37,7 @@ app.register_blueprint(ejercicios_bp, url_prefix="/api")
 app.register_blueprint(login_bp, url_prefix="/api")
 app.register_blueprint(register_bp, url_prefix="/api")
 app.register_blueprint(plan_entrenamiento_bp, url_prefix="/api")
-app.register_blueprint(plan_sesion_bp, url_prefix="/api")
+app.register_blueprint(plan_sesion_bp)
 
 # --------------------------
 # Main

@@ -9,7 +9,7 @@ const Sesiones = () => {
     useEffect(() => {
       if (!id) return;
 
-        fetch(`http://localhost:5000/api/cliente/${id}/sesiones`)
+        fetch(`http://localhost:5000/api/plan_sesion/cliente/${id}/sesiones`)
         .then((res) => {
             if (!res.ok) {
                 throw new Error(`Error ${res.status}: ${res.statusText}`);
@@ -37,7 +37,7 @@ const Sesiones = () => {
 
 
   return (
-    <CardTablaSesiones sesiones={sesiones} />
+    <CardTablaSesiones sesiones={sesiones} clienteId={id} />
   )
 }
 
