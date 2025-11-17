@@ -52,8 +52,8 @@ function AppContent() {
           <Route path='/admin/ejercicios' element={<ProtectedAdminRoute><AdminEjercicios /></ProtectedAdminRoute>} />
           <Route path='/admin/sesiones' element={<ProtectedAdminRoute><AdminSesiones /></ProtectedAdminRoute>} />   
           <Route path="/admin/sesiones/:id/editar" element={<ProtectedAdminRoute><AdminSesionEditar /></ProtectedAdminRoute>} />         
-          <Route path="/admin/ejercicios/crear" element={<CrearEjercicio />} />
-          <Route path="/admin/ejercicios/:id/editar" element={<EditarEjercicio />} />
+          <Route path="/admin/ejercicios/crear" element={<ProtectedAdminRoute><CrearEjercicio /></ProtectedAdminRoute>} />
+          <Route path="/admin/ejercicios/:id/editar" element={<ProtectedAdminRoute><EditarEjercicio /></ProtectedAdminRoute>} />
       </Routes>
       {!hideNavbar && <Footer/>}
     </div>

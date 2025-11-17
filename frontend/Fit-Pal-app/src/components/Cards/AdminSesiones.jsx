@@ -12,7 +12,7 @@ const AdminSesiones = ({ sesiones }) => {
   const itemsPerPage = 10;
 
   const handleCrear = () => {
-    navigate("/admin/sesiones/crear");
+    navigate("/admin/sesiones/id/crear");
   };
 
   const handleEditar = (sesion) => {
@@ -86,9 +86,9 @@ const AdminSesiones = ({ sesiones }) => {
         />
 
         {/* Botón crear */}
-        <button className="btn btn-success" onClick={handleCrear}>
-          Crear sesión
-        </button>
+        <Link className="btn btn-success" to="/admin/sesiones/crear">
+          Crear
+        </Link>
       </div>
 
       <table className="table table-striped table-dark">
@@ -116,12 +116,12 @@ const AdminSesiones = ({ sesiones }) => {
                 <td>{ses.estado ? "Activa" : "Inactiva"}</td>
 
                 <td>
-                  <button
+                  <Link
                     className="btn btn-primary btn-sm me-2"
-                    onClick={() => handleEditar(ses)}
+                    to={`/admin/sesiones/${ses.id}/editar`}
                   >
                     Editar
-                  </button>
+                  </Link>
 
                   <button
                     className="btn btn-danger btn-sm"
