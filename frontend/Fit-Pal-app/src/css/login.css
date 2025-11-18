@@ -86,7 +86,7 @@ form{
 .btn-login{
     width: 100%;
     height: 48px;
-    background: #a36666;
+    background: #7378bd;
     border-radius: 10px;
     border: none;
     cursor: pointer;
@@ -109,7 +109,7 @@ form{
     left: -250%;
     width: 300%;
     height: 100%;
-    background: #a36666;
+    background: #7378bd;
     z-index: 2;
     border-radius: 150px;
     transition: 1.2s ease-in-out;
@@ -163,7 +163,7 @@ form{
 }
 .toggle-panel .register-btn:hover{
     background: white;
-    color: #a36666;
+    color: #7378bd;
 }
 .login-btn{
     width: 160px;
@@ -175,7 +175,7 @@ form{
 }
 .login-btn:hover{
     background: white;
-    color: #a36666;
+    color: #7378bd;
 }
 @media screen and (max-width: 650px) {
     .div-container-login{
