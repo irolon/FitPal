@@ -13,7 +13,7 @@ class PlanEntrenamientoDAO(BaseDAO):
                   nombre          TEXT NOT NULL,
                   frecuencia      INTEGER NOT NULL,
                   fecha_inicio   DATE NOT NULL,
-                  fecha_fin      DATE NOT NULL,
+                  fecha_fin      DATE,
                   FOREIGN KEY (cliente_id) REFERENCES cliente(usuario_id) ON DELETE CASCADE
                 )
             """)
@@ -76,7 +76,13 @@ class PlanEntrenamientoDAO(BaseDAO):
         
     def list(self): 
         try:
-            self.cur.execute(("""SELECT * FROM plan_entrenamiento"""))
+            # JOIN con la tabla usuario para obtener nombre y apellido del cliente
+            self.cur.execute(("""
+                SELECT p.id, p.administrador_id, p.cliente_id, p.nombre, p.frecuencia, 
+                       p.fecha_inicio, p.fecha_fin, u.nombre as cliente_nombre, u.apellido as cliente_apellido
+                FROM plan_entrenamiento p 
+                LEFT JOIN usuario u ON p.cliente_id = u.id
+            """))
             rows = self.cur.fetchall()
             planes = []
             for row in rows:
@@ -89,6 +95,14 @@ class PlanEntrenamientoDAO(BaseDAO):
                     fecha_fin=row[6],
                     id=row[0]
                 )
+                # Agregar nombre y apellido del cliente como atributos adicionales
+                plan.cliente_nombre = row[7] if row[7] else ""
+                plan.cliente_apellido = row[8] if row[8] else ""
+                # Crear nombre completo o usar ID como fallback
+                if plan.cliente_nombre or plan.cliente_apellido:
+                    plan.cliente_nombre_completo = f"{plan.cliente_nombre} {plan.cliente_apellido}".strip()
+                else:
+                    plan.cliente_nombre_completo = f"ID: {row[2]}"
                 planes.append(plan)
             return planes
         except Exception as e:

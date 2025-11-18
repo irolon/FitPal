@@ -98,19 +98,15 @@ class EjercicioDAO(BaseDAO):
             return []
     
     def obtener_todos(self) -> List[Ejercicio]:
-        """Alias para el método list para mantener compatibilidad"""
         return self.list()
     
     def obtener_por_id(self, id_: int) -> Optional[Ejercicio]:
-        """Alias para el método read_by_id para mantener compatibilidad"""
         return self.read_by_id(id_)
     
     def insertar(self, e: Ejercicio) -> Optional[int]:
-        """Alias para el método create para mantener compatibilidad"""
         return self.create(e)
     
     def actualizar(self, e: Ejercicio) -> bool:
-        """Actualiza un ejercicio usando su ID"""
         try:
             self.update(e, e.id)
             return True
@@ -119,7 +115,6 @@ class EjercicioDAO(BaseDAO):
             return False
     
     def eliminar(self, id_: int) -> bool:
-        """Elimina un ejercicio por ID"""
         try:
             self.delete(id_)
             return True

@@ -48,7 +48,7 @@ class TestSesionCRUD(unittest.TestCase):
     def test_crear_sesion(self, mock_service):
         
         # Configurar mock del servicio
-        mock_service.add.return_value = 2  # ID de la nueva sesion
+        mock_service.add.return_value = 2  
         
         # Enviar peticion POST para crear sesion
         response = self.client.post('/api/admin/sesiones',

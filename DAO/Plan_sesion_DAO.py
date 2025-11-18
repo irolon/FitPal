@@ -133,5 +133,83 @@ class PlanSesionDAO(BaseDAO):
         except Exception as e:
             print(f"Error al buscar planes de sesión por cliente_id: {e}")
             return []
-        
+
+    def get_sesiones_by_plan_id(self, plan_id: int):
+        try:
+            self.cur.execute("""
+                SELECT ps.id, ps.orden, s.id as sesion_id, s.nombre, s.descripcion
+                FROM plan_sesion ps
+                JOIN sesion s ON ps.sesion_id = s.id
+                WHERE ps.plan_entrenamiento_id = ?
+                ORDER BY ps.orden
+            """, (plan_id,))
+            rows = self.cur.fetchall()
+            sesiones = []
+            for row in rows:
+                sesiones.append({
+                    'plan_sesion_id': row[0],
+                    'orden': row[1],
+                    'sesion_id': row[2],
+                    'nombre': row[3],
+                    'descripcion': row[4]
+                })
+            return sesiones
+        except Exception as e:
+            print(f"Error al obtener sesiones por plan_id: {e}")
+            return []
+
+    def delete_sesion_from_plan(self, plan_id: int, sesion_id: int):
+        try:
+            self.cur.execute("""
+                DELETE FROM plan_sesion 
+                WHERE plan_entrenamiento_id = ? AND sesion_id = ?
+            """, (plan_id, sesion_id))
+            self.conn.commit()
+            return self.cur.rowcount > 0
+        except Exception as e:
+            print(f"Error al eliminar sesión del plan: {e}")
+            return False
     
+    def get_sesiones_disponibles(self, plan_id: int):
+        try:
+            self.cur.execute("""
+                SELECT s.id, s.nombre, s.descripcion 
+                FROM sesion s 
+                WHERE s.id NOT IN (
+                    SELECT ps.sesion_id 
+                    FROM plan_sesion ps 
+                    WHERE ps.plan_entrenamiento_id = ?
+                )
+            """, (plan_id,))
+            rows = self.cur.fetchall()
+            sesiones = []
+            for row in rows:
+                sesiones.append({
+                    'id': row[0], 
+                    'nombre': row[1], 
+                    'descripcion': row[2]
+                })
+            return sesiones
+        except Exception as e:
+            print(f"Error al obtener sesiones disponibles: {e}")
+            return []
+    
+    def add_sesion_to_plan(self, plan_id: int, sesion_id: int):
+        try:
+            # Obtener el siguiente orden
+            self.cur.execute("""
+                SELECT COALESCE(MAX(orden), 0) + 1 
+                FROM plan_sesion 
+                WHERE plan_entrenamiento_id = ?
+            """, (plan_id,))
+            orden = self.cur.fetchone()[0]
+            
+            self.cur.execute(
+                "INSERT INTO plan_sesion (plan_entrenamiento_id, sesion_id, orden) VALUES (?, ?, ?)", 
+                (plan_id, sesion_id, orden)
+            )
+            self.conn.commit()
+            return self.cur.rowcount > 0
+        except Exception as e:
+            print(f"Error al agregar sesión al plan: {e}")
+            return False

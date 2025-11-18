@@ -49,6 +49,9 @@ const AdminPlanes = ({ planes }) => {
       (p) =>
         safe(p.nombre).includes(q) ||
         safe(p.frecuencia).includes(q) ||
+        safe(p.cliente_nombre_completo).includes(q) ||
+        safe(p.cliente_nombre).includes(q) ||
+        safe(p.cliente_apellido).includes(q) ||
         safe(p.cliente_id).includes(q)
     );
   }, [search, planes]);
@@ -113,7 +116,7 @@ const AdminPlanes = ({ planes }) => {
               <tr key={pl.id}>
                 <td>{pl.nombre}</td>
                 <td>{pl.frecuencia}</td>
-                <td>{pl.cliente_id}</td>
+                <td>{pl.cliente_nombre_completo || `ID: ${pl.cliente_id}`}</td>
 
                 <td>
                   <Link

@@ -23,7 +23,6 @@ class ProgresoEjercicioDAO(BaseDAO):
             print(f"Error al crear la tabla progreso_ejercicio: {e}")
 
     def obtener_progreso_por_cliente(self, cliente_id: int):
-        """Obtiene el progreso de todos los ejercicios para un cliente"""
         try:
             self.cur.execute("""
                 SELECT ejercicio_id, estado, fecha_completado
@@ -32,7 +31,6 @@ class ProgresoEjercicioDAO(BaseDAO):
             """, (cliente_id,))
             rows = self.cur.fetchall()
             
-            # Convertir a diccionario para fácil acceso
             progreso = {}
             for row in rows:
                 progreso[row[0]] = {
@@ -45,7 +43,6 @@ class ProgresoEjercicioDAO(BaseDAO):
             return {}
 
     def actualizar_estado_ejercicio(self, cliente_id: int, ejercicio_id: int, nuevo_estado: str):
-        """Actualiza el estado de un ejercicio específico para un cliente"""
         try:
             from datetime import datetime
             fecha_completado = datetime.now().isoformat() if nuevo_estado == 'completado' else None
@@ -67,7 +64,6 @@ class ProgresoEjercicioDAO(BaseDAO):
 
     # Métodos abstractos requeridos por BaseDAO
     def create(self, progreso_data):
-        """Método requerido por BaseDAO"""
         try:
             return self.actualizar_estado_ejercicio(
                 progreso_data.get('cliente_id'),
@@ -79,7 +75,6 @@ class ProgresoEjercicioDAO(BaseDAO):
             return None
     
     def read_by_id(self, id_):
-        """Método requerido por BaseDAO"""
         try:
             self.cur.execute("""
                 SELECT id, cliente_id, ejercicio_id, estado, fecha_completado, fecha_creacion 
@@ -91,7 +86,6 @@ class ProgresoEjercicioDAO(BaseDAO):
             return None
     
     def update(self, progreso_data, id_):
-        """Método requerido por BaseDAO"""
         try:
             self.cur.execute("""
                 UPDATE progreso_ejercicio 
@@ -105,7 +99,6 @@ class ProgresoEjercicioDAO(BaseDAO):
             return False
     
     def delete(self, id_):
-        """Método requerido por BaseDAO"""
         try:
             self.cur.execute("DELETE FROM progreso_ejercicio WHERE id = ?", (id_,))
             self.conn.commit()
@@ -116,7 +109,6 @@ class ProgresoEjercicioDAO(BaseDAO):
             return False
     
     def list(self):
-        """Método requerido por BaseDAO"""
         try:
             self.cur.execute("""
                 SELECT id, cliente_id, ejercicio_id, estado, fecha_completado, fecha_creacion 

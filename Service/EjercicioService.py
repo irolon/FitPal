@@ -26,7 +26,6 @@ class EjercicioService:
             return {"error": f"Error al obtener ejercicio: {str(e)}"}
 
     def crear(self, categoria, nombre, descripcion, repeticiones, series, descanso, estado="Activo"):
-        """Método crear para compatibilidad con la ruta admin"""
         try:
             id_ejercicio = self.repo.crear_ejercicio(categoria, nombre, descripcion, repeticiones, series, descanso)
             return id_ejercicio
@@ -50,7 +49,6 @@ class EjercicioService:
             return {"error": f"Error al actualizar ejercicio: {str(e)}"}
 
     def actualizar(self, id_ejercicio, categoria, nombre, descripcion, repeticiones, series, descanso, estado=None):
-        """Método actualizar para compatibilidad con la ruta admin"""
         try:
             success = self.repo.actualizar_ejercicio(id_ejercicio, categoria, nombre, descripcion, repeticiones, series, descanso)
             return success
@@ -58,7 +56,6 @@ class EjercicioService:
             raise e
 
     def eliminar(self, id_ejercicio):
-        """Método eliminar para compatibilidad con la ruta admin"""
         try:
             success = self.repo.eliminar_ejercicio(id_ejercicio)
             return success
