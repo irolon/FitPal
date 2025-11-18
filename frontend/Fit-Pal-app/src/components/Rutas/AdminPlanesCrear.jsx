@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import AdminPlanCrear from "../Cards/AdminPlanCrear.jsx";
+import AdminPlanCrear from "../Cards/AdminPlanesCrear.jsx";
 
 const AdminPlanCrearWrapper = () => {
     const [planes, setPlanes] = useState([]);

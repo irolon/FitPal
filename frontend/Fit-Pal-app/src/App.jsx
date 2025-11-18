@@ -23,8 +23,8 @@ import EditarEjercicio from "./components/Rutas/EditarEjercicio.jsx";
 import AdminSesiones from "./components/Rutas/AdminSesiones.jsx";
 import AdminSesionEditar from "./components/Rutas/AdminSesionEditar.jsx";
 import AdminSesionCrearWrapper from "./components/Rutas/AdminSesionCrear.jsx";
-import AdminPlanes from "./components/Rutas/AdminPlanes.jsx";
-import AdminPlanesCrearWrapper from "./components/Rutas/AdminPlanesCrear.jsx";
+import AdminPlanes from "./components/Rutas/CardAdminPlanes.jsx";
+import AdminPlanCrearWrapper from "./components/Rutas/AdminPlanesCrear.jsx";
 import AdminPlanesEditar from "./components/Rutas/AdminPlanesEditar.jsx";
 
 const API = import.meta.env.VITE_API_URL;
@@ -70,7 +70,7 @@ function AppContent() {
         <Route path='/admin/planes' element={<ProtectedAdminRoute><AdminPlanes /></ProtectedAdminRoute>} />
 
         <Route path="/admin/planes/:id/editar" element={<ProtectedAdminRoute><AdminPlanesEditar /></ProtectedAdminRoute>} />
-        <Route path="/admin/planes/crear" element={<ProtectedAdminRoute><AdminPlanesCrear /></ProtectedAdminRoute>} />    
+        <Route path="/admin/planes/crear" element={<ProtectedAdminRoute><AdminPlanCrearWrapper /></ProtectedAdminRoute>} />    
 
         <Route path="/admin/sesiones/:id/editar" element={<ProtectedAdminRoute><AdminSesionEditar /></ProtectedAdminRoute>} />
         <Route path="/admin/sesiones/crear" element={<ProtectedAdminRoute><AdminSesionCrearWrapper /></ProtectedAdminRoute>} />

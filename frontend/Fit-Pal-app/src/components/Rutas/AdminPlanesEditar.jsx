@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import CardPlanes from "../Cards/AdminPlanes.jsx";
-import AdminPlanEditar from "../Cards/AdminPlanEditar.jsx";
+import CardAdminPlanes from "../Cards/AdminPlanes.jsx";
+import AdminPlanEditar from "../Cards/AdminPlanesEditar.jsx";
 
 const AdminPlanesEditar = () => {
     const [planes, setPlanes] = useState([]);

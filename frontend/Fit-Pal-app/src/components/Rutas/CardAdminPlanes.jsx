@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import CardPlanes from "../Cards/AdminPlanes.jsx";
+import AdminPlanes from "../Cards/AdminPlanes.jsx";
 
-const AdminPlanes = () => {
+const CardAdminPlanes = () => {
     const [planes, setPlanes] = useState([]);
 
     useEffect(() => {
@@ -27,7 +27,7 @@ const AdminPlanes = () => {
             .catch(() => setPlanes([]));
     }, []);
 
-    return <CardPlanes planes={planes} />;
+    return <AdminPlanes planes={planes} />;
 };
 
-export default AdminPlanes;
+export default CardAdminPlanes;
