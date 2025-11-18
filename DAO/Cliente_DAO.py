@@ -52,7 +52,6 @@ class ClienteDAO(BaseDAO):
                 WHERE usuario_id = ?
             """, (c.dni, c.edad, c.fecha_inicio, usuario_id))
             self.conn.commit()
-            self.conn.close()
         except Exception as e:
             print(f"Error al actualizar el cliente: {e}")
             return None

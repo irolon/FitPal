@@ -66,7 +66,6 @@ class UsuarioDAO(BaseDAO):
                 WHERE id = ?
             """, (u.nombre, u.apellido, u.correo, u.contrasena, u.rol, id_))
             self.conn.commit()
-            self.conn.close()
         except Exception as e:
             print(f"Error al actualizar el usuario: {e}")
             return None

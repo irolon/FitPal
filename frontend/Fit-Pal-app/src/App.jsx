@@ -26,6 +26,7 @@ import AdminSesionCrearWrapper from "./components/Rutas/AdminSesionCrear.jsx";
 import AdminPlanes from "./components/Rutas/CardAdminPlanes.jsx";
 import AdminPlanCrearWrapper from "./components/Rutas/AdminPlanesCrear.jsx";
 import AdminPlanesEditar from "./components/Rutas/AdminPlanesEditar.jsx";
+import PerfilCliente from "./components/Cliente/PerfilCliente.jsx";
 
 const API = import.meta.env.VITE_API_URL;
 
@@ -37,7 +38,8 @@ function AppContent() {
     (location.pathname.startsWith('/cliente/') &&
       (location.pathname.includes('/planes') ||
         location.pathname.includes('/sesiones') ||
-        location.pathname.includes('/ejercicios'))) ||
+        location.pathname.includes('/ejercicios') ||
+        location.pathname.includes('/perfil'))) ||
     (location.pathname.startsWith('/admin/') &&
       location.pathname.includes('/usuarios')) ||
     (location.pathname.startsWith('/admin/') &&
@@ -64,6 +66,7 @@ function AppContent() {
         <Route path='/cliente/:id/planes' element={<ProtectedUserRoute><Planes /></ProtectedUserRoute>} />
         <Route path='/cliente/:id/sesiones' element={<ProtectedUserRoute><Sesiones /></ProtectedUserRoute>} />
         <Route path='/cliente/:id/sesiones/ejercicios' element={<ProtectedUserRoute><Ejercicios /></ProtectedUserRoute>} />
+        <Route path='/cliente/:id/perfil' element={<ProtectedUserRoute><PerfilCliente /></ProtectedUserRoute>} />
 
         <Route path='/admin/ejercicios' element={<ProtectedAdminRoute><AdminEjercicios /></ProtectedAdminRoute>} />
         <Route path='/admin/sesiones' element={<ProtectedAdminRoute><AdminSesiones /></ProtectedAdminRoute>} />
