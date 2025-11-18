@@ -15,6 +15,7 @@ from routes.sesion_routes import sesiones_bp
 from routes.sesion_ejercicio_routes import sesion_ejercicio_bp
 from routes.progreso_ejercicio_routes import progreso_ejercicio_bp
 from routes.administrador_routes import administrador_bp
+from routes.usuario_routes import usuario_bp
 
 
 # --------------------------
@@ -48,6 +49,7 @@ app.register_blueprint(sesiones_bp, url_prefix="/api/admin")
 app.register_blueprint(sesion_ejercicio_bp)
 app.register_blueprint(progreso_ejercicio_bp, url_prefix="/api")
 app.register_blueprint(administrador_bp, url_prefix="/api")
+app.register_blueprint(usuario_bp, url_prefix="/api")
 
 # --------------------------
 # Main

@@ -23,6 +23,7 @@ import EditarEjercicio from "./components/Rutas/EditarEjercicio.jsx";
 import AdminSesiones from "./components/Rutas/AdminSesiones.jsx";
 import AdminSesionEditar from "./components/Rutas/AdminSesionEditar.jsx";
 import AdminSesionCrearWrapper from "./components/Rutas/AdminSesionCrear.jsx";
+import AdminUsuarios from "./components/Rutas/AdminUsuarios.jsx";
 
 const API = import.meta.env.VITE_API_URL;
 
@@ -38,7 +39,9 @@ function AppContent() {
     (location.pathname.startsWith('/admin/') &&
       location.pathname.includes('/ejercicios')) ||
     (location.pathname.startsWith('/admin/') &&
-      location.pathname.includes('/sesiones'));
+      location.pathname.includes('/sesiones')) ||
+    (location.pathname.startsWith('/admin/') &&
+      location.pathname.includes('/usuarios'));
 
   return (
     <div className="d-flex flex-column min-vh-100">
@@ -60,6 +63,7 @@ function AppContent() {
 
         <Route path='/admin/ejercicios' element={<ProtectedAdminRoute><AdminEjercicios /></ProtectedAdminRoute>} />
         <Route path='/admin/sesiones' element={<ProtectedAdminRoute><AdminSesiones /></ProtectedAdminRoute>} />
+        <Route path='/admin/usuarios' element={<ProtectedAdminRoute><AdminUsuarios /></ProtectedAdminRoute>} />
 
         <Route path="/admin/sesiones/:id/editar" element={<ProtectedAdminRoute><AdminSesionEditar /></ProtectedAdminRoute>} />
         <Route path="/admin/sesiones/crear" element={<ProtectedAdminRoute><AdminSesionCrearWrapper /></ProtectedAdminRoute>} />
