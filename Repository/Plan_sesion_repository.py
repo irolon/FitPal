@@ -33,6 +33,14 @@ class PlanSesionRepository(BaseRepository):
         except Exception as e:
             print(f"Error al agregar el plan de sesión: {e}")
             return None
+        
+    def get_by_plan_id(self, plan_id):
+        try:
+            sesiones = self.plan_sesion_dao.read_by_plan_id(plan_id)
+            return sesiones if sesiones else []
+        except Exception as e:
+            print(f"Error al obtener sesiones por plan_id: {e}")
+            return []
 
     def update(self, plan_sesion):
         try:

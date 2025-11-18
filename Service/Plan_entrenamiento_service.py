@@ -6,7 +6,7 @@ class PlanEntrenamientoService:
     def __init__(self, db_path: str):
         self.repo = PlanEntrenamientoRepository(Conexion(db_path).conexion)
 
-    def list(self):
+    def get_all(self):
         return self.repo.list()
 
     def get_by_id(self, plan_entrenamiento_id: int):

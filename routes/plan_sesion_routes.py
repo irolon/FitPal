@@ -47,35 +47,3 @@ def actualizar_progreso_sesion(cliente_id, sesion_id):
         traceback.print_exc()
         return jsonify({"error": str(e)}), 500
 
-
-# @plan_sesion_bp.route('/', methods=['POST'])
-# def crear_plan_sesion():
-#     try:
-#         data = request.get_json()
-#         service = PlanSesionService(get_db_connection())
-#         nuevo_plan = service.crear(data)
-#         return jsonify({"message": "Plan de sesión creado correctamente", "data": nuevo_plan.__dict__}), 201
-#     except Exception as e:
-#         return jsonify({"error": str(e)}), 500
-
-
-# @plan_sesion_bp.route('/<int:id>', methods=['PUT'])
-# def actualizar_plan_sesion(id):
-#     try:
-#         data = request.get_json()
-#         data['id'] = id
-#         service = PlanSesionService(get_db_connection())
-#         resultado = service.actualizar(data)
-#         return jsonify({"message": resultado}), 200
-#     except Exception as e:
-#         return jsonify({"error": str(e)}), 500
-
-
-# @plan_sesion_bp.route('/<int:id>', methods=['DELETE'])
-# def eliminar_plan_sesion(id):
-#     try:
-#         service = PlanSesionService(get_db_connection())
-#         resultado = service.eliminar(id)
-#         return jsonify({"message": resultado}), 200
-#     except Exception as e:
-#         return jsonify({"error": str(e)}), 500

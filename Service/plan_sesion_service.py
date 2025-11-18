@@ -7,6 +7,9 @@ class PlanSesionService:
 
     def obtener_todos(self):
         return self.repo.list()
+    
+    def obtener_por_plan_id(self, plan_id):
+        return self.repo.get_by_plan_id(plan_id)
 
     def obtener_por_id(self, plan_sesion_id):
         return self.repo.get_by_id(plan_sesion_id)

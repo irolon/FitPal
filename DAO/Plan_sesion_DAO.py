@@ -84,6 +84,31 @@ class PlanSesionDAO(BaseDAO):
         except Exception as e:
             print(f"Error al listar los planes de sesión: {e}")
             return None
+        
+    def read_by_plan_id(self, plan_id: int):
+        try:
+            self.cur.execute("""
+                SELECT id, plan_entrenamiento_id, sesion_id, orden
+                FROM plan_sesion
+                WHERE plan_entrenamiento_id = ?
+                ORDER BY orden ASC
+            """, (plan_id,))
+            rows = self.cur.fetchall()
+            planes_sesiones = []
+            for row in rows:
+                planes_sesiones.append(
+                    PlanSesion(
+                        plan_id=row[1],
+                        sesion_id=row[2],
+                        orden=row[3],
+                        id=row[0]
+                    )
+                )
+            return planes_sesiones
+        except Exception as e:
+            print(f"Error al leer plan_sesion por plan_id: {e}")
+            return []
+
     
     def read_by_cliente_id(self, cliente_id: int):
         try:
