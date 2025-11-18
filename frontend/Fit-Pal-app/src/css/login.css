@@ -62,13 +62,23 @@ form{
     color: #888;
 }
 
-.input-box i {
+.input-box i:not(.password-toggle) {
     position: absolute;
     right: 20px;
     top: 50%;
     transform: translateY(-50%);
     font-size: 20px;
     color: #888;
+}
+
+.password-toggle {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 22px;
+    color: #888;
+    cursor: pointer;
 }
 
 .forgot-link{
@@ -113,7 +123,6 @@ form{
     z-index: 2;
     border-radius: 150px;
     transition: 1.2s ease-in-out;
-    z-index: 2;
 }
 
 .div-container-login.active .toggle-box::before{

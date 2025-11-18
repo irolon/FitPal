@@ -5,6 +5,7 @@ const FormLogin = ({ navigate, onForgotPassword }) => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
 
     const handleLoginSubmit = async (e) => {
         e.preventDefault();
@@ -59,12 +60,15 @@ const FormLogin = ({ navigate, onForgotPassword }) => {
 
                 <div className="input-box">
                     <input 
-                        type="password" 
+                        type={showPassword ? "text" : "password"}
                         placeholder="Contraseña"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                     />
-                    <i className='bx bxs-lock'></i>
+                    <i 
+                        className={`bx ${showPassword ? 'bx-hide' : 'bx-show'} password-toggle`}
+                        onClick={() => setShowPassword(!showPassword)}
+                    ></i>
                 </div>
 
                 <div className="forgot-link">
@@ -78,7 +82,7 @@ const FormLogin = ({ navigate, onForgotPassword }) => {
                 </div>
 
                 <button type="submit" className="btn-login">
-                    Login
+                    Acceder
                 </button>
             </form>
         </div>
