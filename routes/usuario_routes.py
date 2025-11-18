@@ -4,11 +4,9 @@ from Model.Usuario import Usuario
 
 
 def _usuario_to_dict(usuario):
-    """Convierte el modelo Usuario o un sqlite.Row en un diccionario simple."""
     if usuario is None:
         return None
 
-    # sqlite3.Row u objetos similares a mapping
     if hasattr(usuario, "keys") and hasattr(usuario, "__getitem__"):
         return dict(usuario)
 

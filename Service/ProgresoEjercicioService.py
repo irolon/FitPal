@@ -8,7 +8,6 @@ class ProgresoEjercicioService:
         self.dao.create_table()
 
     def obtener_progreso_cliente(self, cliente_id: int):
-        """Obtiene el progreso de ejercicios para un cliente"""
         try:
             return self.dao.obtener_progreso_por_cliente(cliente_id)
         except Exception as e:
@@ -16,7 +15,6 @@ class ProgresoEjercicioService:
             return {}
 
     def actualizar_estado_ejercicio(self, cliente_id: int, ejercicio_id: int, nuevo_estado: str):
-        """Actualiza el estado de un ejercicio para un cliente específico"""
         try:
             if nuevo_estado not in ['pendiente', 'completado']:
                 return {"error": "Estado inválido. Use 'pendiente' o 'completado'"}

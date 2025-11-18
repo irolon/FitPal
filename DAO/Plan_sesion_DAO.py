@@ -135,7 +135,6 @@ class PlanSesionDAO(BaseDAO):
             return []
 
     def get_sesiones_by_plan_id(self, plan_id: int):
-        """Obtiene las sesiones asignadas a un plan con información completa de la sesión"""
         try:
             self.cur.execute("""
                 SELECT ps.id, ps.orden, s.id as sesion_id, s.nombre, s.descripcion
@@ -160,7 +159,6 @@ class PlanSesionDAO(BaseDAO):
             return []
 
     def delete_sesion_from_plan(self, plan_id: int, sesion_id: int):
-        """Elimina una sesión específica de un plan"""
         try:
             self.cur.execute("""
                 DELETE FROM plan_sesion 
@@ -173,7 +171,6 @@ class PlanSesionDAO(BaseDAO):
             return False
     
     def get_sesiones_disponibles(self, plan_id: int):
-        """Obtiene todas las sesiones que no están asignadas al plan"""
         try:
             self.cur.execute("""
                 SELECT s.id, s.nombre, s.descripcion 
@@ -198,7 +195,6 @@ class PlanSesionDAO(BaseDAO):
             return []
     
     def add_sesion_to_plan(self, plan_id: int, sesion_id: int):
-        """Agrega una sesión existente a un plan"""
         try:
             # Obtener el siguiente orden
             self.cur.execute("""

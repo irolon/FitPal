@@ -13,7 +13,7 @@ class PlanEntrenamientoDAO(BaseDAO):
                   nombre          TEXT NOT NULL,
                   frecuencia      INTEGER NOT NULL,
                   fecha_inicio   DATE NOT NULL,
-                  fecha_fin      DATE NOT NULL,
+                  fecha_fin      DATE,
                   FOREIGN KEY (cliente_id) REFERENCES cliente(usuario_id) ON DELETE CASCADE
                 )
             """)
