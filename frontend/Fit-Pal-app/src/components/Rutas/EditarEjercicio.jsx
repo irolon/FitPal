@@ -42,89 +42,92 @@ const EditarEjercicio = () => {
   };
 
   return (
-    <div className="container mt-4">
-      <h2>Editar Ejercicio</h2>
+    <div className="div-home vh-100 py-4">
+      <div className="container">
+        <h2>Editar Ejercicio</h2>
 
-      <form onSubmit={handleSubmit} className="mt-3">
-        <div className="mb-3">
-          <label className="form-label">Categoria</label>
-          <input
-            type="text"
-            name="categoria"
-            className="form-control"
-            value={form.categoria}
-            onChange={handleChange}
-          />
-        </div>
-
-        <div className="mb-3">
-          <label className="form-label">Nombre</label>
-          <input
-            type="text"
-            name="nombre"
-            className="form-control"
-            value={form.nombre}
-            onChange={handleChange}
-          />
-        </div>
-
-        <div className="mb-3">
-          <label className="form-label">Descripción</label>
-          <textarea
-            name="descripcion"
-            className="form-control"
-            value={form.descripcion}
-            onChange={handleChange}
-          ></textarea>
-        </div>
-
-        <div className="row">
-          <div className="col mb-3">
-            <label className="form-label">Repeticiones</label>
+        <form onSubmit={handleSubmit} className="mt-3">
+          <div className="mb-3">
+            <label className="form-label">Categoria</label>
             <input
-              type="number"
-              name="repeticiones"
+              type="text"
+              name="categoria"
               className="form-control"
-              value={form.repeticiones}
+              value={form.categoria}
               onChange={handleChange}
             />
           </div>
 
-          <div className="col mb-3">
-            <label className="form-label">Series</label>
+          <div className="mb-3">
+            <label className="form-label">Nombre</label>
             <input
-              type="number"
-              name="series"
+              type="text"
+              name="nombre"
               className="form-control"
-              value={form.series}
+              value={form.nombre}
               onChange={handleChange}
             />
           </div>
 
-          <div className="col mb-3">
-            <label className="form-label">Descanso (seg)</label>
-            <input
-              type="number"
-              name="descanso"
+          <div className="mb-3">
+            <label className="form-label">Descripción</label>
+            <textarea
+              name="descripcion"
               className="form-control"
-              value={form.descanso}
+              value={form.descripcion}
               onChange={handleChange}
-            />
+            ></textarea>
           </div>
-        </div>
 
-        <button type="submit" className="btn btn-primary">
-          Guardar cambios
-        </button>
+          <div className="row">
+            <div className="col mb-3">
+              <label className="form-label">Repeticiones</label>
+              <input
+                type="number"
+                name="repeticiones"
+                className="form-control"
+                value={form.repeticiones}
+                onChange={handleChange}
+              />
+            </div>
 
-        <button
-          type="button"
-          className="btn btn-secondary ms-3"
-          onClick={() => navigate("/admin/ejercicios")}
-        >
-          Cancelar
-        </button>
-      </form>
+            <div className="col mb-3">
+              <label className="form-label">Series</label>
+              <input
+                type="number"
+                name="series"
+                className="form-control"
+                value={form.series}
+                onChange={handleChange}
+              />
+            </div>
+
+            <div className="col mb-3">
+              <label className="form-label">Descanso (seg)</label>
+              <input
+                type="number"
+                name="descanso"
+                className="form-control"
+                value={form.descanso}
+                onChange={handleChange}
+              />
+            </div>
+          </div>
+
+          <button type="submit" className="btn btn-primary">
+            Guardar cambios
+          </button>
+
+          <button
+            type="button"
+            className="btn btn-secondary ms-3"
+            onClick={() => navigate("/admin/ejercicios")}
+          >
+            Cancelar
+          </button>
+        </form>
+      </div>
+
     </div>
   );
 };

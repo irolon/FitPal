@@ -1,8 +1,8 @@
 .card-fitpal {
-  background-color: #eaeaea;
+  background-color: oklch(92.332% 0.03606 185.952);
   border-radius: 25px;
   padding: 30px 20px;
-  border: none;
+  border: 3px solid black;
   transition: transform .2s ease;
   text-align: center;
   display: flex;
@@ -14,28 +14,30 @@
 }
 
 .card-fitpal h5 {
-  font-size: 1.8rem;
+  font-size: 2rem;
   font-weight: 700;
   color: #1a1a1a;
 }
 
 .card-fitpal p {
   color: #4a4a4a;
-  font-size: 1rem;
+  font-size: 1.2rem;
 }
 
 .btn-fitpal {
-  background-color: white;
+  background-color: rgb(217, 226, 228);
   color: #222;
-  border: 2px solid #333;
+  border: 1px solid #333;
   padding: 10px 20px;
   border-radius: 12px;
+  font-size: 20px;
   font-weight: 600;
   transition: all .2s ease;
+  text-decoration: none;
 }
 
 .btn-fitpal:hover {
-  background-color: #f0f0f0;
+  background-color: #e0d9d9d8;
   color: #000;
   border-color: #000;
 }
@@ -44,4 +46,23 @@
   display: flex;
   justify-content: center;
   margin-top: auto;
+}
+
+.section-title{
+  font-size: 50px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.section-subtitle{
+  font-size: 20px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.div-home {
+  background-image: url("assets/img/img-fondo.png");
+  background-size: cover;
+  background-position: center;  
 }

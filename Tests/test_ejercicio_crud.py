@@ -254,7 +254,7 @@ if __name__ == '__main__':
     print(f"Fallos: {len(result.failures)}")
     
     if result.wasSuccessful():
-        print("\n¡TODOS LOS TESTS DE EJERCICIOS PASARON!")
+        print("\nTEST COMPLETADOS CORRECTAMENTE")
     else:
         print("\nALGUNOS TESTS FALLARON")
         if result.errors:

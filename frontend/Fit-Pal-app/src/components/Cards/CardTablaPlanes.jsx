@@ -6,11 +6,11 @@ const CardTablaPlanes = ({ planes }) => {
   const planesArray = Array.isArray(planes) ? planes : [];
 
   return (
-    <div className="container vh-100 d-flex flex-column align-items-center justify-content-center">
+    <div className=" vh-100 d-flex flex-column align-items-center div-home justify-content-center">
       <h1 className="mb-4">Mis Planes de Entrenamiento</h1>
       <p>Aquí podrás ver y gestionar tus planes de entrenamiento personalizados.</p>
 
-      <table className="table table-striped table-dark">
+      <table className="container table table-striped table-dark">
         <thead>
           <tr>
             <th>Nombre del Plan</th>

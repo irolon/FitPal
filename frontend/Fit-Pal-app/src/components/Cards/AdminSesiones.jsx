@@ -65,16 +65,16 @@ const AdminSesiones = ({ sesiones }) => {
   };
 
   return (
-    <div className="container py-4">
+    <div className="div-home vh-100 py-4">
 
       <h1 className="mb-3 text-center">Gestión de Sesiones</h1>
 
-      <div className="d-flex justify-content-between align-items-center mb-3">
+      <div className=" container  d-flex justify-content-between align-items-center mb-3">
         
         {/* Barra de búsqueda */}
         <input
           type="text"
-          className="form-control w-50"
+          className=" form-control w-50"
           placeholder="Buscar por nombre o descripción..."
           value={search}
           onChange={(e) => {
@@ -89,7 +89,7 @@ const AdminSesiones = ({ sesiones }) => {
         </Link>
       </div>
 
-      <table className="table table-striped table-dark">
+      <table className=" container table table-striped table-dark">
         <thead>
           <tr>
             <th>Nombre</th>

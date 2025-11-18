@@ -64,104 +64,107 @@ const AdminSesionCrear = () => {
   };
 
   return (
-    <div className="container py-4">
+    <div className="div-home vh-100 py-4">
       <h1 className="mb-4 text-center">Crear Sesión</h1>
 
-      <form onSubmit={handleGuardar} className="mb-4">
-        <div className="mb-3">
-          <label className="form-label">Nombre</label>
-          <input
-            type="text"
-            className="form-control"
-            value={sesion.nombre}
-            onChange={(e) => setSesion({ ...sesion, nombre: e.target.value })}
-            required
-          />
+      <div className="container">
+        <form onSubmit={handleGuardar} className="container mb-4">
+          <div className="mb-3">
+            <label className="form-label">Nombre</label>
+            <input
+              type="text"
+              className="form-control"
+              value={sesion.nombre}
+              onChange={(e) => setSesion({ ...sesion, nombre: e.target.value })}
+              required
+            />
+          </div>
+
+          <div className="mb-3">
+            <label className="form-label">Descripción</label>
+            <textarea
+              className="form-control"
+              value={sesion.descripcion}
+              onChange={(e) => setSesion({ ...sesion, descripcion: e.target.value })}
+            />
+          </div>
+
+          <button type="submit" className="btn btn-success">Crear Sesión</button>
+        </form>
+
+        <div className="row">
+          <div className="col-md-6">
+            <h4>Ejercicios Seleccionados</h4>
+
+            <ul className="list-group">
+              {ejerciciosSeleccionados.map(e => (
+                <li key={e.id} className="list-group-item d-flex justify-content-between align-items-center">
+                  {e.nombre}
+                  <button className="btn btn-sm btn-danger" onClick={() => quitarEjercicio(e.id)}>Quitar</button>
+                </li>
+              ))}
+
+              {ejerciciosSeleccionados.length === 0 &&
+                <li className="list-group-item">No hay ejercicios seleccionados</li>}
+            </ul>
+          </div>
+
+          <div className="col-md-6">
+            <h4>Ejercicios Disponibles</h4>
+
+            <input
+              type="text"
+              className="form-control mb-2"
+              placeholder="Buscar ejercicio..."
+              value={searchTerm}
+              onChange={(e) => {
+                setSearchTerm(e.target.value);
+                setCurrentPage(1);
+              }}
+            />
+
+            <ul className="list-group">
+              {currentItems.map(e => (
+                <li key={e.id} className="list-group-item d-flex justify-content-between align-items-center">
+                  {e.nombre}
+                  <button className="btn btn-sm btn-primary" onClick={() => agregarEjercicio(e)}>Agregar</button>
+                </li>
+              ))}
+
+              {ejerciciosFiltrados.length === 0 &&
+                <li className="list-group-item">No hay ejercicios disponibles</li>}
+            </ul>
+
+            {totalPages > 1 && (
+              <div className="d-flex justify-content-center mt-3">
+                <button
+                  className="btn btn-secondary mx-1"
+                  onClick={() => cambiarPagina(currentPage - 1)}
+                  disabled={currentPage === 1}
+                >
+                  Anterior
+                </button>
+
+                <span className="mx-2">Página {currentPage} de {totalPages}</span>
+
+                <button
+                  className="btn btn-secondary mx-1"
+                  onClick={() => cambiarPagina(currentPage + 1)}
+                  disabled={currentPage === totalPages}
+                >
+                  Siguiente
+                </button>
+              </div>
+            )}
+          </div>
         </div>
 
-        <div className="mb-3">
-          <label className="form-label">Descripción</label>
-          <textarea
-            className="form-control"
-            value={sesion.descripcion}
-            onChange={(e) => setSesion({ ...sesion, descripcion: e.target.value })}
-          />
-        </div>
-
-        <button type="submit" className="btn btn-success">Crear Sesión</button>
-      </form>
-
-      <div className="row">
-        <div className="col-md-6">
-          <h4>Ejercicios Seleccionados</h4>
-
-          <ul className="list-group">
-            {ejerciciosSeleccionados.map(e => (
-              <li key={e.id} className="list-group-item d-flex justify-content-between align-items-center">
-                {e.nombre}
-                <button className="btn btn-sm btn-danger" onClick={() => quitarEjercicio(e.id)}>Quitar</button>
-              </li>
-            ))}
-
-            {ejerciciosSeleccionados.length === 0 &&
-              <li className="list-group-item">No hay ejercicios seleccionados</li>}
-          </ul>
-        </div>
-
-        <div className="col-md-6">
-          <h4>Ejercicios Disponibles</h4>
-
-          <input
-            type="text"
-            className="form-control mb-2"
-            placeholder="Buscar ejercicio..."
-            value={searchTerm}
-            onChange={(e) => {
-              setSearchTerm(e.target.value);
-              setCurrentPage(1);
-            }}
-          />
-
-          <ul className="list-group">
-            {currentItems.map(e => (
-              <li key={e.id} className="list-group-item d-flex justify-content-between align-items-center">
-                {e.nombre}
-                <button className="btn btn-sm btn-primary" onClick={() => agregarEjercicio(e)}>Agregar</button>
-              </li>
-            ))}
-
-            {ejerciciosFiltrados.length === 0 &&
-              <li className="list-group-item">No hay ejercicios disponibles</li>}
-          </ul>
-
-          {totalPages > 1 && (
-            <div className="d-flex justify-content-center mt-3">
-              <button
-                className="btn btn-secondary mx-1"
-                onClick={() => cambiarPagina(currentPage - 1)}
-                disabled={currentPage === 1}
-              >
-                Anterior
-              </button>
-
-              <span className="mx-2">Página {currentPage} de {totalPages}</span>
-
-              <button
-                className="btn btn-secondary mx-1"
-                onClick={() => cambiarPagina(currentPage + 1)}
-                disabled={currentPage === totalPages}
-              >
-                Siguiente
-              </button>
-            </div>
-          )}
+        <div className="text-center mt-4 d-flex justify-content-center gap-3">
+          <button onClick={handleGuardar} className="btn btn-success btn-lg">Crear Sesión</button>
+          <Link to="/admin/sesiones" className="btn btn-secondary btn-lg">Volver</Link>
         </div>
       </div>
 
-      <div className="text-center mt-4 d-flex justify-content-center gap-3">
-        <button onClick={handleGuardar} className="btn btn-success">Crear Sesión</button>
-        <Link to="/admin/sesiones" className="btn btn-secondary">Volver</Link>
-      </div>
     </div>
   );
 };
