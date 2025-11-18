@@ -4,12 +4,25 @@ import { Link, useNavigate } from "react-router-dom";
 const AdminPlanes = ({ planes }) => {
   const navigate = useNavigate();
 
+  // Estado para búsqueda
   const [search, setSearch] = useState("");
+
+  // Estado para paginación
   const [page, setPage] = useState(1);
   const itemsPerPage = 10;
 
+  const safe = (v) => {
+    if (v === null || v === undefined) return "";
+    return String(v).toLowerCase();
+  };
+
+  const handleCrear = () => {
+    navigate("/admin/planes/crear");
+  };
+
   const handleEliminar = async (id) => {
     const confirmar = window.confirm("¿Seguro que querés eliminar este plan?");
+
     if (!confirmar) return;
 
     try {
@@ -21,25 +34,26 @@ const AdminPlanes = ({ planes }) => {
 
       window.location.reload();
     } catch (error) {
-      console.error("Error:", error);
+      console.error("Error al eliminar plan:", error);
       alert("No se pudo eliminar el plan.");
     }
   };
 
-  // --- FILTRADO ---
+  // ---- FILTRADO ----
   const planesFiltrados = useMemo(() => {
     if (!search.trim()) return planes;
 
-    const s = search.toLowerCase();
+    const q = search.trim().toLowerCase();
 
     return planes.filter(
       (p) =>
-        p.nombre.toLowerCase().includes(s) ||
-        (p.frecuencia && p.frecuencia.toLowerCase().includes(s))
+        safe(p.nombre).includes(q) ||
+        safe(p.frecuencia).includes(q) ||
+        safe(p.cliente_id).includes(q)
     );
   }, [search, planes]);
 
-  // --- PAGINACIÓN ---
+  // ---- PAGINACIÓN ----
   const totalPages = Math.ceil(planesFiltrados.length / itemsPerPage);
 
   const planesPaginados = useMemo(() => {
@@ -54,20 +68,24 @@ const AdminPlanes = ({ planes }) => {
 
   return (
     <div className="div-home vh-100 py-4">
+
       <h1 className="mb-3 text-center">Gestión de Planes</h1>
 
       <div className="container d-flex justify-content-between align-items-center mb-3">
+
+        {/* Barra de búsqueda */}
         <input
           type="text"
           className="form-control w-50"
-          placeholder="Buscar por nombre o frecuencia..."
+          placeholder="Buscar por nombre, frecuencia o cliente..."
           value={search}
           onChange={(e) => {
             setSearch(e.target.value);
-            setPage(1);
+            setPage(1); // igual que en el componente de sesiones
           }}
         />
 
+        {/* Botón crear */}
         <Link className="btn btn-success" to="/admin/planes/crear">
           Crear
         </Link>
@@ -79,8 +97,6 @@ const AdminPlanes = ({ planes }) => {
             <th>Nombre</th>
             <th>Frecuencia</th>
             <th>Cliente</th>
-            <th>Inicio</th>
-            <th>Fin</th>
             <th>Acciones</th>
           </tr>
         </thead>
@@ -88,30 +104,28 @@ const AdminPlanes = ({ planes }) => {
         <tbody>
           {planesPaginados.length === 0 ? (
             <tr>
-              <td colSpan="6" className="text-center">
+              <td colSpan="4" className="text-center">
                 No se encontraron planes.
               </td>
             </tr>
           ) : (
-            planesPaginados.map((p) => (
-              <tr key={p.id}>
-                <td>{p.nombre}</td>
-                <td>{p.frecuencia}</td>
-                <td>{p.cliente_id}</td>
-                <td>{p.fecha_inicio}</td>
-                <td>{p.fecha_fin}</td>
+            planesPaginados.map((pl) => (
+              <tr key={pl.id}>
+                <td>{pl.nombre}</td>
+                <td>{pl.frecuencia}</td>
+                <td>{pl.cliente_id}</td>
 
                 <td>
                   <Link
                     className="btn btn-primary btn-sm me-2"
-                    to={`/admin/planes/${p.id}/editar`}
+                    to={`/admin/planes/${pl.id}/editar`}
                   >
                     Editar
                   </Link>
 
                   <button
                     className="btn btn-danger btn-sm"
-                    onClick={() => handleEliminar(p.id)}
+                    onClick={() => handleEliminar(pl.id)}
                   >
                     Eliminar
                   </button>
@@ -122,6 +136,7 @@ const AdminPlanes = ({ planes }) => {
         </tbody>
       </table>
 
+      {/* ---- PAGINACIÓN ---- */}
       {totalPages > 1 && (
         <div className="d-flex justify-content-center mt-3">
           <button
@@ -151,6 +166,7 @@ const AdminPlanes = ({ planes }) => {
           Volver al panel admin
         </Link>
       </div>
+
     </div>
   );
 };

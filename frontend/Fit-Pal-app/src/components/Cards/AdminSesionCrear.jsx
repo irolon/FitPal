@@ -88,8 +88,6 @@ const AdminSesionCrear = () => {
               onChange={(e) => setSesion({ ...sesion, descripcion: e.target.value })}
             />
           </div>
-
-          <button type="submit" className="btn btn-success">Crear Sesión</button>
         </form>
 
         <div className="row">
