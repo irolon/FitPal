@@ -18,6 +18,7 @@ from routes.administrador_routes import administrador_bp
 from routes.usuario_routes import usuario_bp
 
 
+
 # --------------------------
 # Configuración Flask
 # --------------------------
