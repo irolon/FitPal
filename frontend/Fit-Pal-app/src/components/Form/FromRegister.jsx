@@ -1,10 +1,10 @@
 import { useState } from 'react';
 const API = import.meta.env.VITE_API_URL;
 
-const FormRegister = () => {
-
-    const [isRegister, setIsRegister] = useState(false);
+const FormRegister = ({ navigate, setIsRegister }) => {
+    const [infoMessage, setInfoMessage] = useState('');
     const [showPassword, setShowPassword] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
     const [registerData, setRegisterData] = useState({
         name: '',
@@ -14,6 +14,10 @@ const FormRegister = () => {
         email: '',
         password: ''
     });
+
+     const handleInfoMessage = () => {
+        setInfoMessage('Registro exitoso!');
+    }
 
     const handleRegisterInputChange = (e) => {
         const { name, value } = e.target;
@@ -25,34 +29,47 @@ const FormRegister = () => {
 
     const handleRegisterSubmit = async (e) => {
         e.preventDefault();
+        setIsLoading(true);
         
         try {
-        
-            const response = await fetch(`${API}/api/register`, {
+            const registerResponse = await fetch(`${API}/api/register`, {
                 method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
+                headers: {
+                    'Content-Type': 'application/json',
+                },
                 body: JSON.stringify(registerData),
             });
             
-            const data = await response.json();
+            const registerData_response = await registerResponse.json();
             
-            if (response.ok) {
-            alert('Registro exitoso!');
-
-                setIsRegister(false);
+            if (registerResponse.ok) {
+                setInfoMessage('¡Registro exitoso! Ahora puedes iniciar sesión.');
+                
+                // Cambiar automáticamente a la vista de login después de 2 segundos
+                setTimeout(() => {
+                    setIsRegister(false); // Esto cambia a la vista de "Iniciar Sesión"
+                }, 2000);
+                
             } else {
-                alert(`Error: ${data.message || data.error}`);
+                alert(`Error en el registro: ${registerData_response.message || registerData_response.error}`);
             }
-        } catch {
+        } catch (error) {
+            console.error('Error:', error);
             alert('Error de conexión con el servidor');
+        } finally {
+            setIsLoading(false);
         }
     };
     return (
-        <div className="form-box register">
+        <div className="d-flex flex-column form-box register">
+
             <form onSubmit={handleRegisterSubmit}>
                 <h1>Registrate</h1>
+                            {infoMessage && (
+                <div className="alert alert-success text-center mt-4">
+                    {infoMessage}
+                </div>
+            )}
                 <div className="input-box">
                     <input 
                         type="text"
@@ -129,7 +146,14 @@ const FormRegister = () => {
                     ></i>
                 </div>
 
-                <button type="submit" className="btn-login">Registrarse</button>
+                <button 
+                    type="submit" 
+                    className="btn-login" 
+                    disabled={isLoading}
+                    onClick={handleInfoMessage}
+                >
+                    {isLoading ? 'Registrando...' : 'Registrarse'}
+                </button>
             </form>
         </div>
     );

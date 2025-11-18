@@ -20,7 +20,10 @@ const Login = () => {
                         onForgotPassword={() => setShowForgotModal(true)}
                     />
 
-                    <FormRegister />
+                    <FormRegister 
+                        navigate={navigate}
+                        setIsRegister={setIsRegister}
+                    />
                     <CardToggle 
                         isRegister={isRegister} 
                         setIsRegister={setIsRegister} 
