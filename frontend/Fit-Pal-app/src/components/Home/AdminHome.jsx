@@ -91,7 +91,7 @@ import { useState } from "react";
               Administrá las cuentas de clientes y administradores.
             </p>
             <div className="card-button-center">
-                  <Link onClick={handleClick} className="btn btn-dark btn-lg mt-3">
+                  <Link to={'/admin/usuarios'} className="btn btn-dark btn-lg mt-3">
                     Gestionar usuarios
                   </Link>
             </div>
