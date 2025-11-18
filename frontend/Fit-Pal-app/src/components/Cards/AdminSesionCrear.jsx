@@ -1,87 +1,71 @@
 import React, { useState, useEffect } from "react";
-import { useParams, useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
-const AdminSesionEditar = () => {
-  const { id } = useParams();
+const AdminSesionCrear = () => {
   const navigate = useNavigate();
 
   const [sesion, setSesion] = useState({ nombre: "", descripcion: "" });
-  const [ejerciciosSesion, setEjerciciosSesion] = useState([]);
   const [ejerciciosDisponibles, setEjerciciosDisponibles] = useState([]);
+  const [ejerciciosSeleccionados, setEjerciciosSeleccionados] = useState([]);
 
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 8;
 
   useEffect(() => {
-    fetch(`http://localhost:5000/api/admin/sesiones/${id}`)
-      .then(res => res.json())
-      .then(data => setSesion({ nombre: data.nombre, descripcion: data.descripcion }))
-      .catch(console.error);
-
-    fetch(`http://localhost:5000/api/sesion_ejercicio/${id}`)
-      .then(res => res.json())
-      .then(data => setEjerciciosSesion(data))
-      .catch(console.error);
-
     fetch("http://localhost:5000/api/admin/ejercicios")
       .then(res => res.json())
       .then(data => setEjerciciosDisponibles(data))
       .catch(console.error);
-  }, [id]);
+  }, []);
 
   const handleGuardar = (e) => {
     e.preventDefault();
-    fetch(`http://localhost:5000/api/admin/sesiones/${id}`, {
-      method: "PUT",
+
+    fetch("http://localhost:5000/api/admin/sesiones", {
+      method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(sesion),
     })
       .then(res => res.json())
-      .then(() => navigate("/admin/sesiones"))
-      .catch(console.error);
-  };
-
-  const agregarEjercicio = (ejId) => {
-    fetch(`http://localhost:5000/api/sesion_ejercicio/${id}`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ ejercicio_id: ejId }),
-    })
-      .then(() => {
-        const ej = ejerciciosDisponibles.find(e => e.id === ejId);
-        setEjerciciosSesion([...ejerciciosSesion, ej]);
+      .then(async (nuevaSesion) => {
+        for (const ej of ejerciciosSeleccionados) {
+          await fetch(`http://localhost:5000/api/sesion_ejercicio/${nuevaSesion.id}`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ ejercicio_id: ej.id }),
+          });
+        }
+        navigate("/admin/sesiones");
       })
       .catch(console.error);
   };
 
-  const quitarEjercicio = (ejId) => {
-    fetch(`http://localhost:5000/api/sesion_ejercicio/${id}/${ejId}`, { method: "DELETE" })
-      .then(() => {
-        setEjerciciosSesion(ejerciciosSesion.filter(e => e.id !== ejId));
-      })
-      .catch(console.error);
+  const agregarEjercicio = (ej) => {
+    setEjerciciosSeleccionados([...ejerciciosSeleccionados, ej]);
   };
 
-  // Filtrar ejercicios disponibles
+  const quitarEjercicio = (id) => {
+    setEjerciciosSeleccionados(ejerciciosSeleccionados.filter(e => e.id !== id));
+  };
+
   const ejerciciosFiltrados = ejerciciosDisponibles
-    .filter(e => !ejerciciosSesion.some(es => es.id === e.id))
+    .filter(e => !ejerciciosSeleccionados.some(es => es.id === e.id))
     .filter(e => e.nombre.toLowerCase().includes(searchTerm.toLowerCase()));
 
-  // Paginación
   const totalPages = Math.ceil(ejerciciosFiltrados.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const currentItems = ejerciciosFiltrados.slice(startIndex, startIndex + itemsPerPage);
 
-  const cambiarPagina = (pagina) => {
-    if (pagina >= 1 && pagina <= totalPages) {
-      setCurrentPage(pagina);
+  const cambiarPagina = (p) => {
+    if (p >= 1 && p <= totalPages) {
+      setCurrentPage(p);
     }
   };
 
   return (
     <div className="container py-4">
-      <h1 className="mb-4 text-center">Editar Sesión</h1>
+      <h1 className="mb-4 text-center">Crear Sesión</h1>
 
       <form onSubmit={handleGuardar} className="mb-4">
         <div className="mb-3">
@@ -104,20 +88,23 @@ const AdminSesionEditar = () => {
           />
         </div>
 
-
+        <button type="submit" className="btn btn-success">Crear Sesión</button>
       </form>
 
       <div className="row">
         <div className="col-md-6">
-          <h4>Ejercicios Asignados</h4>
+          <h4>Ejercicios Seleccionados</h4>
+
           <ul className="list-group">
-            {ejerciciosSesion.map(e => (
+            {ejerciciosSeleccionados.map(e => (
               <li key={e.id} className="list-group-item d-flex justify-content-between align-items-center">
                 {e.nombre}
                 <button className="btn btn-sm btn-danger" onClick={() => quitarEjercicio(e.id)}>Quitar</button>
               </li>
             ))}
-            {ejerciciosSesion.length === 0 && <li className="list-group-item">No hay ejercicios asignados</li>}
+
+            {ejerciciosSeleccionados.length === 0 &&
+              <li className="list-group-item">No hay ejercicios seleccionados</li>}
           </ul>
         </div>
 
@@ -139,7 +126,7 @@ const AdminSesionEditar = () => {
             {currentItems.map(e => (
               <li key={e.id} className="list-group-item d-flex justify-content-between align-items-center">
                 {e.nombre}
-                <button className="btn btn-sm btn-primary" onClick={() => agregarEjercicio(e.id)}>Agregar</button>
+                <button className="btn btn-sm btn-primary" onClick={() => agregarEjercicio(e)}>Agregar</button>
               </li>
             ))}
 
@@ -171,13 +158,12 @@ const AdminSesionEditar = () => {
         </div>
       </div>
 
-
       <div className="text-center mt-4 d-flex justify-content-center gap-3">
-        <button onClick={handleGuardar} className="btn btn-success">Guardar Cambios</button>
+        <button onClick={handleGuardar} className="btn btn-success">Crear Sesión</button>
         <Link to="/admin/sesiones" className="btn btn-secondary">Volver</Link>
       </div>
     </div>
   );
 };
 
-export default AdminSesionEditar;
+export default AdminSesionCrear;
