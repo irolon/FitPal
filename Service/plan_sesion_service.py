@@ -25,3 +25,11 @@ class PlanSesionService:
     
     def obtener_por_cliente_id(self, cliente_id):
         return self.repo.get_by_cliente_id(cliente_id)
+
+    def obtener_sesiones_por_plan(self, plan_id):
+        """Obtiene las sesiones asignadas a un plan específico"""
+        return self.repo.get_sesiones_by_plan_id(plan_id)
+
+    def eliminar_sesion_del_plan(self, plan_id, sesion_id):
+        """Elimina una sesión específica de un plan"""
+        return self.repo.delete_sesion_from_plan(plan_id, sesion_id)

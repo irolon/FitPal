@@ -75,11 +75,11 @@ const CardEjercicios = ({ ejercicios, clienteId }) => {
   }
 
   return (
-    <div className="container vh-100 d-flex flex-column align-items-center justify-content-center">
+    <div className="div-home vh-100 d-flex flex-column align-items-center justify-content-center">
         <h1 className="mb-4">Ejercicios</h1>
         <p>Aquí podrás ver y gestionar tus ejercicios asignados.</p>
 
-        <table className="table table-striped table-dark">
+        <table className="container table table-striped table-dark">
             <thead>
                 <tr>
                     <th>Categoria</th>

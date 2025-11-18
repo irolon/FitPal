@@ -1,7 +1,9 @@
 
 from flask import Blueprint, jsonify, request
 from Service.Plan_entrenamiento_service import PlanEntrenamientoService
+from DAO.Plan_sesion_DAO import PlanSesionDAO
 from data_base import Conexion
+
 
 plan_entrenamiento_bp = Blueprint('plan_entrenamiento_bp', __name__)
 
@@ -82,14 +84,7 @@ def admin_update_plan(plan_id):
         data = request.json
         service = PlanEntrenamientoService('data_base/db_fitpal.db')
 
-        actualizado = service.update(
-            plan_id,
-            nombre=data.get("nombre"),
-            frecuencia=data.get("frecuencia"),
-            fecha_inicio=data.get("fecha_inicio"),
-            fecha_fin=data.get("fecha_fin"),
-            cliente_id=data.get("cliente_id")
-        )
+        actualizado = service.update(plan_id, data)
 
         if not actualizado:
             return jsonify({"error": "Plan no encontrado"}), 404
@@ -115,4 +110,116 @@ def admin_delete_plan(plan_id):
         return jsonify({"message": "Plan eliminado"}), 200
     except Exception as e:
         print(f"Error admin_delete_plan: {e}")
+        return jsonify({"error": "Internal server error"}), 500
+
+
+# ======================================================
+# ADMIN – obtener sesiones de un plan
+# ======================================================
+@plan_entrenamiento_bp.route('/admin/planes/<int:plan_id>/sesiones', methods=['GET'])
+def admin_get_plan_sesiones(plan_id):
+    try:
+        from Service.plan_sesion_service import PlanSesionService
+        service = PlanSesionService('data_base/db_fitpal.db')
+        sesiones = service.obtener_sesiones_por_plan(plan_id)
+        return jsonify(sesiones), 200
+    except Exception as e:
+        print(f"Error admin_get_plan_sesiones: {e}")
+        return jsonify({"error": "Internal server error"}), 500
+
+
+# ======================================================
+# ADMIN – eliminar sesión de un plan
+# ======================================================
+@plan_entrenamiento_bp.route('/admin/planes/<int:plan_id>/sesiones/<int:sesion_id>', methods=['DELETE'])
+def admin_delete_plan_sesion(plan_id, sesion_id):
+    try:
+        from Service.plan_sesion_service import PlanSesionService
+        service = PlanSesionService('data_base/db_fitpal.db')
+        eliminado = service.eliminar_sesion_del_plan(plan_id, sesion_id)
+        
+        if eliminado:
+            return jsonify({"message": "Sesión eliminada del plan"}), 200
+        else:
+            return jsonify({"error": "No se pudo eliminar la sesión"}), 400
+    except Exception as e:
+        print(f"Error admin_delete_plan_sesion: {e}")
+        return jsonify({"error": "Internal server error"}), 500
+
+
+# ======================================================
+# ADMIN – obtener sesiones disponibles para agregar al plan
+# ======================================================
+@plan_entrenamiento_bp.route('/admin/planes/<int:plan_id>/sesiones/disponibles', methods=['GET'])
+def admin_get_sesiones_disponibles(plan_id):
+    try:
+        # Debug: Usar conexión directa sin DAO
+        import sqlite3
+        conn = sqlite3.connect('data_base/db_fitpal.db')
+        cursor = conn.cursor()
+        
+        cursor.execute("""
+            SELECT s.id, s.nombre, s.descripcion 
+            FROM sesion s 
+            WHERE s.id NOT IN (
+                SELECT ps.sesion_id 
+                FROM plan_sesion ps 
+                WHERE ps.plan_entrenamiento_id = ?
+            )
+        """, (plan_id,))
+        
+        rows = cursor.fetchall()
+        sesiones = []
+        for row in rows:
+            sesiones.append({
+                'id': row[0], 
+                'nombre': row[1], 
+                'descripcion': row[2]
+            })
+        
+        conn.close()
+        return jsonify(sesiones), 200
+    except Exception as e:
+        print(f"Error admin_get_sesiones_disponibles: {e}")
+        import traceback
+        traceback.print_exc()
+        return jsonify({"error": "Internal server error"}), 500
+
+
+# ======================================================
+# ADMIN – agregar sesión existente a un plan
+# ======================================================
+@plan_entrenamiento_bp.route('/admin/planes/<int:plan_id>/sesiones/<int:sesion_id>', methods=['POST'])
+def admin_add_sesion_to_plan(plan_id, sesion_id):
+    try:
+        # Debug: Usar conexión directa sin DAO
+        import sqlite3
+        conn = sqlite3.connect('data_base/db_fitpal.db')
+        cursor = conn.cursor()
+        
+        # Obtener el siguiente orden
+        cursor.execute("""
+            SELECT COALESCE(MAX(orden), 0) + 1 
+            FROM plan_sesion 
+            WHERE plan_entrenamiento_id = ?
+        """, (plan_id,))
+        orden = cursor.fetchone()[0]
+        
+        # Insertar la nueva relación
+        cursor.execute(
+            "INSERT INTO plan_sesion (plan_entrenamiento_id, sesion_id, orden) VALUES (?, ?, ?)", 
+            (plan_id, sesion_id, orden)
+        )
+        conn.commit()
+        agregado = cursor.rowcount > 0
+        conn.close()
+        
+        if agregado:
+            return jsonify({"message": "Sesión agregada al plan exitosamente"}), 201
+        else:
+            return jsonify({"error": "No se pudo agregar la sesión al plan"}), 400
+    except Exception as e:
+        print(f"Error admin_add_sesion_to_plan: {e}")
+        import traceback
+        traceback.print_exc()
         return jsonify({"error": "Internal server error"}), 500

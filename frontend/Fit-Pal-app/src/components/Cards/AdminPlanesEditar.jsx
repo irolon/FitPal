@@ -5,32 +5,50 @@ const AdminPlanEditar = () => {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const [plan, setPlan] = useState({ nombre: "", descripcion: "" });
-  const [ejerciciosPlan, setEjerciciosPlan] = useState([]);
-  const [ejerciciosDisponibles, setEjerciciosDisponibles] = useState([]);
-
-  const [searchTerm, setSearchTerm] = useState("");
-  const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 8;
+  const [plan, setPlan] = useState({ nombre: "", frecuencia: "", fecha_inicio: "", fecha_fin: "", cliente_id: "", administrador_id: "" });
+  const [sesiones, setSesiones] = useState([]);
+  const [sesionesDisponibles, setSesionesDisponibles] = useState([]);
+  const [mostrarModal, setMostrarModal] = useState(false);
 
   useEffect(() => {
     fetch(`http://localhost:5000/api/admin/planes/${id}`)
       .then(res => res.json())
       .then(data =>
-        setPlan({ nombre: data.nombre, descripcion: data.descripcion })
+        setPlan({ 
+          nombre: data.nombre, 
+          frecuencia: data.frecuencia,
+          fecha_inicio: data.fecha_inicio || "",
+          fecha_fin: data.fecha_fin || "",
+          cliente_id: data.cliente_id,
+          administrador_id: data.administrador_id
+        })
       )
       .catch(console.error);
 
-    fetch(`http://localhost:5000/api/plan_ejercicio/${id}`)
+    // Cargar sesiones del plan
+    fetch(`http://localhost:5000/api/admin/planes/${id}/sesiones`)
       .then(res => res.json())
-      .then(data => setEjerciciosPlan(data))
-      .catch(console.error);
-
-    fetch("http://localhost:5000/api/admin/ejercicios")
-      .then(res => res.json())
-      .then(data => setEjerciciosDisponibles(data))
+      .then(data => setSesiones(data))
       .catch(console.error);
   }, [id]);
+
+  const cargarSesionesDisponibles = () => {
+    fetch(`http://localhost:5000/api/admin/planes/${id}/sesiones/disponibles`)
+      .then(res => res.json())
+      .then(data => {
+        // Asegurar que data sea un array
+        if (Array.isArray(data)) {
+          setSesionesDisponibles(data);
+        } else {
+          console.error('Datos de sesiones no válidos:', data);
+          setSesionesDisponibles([]);
+        }
+      })
+      .catch(error => {
+        console.error('Error al cargar sesiones disponibles:', error);
+        setSesionesDisponibles([]);
+      });
+  };
 
   const handleGuardar = (e) => {
     e.preventDefault();
@@ -45,145 +63,233 @@ const AdminPlanEditar = () => {
       .catch(console.error);
   };
 
-  const agregarEjercicio = (ejId) => {
-    fetch(`http://localhost:5000/api/plan_ejercicio/${id}`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ ejercicio_id: ejId }),
-    })
-      .then(() => {
-        const ej = ejerciciosDisponibles.find(e => e.id === ejId);
-        setEjerciciosPlan([...ejerciciosPlan, ej]);
-      })
-      .catch(console.error);
+  const handleEliminarSesion = async (sesionId) => {
+    const confirmar = window.confirm("¿Estás seguro de que quieres eliminar esta sesión del plan?");
+    
+    if (!confirmar) return;
+
+    try {
+      const response = await fetch(`http://localhost:5000/api/admin/planes/${id}/sesiones/${sesionId}`, {
+        method: "DELETE"
+      });
+
+      if (response.ok) {
+        // Actualizar lista de sesiones
+        setSesiones(sesiones.filter(s => s.sesion_id !== sesionId));
+        alert("Sesión eliminada del plan exitosamente");
+      } else {
+        alert("Error al eliminar la sesión del plan");
+      }
+    } catch (error) {
+      console.error("Error al eliminar sesión:", error);
+      alert("Error al eliminar la sesión del plan");
+    }
   };
 
-  const quitarEjercicio = (ejId) => {
-    fetch(`http://localhost:5000/api/plan_ejercicio/${id}/${ejId}`, {
-      method: "DELETE"
-    })
-      .then(() => {
-        setEjerciciosPlan(ejerciciosPlan.filter(e => e.id !== ejId));
-      })
-      .catch(console.error);
+  const handleAbrirModal = () => {
+    cargarSesionesDisponibles();
+    setMostrarModal(true);
   };
 
-  const ejerciciosFiltrados = ejerciciosDisponibles
-    .filter(e => !ejerciciosPlan.some(ep => ep.id === e.id))
-    .filter(e => e.nombre.toLowerCase().includes(searchTerm.toLowerCase()));
-
-  const totalPages = Math.ceil(ejerciciosFiltrados.length / itemsPerPage);
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const currentItems = ejerciciosFiltrados.slice(startIndex, startIndex + itemsPerPage);
-
-  const cambiarPagina = (p) => {
-    if (p >= 1 && p <= totalPages) setCurrentPage(p);
+  const handleCerrarModal = () => {
+    setMostrarModal(false);
+    setSesionesDisponibles([]);
   };
+
+  const handleAgregarSesion = async (sesionId) => {
+    try {
+      const response = await fetch(`http://localhost:5000/api/admin/planes/${id}/sesiones/${sesionId}`, {
+        method: "POST"
+      });
+
+      if (response.ok) {
+        // Recargar sesiones del plan
+        fetch(`http://localhost:5000/api/admin/planes/${id}/sesiones`)
+          .then(res => res.json())
+          .then(data => setSesiones(data))
+          .catch(console.error);
+        
+        handleCerrarModal();
+        alert("Sesión agregada al plan exitosamente");
+      } else {
+        alert("Error al agregar la sesión al plan");
+      }
+    } catch (error) {
+      console.error("Error al agregar sesión:", error);
+      alert("Error al agregar la sesión al plan");
+    }
+  };
+
+
 
   return (
     <div className="div-home vh-100 py-4">
       <h1 className="mb-4 text-center">Editar Plan</h1>
 
       <div className="container">
-        <form onSubmit={handleGuardar} className="mb-4">
-          <div className="mb-3">
-            <label className="form-label">Nombre</label>
-            <input
-              type="text"
-              className="form-control"
-              value={plan.nombre}
-              onChange={(e) => setPlan({ ...plan, nombre: e.target.value })}
-              required
-            />
-          </div>
-
-          <div className="mb-3">
-            <label className="form-label">Descripción</label>
-            <textarea
-              className="form-control"
-              value={plan.descripcion}
-              onChange={(e) => setPlan({ ...plan, descripcion: e.target.value })}
-            />
-          </div>
-        </form>
-
-        <div className="row">
+        <div className="row justify-content-center">
           <div className="col-md-6">
-            <h4>Ejercicios del Plan</h4>
-            <ul className="list-group">
-              {ejerciciosPlan.map(e => (
-                <li key={e.id} className="list-group-item d-flex justify-content-between align-items-center">
-                  {e.nombre}
-                  <button className="btn btn-sm btn-danger" onClick={() => quitarEjercicio(e.id)}>
-                    Quitar
-                  </button>
-                </li>
-              ))}
-              {ejerciciosPlan.length === 0 &&
-                <li className="list-group-item">No hay ejercicios asignados</li>}
-            </ul>
+            <form onSubmit={handleGuardar}>
+              <div className="mb-3">
+                <label className="form-label">Nombre del Plan</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  value={plan.nombre}
+                  onChange={(e) => setPlan({ ...plan, nombre: e.target.value })}
+                  required
+                  placeholder="Ingrese el nombre del plan"
+                />
+              </div>
+
+              <div className="mb-3">
+                <label className="form-label">Frecuencia Semanal (1-7 días)</label>
+                <select
+                  className="form-control"
+                  value={plan.frecuencia}
+                  onChange={(e) => setPlan({ ...plan, frecuencia: e.target.value })}
+                  required
+                >
+                  <option value="">Seleccione la frecuencia</option>
+                  <option value="1">1 vez por semana</option>
+                  <option value="2">2 veces por semana</option>
+                  <option value="3">3 veces por semana</option>
+                  <option value="4">4 veces por semana</option>
+                  <option value="5">5 veces por semana</option>
+                  <option value="6">6 veces por semana</option>
+                  <option value="7">7 veces por semana (diario)</option>
+                </select>
+              </div>
+
+              <div className="mb-3">
+                <label className="form-label">Fecha de Inicio</label>
+                <input
+                  type="date"
+                  className="form-control"
+                  value={plan.fecha_inicio}
+                  onChange={(e) => setPlan({ ...plan, fecha_inicio: e.target.value })}
+                  required
+                />
+              </div>
+
+              <div className="mb-4">
+                <label className="form-label">Fecha de Fin</label>
+                <input
+                  type="date"
+                  className="form-control"
+                  value={plan.fecha_fin}
+                  onChange={(e) => setPlan({ ...plan, fecha_fin: e.target.value })}
+                  min={plan.fecha_inicio}
+                />
+              </div>
+
+              <div className="d-flex justify-content-center gap-3 mb-4">
+                <button type="submit" className="btn btn-success btn-lg">
+                  Guardar Cambios
+                </button>
+                <Link to="/admin/planes" className="btn btn-secondary btn-lg">
+                  Cancelar
+                </Link>
+              </div>
+            </form>
           </div>
+        </div>
 
-          <div className="col-md-6">
-            <h4>Ejercicios Disponibles</h4>
-
-            <input
-              type="text"
-              className="form-control mb-2"
-              placeholder="Buscar ejercicio..."
-              value={searchTerm}
-              onChange={(e) => {
-                setSearchTerm(e.target.value);
-                setCurrentPage(1);
-              }}
-            />
-
-            <ul className="list-group">
-              {currentItems.map(e => (
-                <li key={e.id} className="list-group-item d-flex justify-content-between align-items-center">
-                  {e.nombre}
-                  <button className="btn btn-sm btn-primary" onClick={() => agregarEjercicio(e.id)}>
-                    Agregar
-                  </button>
-                </li>
-              ))}
-
-              {ejerciciosFiltrados.length === 0 &&
-                <li className="list-group-item">No hay ejercicios disponibles</li>}
-            </ul>
-
-            {totalPages > 1 && (
-              <div className="d-flex justify-content-center mt-3">
-                <button
-                  className="btn btn-secondary mx-1"
-                  onClick={() => cambiarPagina(currentPage - 1)}
-                  disabled={currentPage === 1}
-                >
-                  Anterior
-                </button>
-
-                <span className="mx-2">Página {currentPage} de {totalPages}</span>
-
-                <button
-                  className="btn btn-secondary mx-1"
-                  onClick={() => cambiarPagina(currentPage + 1)}
-                  disabled={currentPage === totalPages}
-                >
-                  Siguiente
-                </button>
+        {/* Sección de Sesiones del Plan */}
+        <div className="row justify-content-center mt-4">
+          <div className="col-md-8">
+            <div className="d-flex justify-content-between align-items-center mb-3">
+              <h4 className="mb-0">Sesiones Asignadas al Plan</h4>
+              <button 
+                className="btn btn-success"
+                onClick={handleAbrirModal}
+              >
+                Agregar Sesión
+              </button>
+            </div>
+            
+            {sesiones.length === 0 ? (
+              <div className="alert alert-info text-center">
+                <p className="mb-0">No hay sesiones asignadas a este plan</p>
+              </div>
+            ) : (
+              <div className="card">
+                <div className="card-body">
+                  <div className="list-group">
+                    {sesiones.map((sesion, index) => (
+                      <div key={sesion.sesion_id} className="list-group-item d-flex justify-content-between align-items-center">
+                        <div>
+                          <h6 className="mb-1">{sesion.nombre}</h6>
+                          <p className="mb-1 text-muted">{sesion.descripcion}</p>
+                          <small className="text-muted">Orden: {sesion.orden}</small>
+                        </div>
+                        <button 
+                          className="btn btn-danger btn-sm"
+                          onClick={() => handleEliminarSesion(sesion.sesion_id)}
+                          title="Eliminar sesión del plan"
+                        >
+                          Quitar
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                </div>
               </div>
             )}
           </div>
         </div>
 
-        <div className="text-center mt-4 d-flex justify-content-center gap-3">
-          <button onClick={handleGuardar} className="btn btn-success btn-lg">
-            Guardar Cambios
-          </button>
-          <Link to="/admin/planes" className="btn btn-secondary btn-lg">
-            Volver
-          </Link>
-        </div>
+        {mostrarModal && (
+          <div className="modal show d-block" tabIndex="-1" style={{backgroundColor: 'rgba(0,0,0,0.5)'}}>
+            <div className="modal-dialog modal-lg">
+              <div className="modal-content">
+                <div className="modal-header">
+                  <h5 className="modal-title">Agregar Sesión al Plan</h5>
+                  <button 
+                    type="button" 
+                    className="btn-close" 
+                    onClick={handleCerrarModal}
+                  ></button>
+                </div>
+                <div className="modal-body">
+                  {!Array.isArray(sesionesDisponibles) || sesionesDisponibles.length === 0 ? (
+                    <div className="alert alert-info text-center">
+                      <p className="mb-0">No hay sesiones disponibles para agregar</p>
+                    </div>
+                  ) : (
+                    <div className="list-group">
+                      {sesionesDisponibles.map((sesion) => (
+                        <div key={sesion.id} className="list-group-item d-flex justify-content-between align-items-center">
+                          <div>
+                            <h6 className="mb-1">{sesion.nombre}</h6>
+                            <p className="mb-0 text-muted">{sesion.descripcion}</p>
+                          </div>
+                          <button 
+                            className="btn btn-primary btn-sm"
+                            onClick={() => handleAgregarSesion(sesion.id)}
+                          >
+                            Agregar
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+                <div className="modal-footer">
+                  <button 
+                    type="button" 
+                    className="btn btn-secondary" 
+                    onClick={handleCerrarModal}
+                  >
+                    Cerrar
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+
       </div>
     </div>
   );

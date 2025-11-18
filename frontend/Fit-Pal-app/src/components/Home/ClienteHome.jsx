@@ -138,7 +138,7 @@ const ClienteHome = () => {
               Editá tus datos personales, objetivos y preferencias de entrenamiento.
             </p>
             <div className="card-button-center">
-              <Link to={`/cliente/${user_id}/perfil`} className="btn btn-dark btn-lg mt-3">Editar perfil</Link>
+              <Link onClick={handleClick} className="btn btn-dark btn-lg mt-3">Editar perfil</Link>
             </div>
           </div>
         </div>

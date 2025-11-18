@@ -71,3 +71,19 @@ class PlanSesionRepository(BaseRepository):
         except Exception as e:
             print(f"Error al obtener planes de sesión por cliente_id: {e}")
             return []
+
+    def get_sesiones_by_plan_id(self, plan_id):
+        """Obtiene las sesiones asignadas a un plan específico con JOIN"""
+        try:
+            return self.plan_sesion_dao.get_sesiones_by_plan_id(plan_id)
+        except Exception as e:
+            print(f"Error al obtener sesiones por plan_id: {e}")
+            return []
+
+    def delete_sesion_from_plan(self, plan_id, sesion_id):
+        """Elimina una sesión específica de un plan"""
+        try:
+            return self.plan_sesion_dao.delete_sesion_from_plan(plan_id, sesion_id)
+        except Exception as e:
+            print(f"Error al eliminar sesión del plan: {e}")
+            return False
