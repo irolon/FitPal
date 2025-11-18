@@ -45,7 +45,7 @@ CORS(app, resources={
 app.register_blueprint(login_bp, url_prefix="/api")
 app.register_blueprint(register_bp, url_prefix="/api")
 app.register_blueprint(plan_entrenamiento_bp, url_prefix="/api")
-app.register_blueprint(plan_sesion_bp, url_prefix="/api")
+app.register_blueprint(plan_sesion_bp)  # Ya tiene su propio url_prefix
 app.register_blueprint(ejercicios_bp, url_prefix="/api")
 app.register_blueprint(sesiones_bp, url_prefix="/api/admin")
 app.register_blueprint(sesion_ejercicio_bp)

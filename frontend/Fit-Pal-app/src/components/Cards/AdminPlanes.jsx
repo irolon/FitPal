@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 const AdminPlanes = ({ planes }) => {
   const navigate = useNavigate();
+  const [errorMessage, setErrorMessage] = useState('');
 
   // Estado para búsqueda
   const [search, setSearch] = useState("");
@@ -18,6 +19,11 @@ const AdminPlanes = ({ planes }) => {
 
   const handleCrear = () => {
     navigate("/admin/planes/crear");
+  };
+  const handleDelete = () => {
+    
+      setErrorMessage('El plan se ha borrado correctamente.');
+    
   };
 
   const handleEliminar = async (id) => {
@@ -49,6 +55,9 @@ const AdminPlanes = ({ planes }) => {
       (p) =>
         safe(p.nombre).includes(q) ||
         safe(p.frecuencia).includes(q) ||
+        safe(p.cliente_nombre_completo).includes(q) ||
+        safe(p.cliente_nombre).includes(q) ||
+        safe(p.cliente_apellido).includes(q) ||
         safe(p.cliente_id).includes(q)
     );
   }, [search, planes]);
@@ -90,7 +99,11 @@ const AdminPlanes = ({ planes }) => {
           Crear
         </Link>
       </div>
-
+      {errorMessage && (
+        <div className="container alert alert-danger mt-2 text-center">
+          {errorMessage}
+        </div>
+      )}
       <table className="container table table-striped table-dark">
         <thead>
           <tr>
@@ -113,7 +126,7 @@ const AdminPlanes = ({ planes }) => {
               <tr key={pl.id}>
                 <td>{pl.nombre}</td>
                 <td>{pl.frecuencia}</td>
-                <td>{pl.cliente_id}</td>
+                <td>{pl.cliente_nombre_completo || `ID: ${pl.cliente_id}`}</td>
 
                 <td>
                   <Link
@@ -125,7 +138,10 @@ const AdminPlanes = ({ planes }) => {
 
                   <button
                     className="btn btn-danger btn-sm"
-                    onClick={() => handleEliminar(pl.id)}
+                    onClick={() => {
+                      handleEliminar(pl.id);
+                      handleDelete();
+                    }}
                   >
                     Eliminar
                   </button>

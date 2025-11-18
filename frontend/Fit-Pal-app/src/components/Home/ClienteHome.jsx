@@ -9,6 +9,7 @@ const ClienteHome = () => {
   const handleClick = () => {
     setErrorMessage('Funcionalidad en desarrollo. Pronto estará disponible.');
   };
+  const clearErrorMessage = () => setErrorMessage('');
   
   // Obtener únicamente el user_id del localStorage
   const getUserIdFromStorage = () => {
@@ -86,7 +87,7 @@ const ClienteHome = () => {
               Consultá tus planes de entrenamiento personalizados según tu nivel y objetivos.
             </p>
             <div className="card-button-center">
-              <Link to={`/cliente/${user_id}/planes`} className="btn btn-dark btn-lg mt-3">Ver planes</Link>
+              <Link to={`/cliente/${user_id}/planes`} onClick={clearErrorMessage} className="btn btn-dark btn-lg mt-3">Ver planes</Link>
             </div>
           </div>
         </div>
@@ -98,7 +99,7 @@ const ClienteHome = () => {
               Revisá tus sesiones asignadas para cada día y marcá las que ya completaste.
             </p>
             <div className="card-button-center">
-              <Link to={`/cliente/${user_id}/sesiones`} className="btn btn-dark btn-lg mt-3">Ver sesiones</Link>
+              <Link to={`/cliente/${user_id}/sesiones`} onClick={clearErrorMessage} className="btn btn-dark btn-lg mt-3">Ver sesiones</Link>
             </div>
           </div>
         </div>
@@ -138,7 +139,7 @@ const ClienteHome = () => {
               Editá tus datos personales, objetivos y preferencias de entrenamiento.
             </p>
             <div className="card-button-center">
-              <Link to={`/cliente/${user_id}/perfil`} className="btn btn-dark btn-lg mt-3">Editar perfil</Link>
+              <Link to={`/cliente/${user_id}/perfil`} onClick={clearErrorMessage} className="btn btn-dark btn-lg mt-3">Editar perfil</Link>
             </div>
           </div>
         </div>

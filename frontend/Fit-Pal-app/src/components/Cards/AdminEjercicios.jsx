@@ -2,8 +2,14 @@ import React, { useState, useMemo } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 const AdminEjercicios = ({ ejercicios }) => {
+  const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
 
+  const handleDelete = () => {
+    
+      setErrorMessage('El Ejercicio se ha borrado correctamente.');
+    
+  };  
   // Estado para búsqueda
   const [search, setSearch] = useState("");
 
@@ -91,7 +97,11 @@ const AdminEjercicios = ({ ejercicios }) => {
           Crear ejercicio
         </button>
       </div>
-
+      {errorMessage && (
+        <div className="container alert alert-danger mt-2 text-center">
+          {errorMessage}
+        </div>
+      )}
       <table className="container table table-striped table-dark">
         <thead>
           <tr>
@@ -133,7 +143,7 @@ const AdminEjercicios = ({ ejercicios }) => {
 
                   <button
                     className="btn btn-danger btn-sm"
-                    onClick={() => handleEliminar(ej.id)}
+                    onClick={() => { handleEliminar(ej.id); handleDelete(); }}
                   >
                     Eliminar
                   </button>

@@ -14,7 +14,7 @@ class PlanEntrenamiento:
         return f"ID: {self.id}, Administrador ID: {self.administrador_id}, Cliente ID: {self.cliente_id}, Nombre: {self.nombre}, Frecuencia: {self.frecuencia}, Fecha Inicio: {self.fecha_inicio}, Fecha Fin: {self.fecha_fin}"
     
     def to_dict(self):
-        return {
+        result = {
             'id': self.id,
             'administrador_id': self.administrador_id,
             'cliente_id': self.cliente_id,
@@ -23,3 +23,11 @@ class PlanEntrenamiento:
             'fecha_inicio': str(self.fecha_inicio) if self.fecha_inicio else None,
             'fecha_fin': str(self.fecha_fin) if self.fecha_fin else None
         }
+        # Incluir información del cliente si está disponible
+        if hasattr(self, 'cliente_nombre'):
+            result['cliente_nombre'] = self.cliente_nombre
+        if hasattr(self, 'cliente_apellido'):
+            result['cliente_apellido'] = self.cliente_apellido
+        if hasattr(self, 'cliente_nombre_completo'):
+            result['cliente_nombre_completo'] = self.cliente_nombre_completo
+        return result

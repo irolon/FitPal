@@ -13,4 +13,13 @@ class Usuario(ABC):
 
     def mostrarDatos(self):
         return f"Nombre: {self.nombre}, Apellido: {self.apellido}, Correo: {self.correo}, Rol: {self.rol}, ID: {self.id}"
+    
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'nombre': self.nombre,
+            'apellido': self.apellido,
+            'correo': self.correo,
+            'rol': self.rol
+        }
 

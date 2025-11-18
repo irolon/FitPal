@@ -13,13 +13,27 @@ class PlanEntrenamientoService:
         return self.repo.get_by_id(plan_entrenamiento_id)
 
     def add(self, administrador_id: int, cliente_id: int, plan_data: dict):
+        from datetime import datetime, date
+        
+        fecha_inicio = plan_data.get("fecha_inicio")
+        if isinstance(fecha_inicio, str):
+            fecha_inicio = datetime.strptime(fecha_inicio, "%Y-%m-%d").date()
+        elif fecha_inicio is None:
+            fecha_inicio = date.today()
+            
+        fecha_fin = plan_data.get("fecha_fin")
+        if isinstance(fecha_fin, str) and fecha_fin:
+            fecha_fin = datetime.strptime(fecha_fin, "%Y-%m-%d").date()
+        else:
+            fecha_fin = None
+        
         plan = PlanEntrenamiento(
             administrador_id=administrador_id,
             cliente_id=cliente_id,
             nombre=plan_data.get("nombre"),
             frecuencia=plan_data.get("frecuencia"),
-            fecha_inicio=plan_data.get("fecha_inicio"),
-            fecha_fin=plan_data.get("fecha_fin")
+            fecha_inicio=fecha_inicio,
+            fecha_fin=fecha_fin
         )
         return self.repo.plan_entrenamiento_dao.create(
             administrador_id, cliente_id, plan

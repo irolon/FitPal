@@ -3,11 +3,8 @@ import { Link, useNavigate } from "react-router-dom";
 
 const AdminSesiones = ({ sesiones }) => {
   const navigate = useNavigate();
-
-  // Estado para búsqueda
+  const [errorMessage, setErrorMessage] = useState('');
   const [search, setSearch] = useState("");
-
-  // Estado para paginación
   const [page, setPage] = useState(1);
   const itemsPerPage = 10;
 
@@ -15,7 +12,11 @@ const AdminSesiones = ({ sesiones }) => {
     navigate("/admin/sesiones/id/crear");
   };
 
-
+  const handleDelete = () => {
+    
+      setErrorMessage('La sesión se ha borrado correctamente.');
+    
+  };
 
   const handleEliminar = async (id) => {
     const confirmar = window.confirm("¿Seguro que querés eliminar esta sesión?");
@@ -89,6 +90,12 @@ const AdminSesiones = ({ sesiones }) => {
         </Link>
       </div>
 
+      {errorMessage && (
+        <div className="container alert alert-danger mt-2 text-center">
+          {errorMessage}
+        </div>
+      )}
+
       <table className=" container table table-striped table-dark">
         <thead>
           <tr>
@@ -123,7 +130,7 @@ const AdminSesiones = ({ sesiones }) => {
 
                   <button
                     className="btn btn-danger btn-sm"
-                    onClick={() => handleEliminar(ses.id)}
+                    onClick={() => { handleEliminar(ses.id); handleDelete(); }}
                   >
                     Eliminar
                   </button>

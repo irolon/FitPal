@@ -69,7 +69,6 @@ class SesionService:
             return None
 
     def update(self, sesion):
-        """Actualizar solo los datos básicos de la sesión"""
         try:
             return self.repo.update(sesion)
         except Exception as e:
@@ -77,7 +76,6 @@ class SesionService:
             return "Error al actualizar sesión"
 
     def add(self, sesion):
-        """Agregar una sesión nueva"""
         try:
             return self.repo.add(sesion)
         except Exception as e:
