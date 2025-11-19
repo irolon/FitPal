@@ -1,0 +1,295 @@
+.div-container-login{
+    position: relative;
+    width: 1000px;
+    height: 800px;
+    background: #fff;
+    border-radius: 30px;
+    box-shadow: 0 0 30px rgba(0,0,0,.2);
+    margin: 20px;
+    overflow: hidden;
+    z-index: 1;
+}
+
+.form-box{
+    position: absolute;
+    right: 0;
+    width: 50%;
+    height: 100%;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    color: #333;
+    text-align: center;
+    padding: 40px;
+    z-index: 1;
+    transition: .6s ease-in-out .8s, visibility 0s 1s;
+}
+
+.div-container-login.active .form-box{
+    right: 50%;
+}
+
+
+.form-box.register{
+    visibility: hidden;
+}
+.div-container-login.active .form-box.register{
+    visibility: visible;
+}
+
+form{
+    width: 100%;
+}
+.div-container-login h1{
+    font-size: 36px;
+    margin: -10px 0;
+}
+.input-box{
+    position: relative;
+    margin: 30px 0;
+}
+
+.input-box input {
+    width: 100%;
+    padding: 15px 50px 15px 20px;
+    background: #eee;
+    border-radius: 10px;
+    border: none;
+    font-size:16px;
+}
+
+.input-box input::placeholder{
+    color: #888;
+}
+
+.input-box i:not(.password-toggle) {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 20px;
+    color: #888;
+}
+
+.password-toggle {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 22px;
+    color: #888;
+    cursor: pointer;
+}
+
+.forgot-link{
+    margin: -15px 0 15px;
+}
+
+.btn-link-forgot {
+    background: none;
+    border: none;
+    font-size: 14px;
+    color: #333;
+    text-decoration: underline;
+    cursor: pointer;
+}
+.btn-login{
+    width: 100%;
+    height: 48px;
+    background: #475386;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    font-size: 15px;
+    color: white;
+    font-weight: 600;
+    box-shadow: 0 0 10px rgba(0,0,0,.1);
+}
+
+.toggle-box{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+
+}
+
+.toggle-box::before{
+    content: '';
+    position: absolute;
+    left: -250%;
+    width: 300%;
+    height: 100%;
+    background: #576086;
+    z-index: 2;
+    border-radius: 150px;
+    transition: 1.2s ease-in-out;
+}
+
+.div-container-login.active .toggle-box::before{
+    left: 50%;
+}
+
+.toggle-panel{
+    position: absolute;
+    width: 50%;
+    height: 100%;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 3;
+    transition: .6s ease-in-out;
+}
+.toggle-panel.toggle-left{
+    left:0;
+    transition-delay: .8s;
+}
+.div-container-login.active .toggle-panel.toggle-left{
+    left: -50%;
+    transition-delay: .6s;
+}
+.toggle-panel.toggle-right {
+    right: -50%;
+    transition-delay: .6s;
+
+}
+.div-container-login.active .toggle-panel.toggle-right{
+    right: 0;
+    transition-delay: .8s;
+}
+.toggle-panel p {
+    margin: 20px;
+}
+
+.toggle-panel .register-btn{
+    width: 160px;
+    height: 45px;
+    background: transparent;
+    border: 2px solid white;
+    color: white;
+    border-radius: 10px;
+}
+.toggle-panel .register-btn:hover{
+    background: white;
+    color: #475386;
+}
+.login-btn{
+    width: 160px;
+    height: 45px;
+    background: transparent;
+    border: 2px solid white;
+    color: white;
+    border-radius: 10px;
+}
+.login-btn:hover{
+    background: white;
+    color: #475386;
+}
+@media screen and (max-width: 650px) {
+    .div-container-login{
+        height: calc(100vh - 40px);
+    }
+
+    .form-box{
+        bottom: 0;
+        width: 100%;
+        height: 70%;
+    }
+
+    .toggle-box::before{
+        left: 0;
+        top: -270%;
+        width: 100%;
+        height: 300%;
+        border-radius: 20vw;
+    }
+    .div-container-login.active .form-box{
+        right: 0;
+        bottom: 30%;
+    }
+
+    .div-container-login.active .toggle-box::before{
+        top: 70%;
+        left: 0;
+    }
+
+    .toggle-panel{
+        width: 100%;
+        height: 30%;
+    }
+
+    .toggle-panel.toggle-left{
+        top: 0;
+    }
+
+    .div-container-login.active .toggle-panel.toggle-left{
+        left: 0;
+        top: -30%;
+    }
+
+    .toggle-panel.toggle-right{
+        right: 0;
+        bottom: -30%;
+    }
+
+    .div-container-login.active .toggle-panel.toggle-right{
+        bottom: 0;
+
+    }
+
+}
+
+@media screen and (max-width: 400px){
+
+    .form-box{
+        padding: 20px;
+    }
+
+    .toggle-panel h1{
+        font-size: 20px;
+    }
+}
+
+.fp-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.55);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+}
+
+.fp-modal {
+    background: #fff;
+    padding: 24px;
+    border-radius: 20px;
+    max-width: 400px;
+    width: 90%;
+    text-align: center;
+}
+
+.fp-modal-title {
+    font-size: 1.4rem;
+    font-weight: bold;
+}
+
+.fp-modal-text {
+    margin-top: 10px;
+    color: #444;
+}
+
+.fp-modal-email {
+    font-weight: bold;
+}
+
+.fp-modal-button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    border: 2px solid #333;
+    background: white;
+    color: #333;
+    border-radius: 12px;
+    font-weight: bold;
+}
