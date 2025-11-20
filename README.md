@@ -12,11 +12,6 @@ Su objetivo es hacer que entrenar sea más **claro, accesible, organizado y moti
 - [Tecnologías Utilizadas](#tecnologías-utilizadas)
 - [Instalación y Ejecución](#instalación-y-ejecución)
 - [Estructura del Proyecto](#estructura-del-proyecto)
-- [Capturas del Sistema](#capturas-del-sistema)
-  - [Landing Page](#landing-page)
-  - [Login y Registro](#login-y-registro)
-  - [Panel del Administrador](#panel-del-administrador)
-  - [Panel del Cliente](#panel-del-cliente)
 - [Flujo del Sistema](#flujo-del-sistema)
 - [Autor](#autor)
 
