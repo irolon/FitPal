@@ -101,7 +101,7 @@ Permisos:
 - HTML5  
 - CSS3  
 - Bootstrap  
-- Fetch / Axios  
+
 
 ### **Backend**
 - Python / Flask  
@@ -125,30 +125,25 @@ Permisos:
 
 ## 🚀 Instalación y Ejecución
 
-### 1️⃣ Clonar el repositorio
-```bash
-git clone https://github.com/irolon/FitPal
-cd fitpal
+###  Clonar el repositorio
 
-### 2️⃣ Backend – Instalar dependencias
-cd backend
-pip install -r requirements.txt
+- git clone https://github.com/irolon/FitPal
 
-### 3️⃣ Backend – Ejecutar Flask
+###  Backend – Ejecutar Flask
 python app.py
 
-### 4️⃣ Frontend – Instalar dependencias
-cd frontend
+###  Frontend – Instalar dependencias
+cd frontend/fit-pal-app
 npm install
 
-### 5️⃣ Frontend – Ejecutar React
+###  Frontend – Ejecutar React
 npm run dev
 
-### 6️⃣ Acceder a la app
+### Acceder a la app
 
-Cliente: http://localhost:5173/
-Backend: Cliente: http://localhost:5173/
-Backend: http://localhost:5000/api/...
+- Cliente: http://localhost:5173/
+- Backend: Cliente: http://localhost:5173/
+- Backend: http://localhost:5000/api/...
 
 ---
 
@@ -338,5 +333,9 @@ Contiene tarjetas con:
 - Sesiones activas y totales  
 
 ---
+ 
+### 👨‍💻 Autores
 
-
+- Ignacio Rolon Marecos
+- Martin Bianco
+- Pablo Queimaliños
