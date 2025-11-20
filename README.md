@@ -152,7 +152,7 @@ Backend: http://localhost:5000/api/...
 
 ---
 
-### 🏠 Landing Page
+## 🏠 Landing Page
 
 Incluye:
 ✔ ¿Qué es FitPal?
@@ -161,7 +161,7 @@ Incluye:
 ✔ Testimonios
 ✔ Nuestra Historia
 
-### 🔐 Login y Registro
+## 🔐 Login y Registro
 
 - Formulario moderno
 - Inputs con iconos
