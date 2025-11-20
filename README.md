@@ -18,7 +18,6 @@ Su objetivo es hacer que entrenar sea más **claro, accesible, organizado y moti
   - [Panel del Administrador](#panel-del-administrador)
   - [Panel del Cliente](#panel-del-cliente)
 - [Flujo del Sistema](#flujo-del-sistema)
-- [Próximas Funcionalidades](#próximas-funcionalidades)
 - [Autor](#autor)
 
 ---
